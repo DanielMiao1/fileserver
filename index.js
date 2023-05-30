@@ -9,12 +9,12 @@ webapp.use(fileUpload({
 	createParentPath: true
 }));
 
-const directory_root = "/Users/mac/shared";
+const directory_root = "/store";
 
 webapp.use("/download", express.static(directory_root))
 
-webapp.listen(18949, function() {
-	console.log("Started frontend server on port 18949");
+webapp.listen(8192, function() {
+	console.log("Started server on port 8192");
 });
 
 webapp.get("/", function(request, response) {
