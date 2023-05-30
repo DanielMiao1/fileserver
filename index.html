@@ -337,11 +337,11 @@
 			if (sessionStorage.file != undefined) {
 				document.getElementById("static_actions").getElementsByClassName("upload_file")[0].action = "/actions/upload/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/")).replaceAll("/", "%2f");
 				document.getElementsByClassName("path")[0].innerText = sessionStorage.file;
-				fetch("http://localhost:18950" + (sessionStorage.file.startsWith("/") ? sessionStorage.file : "/" + sessionStorage.file)).then(res => res.json()).then(parseData);
+				fetch(sessionStorage.file.startsWith("/") ? sessionStorage.file : "/" + sessionStorage.file).then(res => res.json()).then(parseData);
 			} else {
 				document.getElementById("static_actions").getElementsByClassName("upload_file")[0].action = "/actions/upload/";
 				document.getElementsByClassName("path")[0].innerText = "/";
-				fetch("http://localhost:18950/").then(res => res.json()).then(parseData);
+				fetch("/").then(res => res.json()).then(parseData);
 			};
 
 			setTimeout(resize, 100);
