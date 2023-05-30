@@ -1,7 +1,12 @@
 {
+	"name": "nas",
+	"version": "0.0.1-alpha0",
   "dependencies": {
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
     "npm": "^8.15.0"
-  }
+  },
+	"engines": {
+		"node": ">=18"
+	}
 }
