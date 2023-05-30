@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<!-- add title -->
+		<style>
+			@media screen and (min-width: 1000px) and (min-height: 1000px) {
+				body {
+					font-family: Arial, Helvetica, sans-serif;
+					font-size: 0.6vw;
+				}
+				
+				button {
+					font-size: 0.6vw;
+				}
+
+				file {
+					padding-top: 5px;
+					display: inline-block;
+					font-family: Arial, Helvetica, sans-serif;
+					font-size: 0.55vw;
+					width: 5vw;
+					height: 6vw;
+					border-radius: 10px;
+				}
+			}
+
+			@media screen and not ((min-width: 1000px) and (min-height: 1000px)) {
+				body {
+					font-family: Arial, Helvetica, sans-serif;
+					font-size: 3vw;
+				}
+
+				button {
+					font-size: 3vw;
+				}
+
+				file {
+					padding-top: 5px;
+					display: inline-block;
+					font-family: Arial, Helvetica, sans-serif;
+					font-size: 1.25vw;
+					width: 7.5vw;
+					height: 9vw;
+					border-radius: 10px;
+				}
+			}
+
+			#files {
+				margin-top: 10px;
+			}
+
+			file img {
+				width: 100%;
+			}
+			
+			file p {
+				position: absolute;
+			}
+
+			file.selected {
+				background-color: #e0e0e0;
+			}
+
+			#header {
+				background-color: #e0e0e0;
+				padding: 5px;
+				border-radius: 10px;
+			}
+
+			button {
+				border: none;
+				background: transparent;
+				transition: 200ms;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+
+			button:active {
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+
+			#header > * {
+				display: inline;
+			}
+
+			#header button {
+				margin-left: 2px;
+				margin-right: 2px;
+			}
+
+			#actions,
+			#static_actions {
+				float: right;
+			}
+
+			.upload_file {
+				display: none;
+			}
+
+			textarea {
+				border: none;
+				outline: none;
+				width: calc(100vw - 15px);
+				resize: none;
+			}
+
+			.save_close {
+				background-color: rgba(0, 0, 255, 0.2);
+			}
+
+			.save_close:active {
+				background-color: rgba(0, 0, 255, 0.4);
+			}
+		</style>
+		<link rel="icon" type="image/jpg" href="https://htmlcolors.com/color-image/000000.png">
+	</head>
+	<body>
+		<div id="header">
+			<button class="back">←</button>
+			<p class="path"></p>
+			<div id="static_actions">
+				<button class="new_file">New File</button>
+				<button class="new_folder">New Folder</button>
+				<button class="upload" onclick="this.parentNode.getElementsByTagName('form')[0].getElementsByClassName('file-selector')[0].click()">Upload</button>
+				<form enctype="multipart/form-data" method="post" action="/upload" class="upload_file">
+					<input name="file" type="file" class="file-selector" onchange="this.parentNode.getElementsByClassName('submit')[0].click()">
+					<input type="submit" value="submit" class="submit">
+				</form>
+			</div>
+		</div>
+		<div id="files"></div>
+		<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+		<script>
+			function createFile(name, properties) {
+				let file = document.createElement("file");
+				file.dataset.directory = (properties.directory ? "1" : "0");
+				file.addEventListener("dblclick", function() {
+					if (sessionStorage["history"] != undefined) {
+					sessionStorage["history"] = sessionStorage.history + "," + (sessionStorage.file.startsWith("/") ? sessionStorage.file : "/" + sessionStorage.file);
+					} else {
+						sessionStorage["history"] = "/";
+					};
+					if (sessionStorage["file"] != undefined) {
+						sessionStorage["file"] = (sessionStorage.file.startsWith("/") ? sessionStorage.file : "/" + sessionStorage.file) + (sessionStorage.file.endsWith("/") || name.startsWith("/") ? name : "/" + name);
+					} else {
+						sessionStorage["file"] = name;
+					};
+					document.location.reload();
+				});
+				file.addEventListener("click", function() {
+					for (let x of document.getElementsByTagName("file")) {
+						if (x.classList.contains("selected")) {
+							x.classList.remove("selected");
+						};
+					};
+					this.classList.add("selected");
+					if (document.getElementById("actions") != null) {
+						document.getElementById("actions").parentNode.removeChild(document.getElementById("actions"));
+					};
+					let actions = document.createElement("div");
+					actions.id = "actions";
+					document.getElementById("header").appendChild(actions);
+					let download_wrapper = document.createElement("a");
+					let path = "/download" + (sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/") + name;
+					download_wrapper.href = path;
+					download_wrapper.download = path.split("/").pop();
+					let download = document.createElement("button")
+					download.innerHTML = "Download";
+					download_wrapper.appendChild(download);
+					actions.appendChild(download_wrapper);
+					let rename = document.createElement("button");
+					rename.innerHTML = "Rename";
+					rename.classList.add("rename");
+					rename.addEventListener("click", function() {
+						let new_name = prompt("New name:", name);
+						if (new_name != null) {
+							document.location = "/actions/rename/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/") + name).replaceAll("/", "%2f") + "/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/") + new_name).replaceAll("/", "%2f");
+						};
+					});
+					actions.appendChild(rename);
+					let remove = document.createElement("button");
+					remove.addEventListener("click", function() {
+						if (Boolean(parseInt(this.dataset.directory))) {
+							if (confirm("Are you sure you want to delete " + name + " and its files/subdirectories?")) {
+								document.location = "/actions/deletedir/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/") + name).replaceAll("/", "%2f");
+							};
+							return;
+						}
+						if (confirm("Are you sure you want to delete " + name + "?")) {
+							document.location = "/actions/delete/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/") + name).replaceAll("/", "%2f");
+						};
+					}.bind(this));
+					remove.innerHTML = "Delete";
+					remove.classList.add("delete");
+					actions.appendChild(remove);
+				});
+				document.getElementById("files").appendChild(file);
+				let file_label = document.createElement("p");
+				file_label.innerHTML = name;
+				file.appendChild(file_label);
+				file_image = document.createElement("img");
+				if (properties.directory) {
+					file_image.src = "/directory.png";
+				} else {
+					file_image.src = "/document.png";
+				};
+				file.appendChild(file_image);
+			}
+
+			function updateFiles(files) {
+				while (document.getElementById("files").lastChild) {
+					document.getElementById("files").removeChild(document.getElementById("files").lastChild);
+				}
+				for (let x of Object.keys(files)) {
+					createFile(x, files[x]);
+				};
+				repositionFiles();
+			};
+
+			function repositionFiles() {
+				for (let x of document.getElementsByTagName("file")) {
+					console.log(x.getElementsByTagName("img")[0].clientHeight)
+					x.getElementsByTagName("p")[0].style.marginTop = (x.getElementsByTagName("img")[0].clientHeight + 10) + "px";
+					x.getElementsByTagName("p")[0].style.marginLeft = ((x.offsetWidth - x.getElementsByTagName("p")[0].offsetWidth) / 2) + "px";
+				};
+				if (document.getElementsByClassName("file_viewer").length) {
+					document.getElementsByClassName("file_viewer")[0].style.height = (window.innerHeight - document.getElementById("header").offsetHeight - 20) + "px";
+				};
+			};
+
+			function loadFile(data) {
+				document.body.style.overflow = "hidden";
+				while (document.getElementById("static_actions").firstChild) {
+					document.getElementById("static_actions").removeChild(document.getElementById("static_actions").firstChild);
+				};
+				let save = document.createElement("button");
+				save.innerHTML = "Save";
+				save.classList.add("save");
+				save.addEventListener("click", function() {
+					let data = $(".file_viewer").val();
+					let request = new XMLHttpRequest();
+					request.open("POST", "/actions/write", true);
+					request.setRequestHeader("Content-Type", "text/plain");
+					request.setRequestHeader("x-path", sessionStorage["file"]);
+					request.send(data);
+				});
+				document.getElementById("static_actions").appendChild(save);
+				let save_and_close = document.createElement("button");
+				save_and_close.innerHTML = "Save and Close";
+				save_and_close.classList.add("save_close");
+				save_and_close.addEventListener("click", function() {
+					let data = $(".file_viewer").val();
+					let request = new XMLHttpRequest();
+					request.open("POST", "/actions/write", true);
+					request.setRequestHeader("Content-Type", "text/plain");
+					request.setRequestHeader("x-path", sessionStorage["file"]);
+					request.send(data);
+					document.getElementById("header").getElementsByClassName("back")[0].click();
+				});
+				document.getElementById("static_actions").appendChild(save_and_close);
+				document.body.removeChild(document.getElementById("files"));
+				let text = document.createElement("textarea");
+				text.classList.add("file_viewer")
+				document.body.appendChild(text);
+				$(".file_viewer").val(data);
+				repositionFiles()
+			};
+
+			function parseData(data) {
+				if (data.type == "directory") {
+					updateFiles(data.content);
+				} else {
+					loadFile(data.content);
+				};
+			};
+			
+			function resize() {
+				repositionFiles();
+			};
+
+			window.onresize = resize;
+
+			window.addEventListener("click", function(event) {
+				if (document.elementFromPoint(event.clientX, event.clientY) == null) {
+					return;
+				};
+				switch (document.elementFromPoint(event.clientX, event.clientY).nodeName) {
+					case "FILE":
+						break;
+					case "IMG":
+						break;
+					case "P":
+						break;
+					case "BUTTON":
+						break;
+					default:
+						for (let x of document.getElementsByTagName("file")) {
+							if (x.classList.contains("selected")) {
+								x.classList.remove("selected");
+							};
+						};
+						if (document.getElementById("actions") != null) {
+							document.getElementById("actions").parentNode.removeChild(document.getElementById("actions"));
+						};
+				};
+			});
+
+			document.getElementsByClassName("back")[0].onclick = function() {
+				if (sessionStorage["history"] == "" || sessionStorage["history"] == undefined) {
+					return;
+				};
+				let last_entry = sessionStorage["history"].split(",").pop();
+				if (!sessionStorage["history"].indexOf(",") == "-1") {
+					sessionStorage["history"] = "";
+				} else {
+					sessionStorage["history"] = sessionStorage["history"].substring(0, sessionStorage["history"].lastIndexOf(","));
+				};
+				sessionStorage["file"] = last_entry;
+				document.location.reload();
+			};
+
+			document.getElementById("static_actions").getElementsByClassName("new_file")[0].onclick = function() {
+				let new_name = prompt("Name for new file:", "");
+				if (new_name != null) {
+					document.location = "/actions/newfile/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/") + new_name).replaceAll("/", "%2f");
+				};
+			};
+
+			document.getElementById("static_actions").getElementsByClassName("new_folder")[0].onclick = function() {
+				let new_name = prompt("Name for new folder:", "");
+				if (new_name != null) {
+					document.location = "/actions/newdir/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/") + new_name).replaceAll("/", "%2f");
+				};
+			};
+
+			if (sessionStorage.file != undefined) {
+				document.getElementById("static_actions").getElementsByClassName("upload_file")[0].action = "/actions/upload/" + ((sessionStorage["file"] != undefined ? (sessionStorage["file"].endsWith("/") ? sessionStorage["file"] : sessionStorage["file"] + "/") : "/")).replaceAll("/", "%2f");
+				document.getElementsByClassName("path")[0].innerText = sessionStorage.file;
+				fetch("http://192.168.2.2:18950" + (sessionStorage.file.startsWith("/") ? sessionStorage.file : "/" + sessionStorage.file)).then(res => res.json()).then(parseData);
+			} else {
+				document.getElementById("static_actions").getElementsByClassName("upload_file")[0].action = "/actions/upload/";
+				document.getElementsByClassName("path")[0].innerText = "/";
+				fetch("http://192.168.2.2:18950/").then(res => res.json()).then(parseData);
+			};
+
+			setTimeout(resize, 100);
+		</script>
+	</body>
+</html>
