@@ -1,6 +1,6 @@
 const express = require("express");
 const fs = require("fs");
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 
 const webapp = express();
 webapp.use(express.static("imgs"))
@@ -9,7 +9,7 @@ webapp.use(fileUpload({
 	createParentPath: true
 }));
 
-const directory_root = "/store";
+const directory_root = process.env.DIRECTORY ?? "/store";
 
 webapp.use("/download", express.static(directory_root))
 
