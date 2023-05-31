@@ -1,76 +1,108 @@
-const express = require("express");
+const fastify = require("fastify");
+const static = require("@fastify/static");
 const fs = require("fs");
-const fileUpload = require("express-fileupload");
-
-const webapp = express();
-webapp.use(express.static("imgs"))
-webapp.use(express.text());
-webapp.use(fileUpload({
-	createParentPath: true
-}));
+const { join } = require("path");
+// const fileUpload = require("express-fileupload");
 
 const directory_root = process.env.DIRECTORY ?? "/store";
 
-webapp.use("/download", express.static(directory_root))
-
-webapp.listen(8192, function() {
-	console.log("Started server on port 8192");
+const server = fastify({
+	ignoreDuplicateSlashes: true,
+	logger: true
 });
 
-webapp.get("/", function(request, response) {
-	response.setHeader("Access-Control-Allow-Origin", "*");
-	response.set("Cache-Control", "no-store");
-	response.sendFile(__dirname + "/index.html");
+server.register(static, {
+	root: join(process.cwd(), "imgs"),
+	prefix: "/static"
 });
 
-webapp.get("/actions/rename/:from/:to", function(request, response) {
+server.register(static, {
+	root: directory_root,
+	prefix: "/download",
+	decorateReply: false
+});
+
+// server.use(fileUpload({
+// 	createParentPath: true
+// }));
+
+// server.use("/download", express.static(directory_root))
+
+server.get("/path/*", async (request, reply) => {
+	reply.type("text/html");
+	// reply.header("Access-Control-Allow-Origin", "*");
+	reply.header("Cache-Control", "no-store");
+	return fs.readFileSync(join(process.cwd(), "index.html"));
+});
+
+server.get("/path", function(request, reply) {
+	reply.redirect("/path/");
+});
+
+server.get("/", function(request, reply) {
+	reply.redirect("/path/");
+});
+
+server.get("/actions/rename/:from/:to", function(request, reply) {
 	fs.renameSync(directory_root + request.params.from, directory_root + request.params.to);
-	response.redirect("/");
+	reply.redirect("/");
 });
 
-webapp.get("/actions/delete/:path", function(request, response) {
+server.get("/actions/delete/:path", function(request, reply) {
 	fs.unlinkSync(directory_root + request.params.path);
-	response.redirect("/");
+	reply.redirect("/");
 });
 
-webapp.get("/actions/deletedir/:path", function(request, response) {
+server.get("/actions/deletedir/:path", function(request, reply) {
 	fs.rmSync(directory_root + request.params.path, { recursive: true, force: true });
-	response.redirect("/");
+	reply.redirect("/");
 });
 
-webapp.get("/actions/newdir/:path", function(request, response) {
+server.get("/actions/newdir/:path", function(request, reply) {
 	fs.mkdirSync(directory_root + request.params.path);
-	response.redirect("/");
+	reply.redirect("/");
 });
 
-webapp.get("/actions/newfile/:path", function(request, response) {
+server.get("/actions/newfile/:path", function(request, reply) {
 	fs.writeFileSync(directory_root + request.params.path, "");
-	response.redirect("/");
+	reply.redirect("/");
 });
 
-webapp.post("/actions/upload/:path", async (request, response) => {
+server.post("/actions/upload/:path", async (request, reply) => {
 	try {
 		if (!request.files) {
-			response.send({
+			reply.send({
 				status: false,
 				message: "No file selected"
 			});
 		} else {
 			let file = request.files.file;
 			file.mv(directory_root + "/" + (request.params.path.endsWith("/") ? request.params.path : request.params.path + "/") + file.name);
-			response.redirect("/")
+			reply.redirect("/")
 		}
 	} catch (error) {
-		response.status(500).send(error);
+		reply.status(500).send(error);
 	}
 });
 
-webapp.post("/actions/write", function(request, response) {
+server.post("/actions/write", function(request, reply) {
 	fs.writeFileSync(directory_root + request.headers["x-path"], request.body);
-	response.redirect("/");
+	reply.redirect("/");
 })
 
-webapp.use(function(request, response) {
-	response.status(404);
-	response.redirect("/");
-});
+// server.use(function(request, reply) {
+// 	reply.status(404);
+// 	reply.redirect("/");
+// });
+
+const start = async () => {
+	try {
+		await server.listen({ port: 8192 });
+		console.log("Started listening on port 8192");
+	} catch (error) {
+		server.log.error(error);
+		process.exit(1);
+	}
+};
+
+start();
