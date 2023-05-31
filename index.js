@@ -43,32 +43,32 @@ server.get("/", function(request, reply) {
 	reply.redirect("/path/");
 });
 
-server.get("/actions/rename/:from/:to", function(request, reply) {
+server.get("/rename/:from/:to", function(request, reply) {
 	fs.renameSync(directory_root + request.params.from, directory_root + request.params.to);
 	reply.redirect("/");
 });
 
-server.get("/actions/delete/:path", function(request, reply) {
+server.get("/delete/:path", function(request, reply) {
 	fs.unlinkSync(directory_root + request.params.path);
 	reply.redirect("/");
 });
 
-server.get("/actions/deletedir/:path", function(request, reply) {
+server.get("/deletedir/:path", function(request, reply) {
 	fs.rmSync(directory_root + request.params.path, { recursive: true, force: true });
 	reply.redirect("/");
 });
 
-server.get("/actions/newdir/:path", function(request, reply) {
+server.get("/newdir/:path", function(request, reply) {
 	fs.mkdirSync(directory_root + request.params.path);
 	reply.redirect("/");
 });
 
-server.get("/actions/newfile/:path", function(request, reply) {
+server.get("/newfile/:path", function(request, reply) {
 	fs.writeFileSync(directory_root + request.params.path, "");
 	reply.redirect("/");
 });
 
-server.post("/actions/upload/:path", async (request, reply) => {
+server.post("/upload/:path", async (request, reply) => {
 	try {
 		if (!request.files) {
 			reply.send({
@@ -85,7 +85,7 @@ server.post("/actions/upload/:path", async (request, reply) => {
 	}
 });
 
-server.post("/actions/write", function(request, reply) {
+server.post("/write", function(request, reply) {
 	fs.writeFileSync(directory_root + request.headers["x-path"], request.body);
 	reply.redirect("/");
 })
