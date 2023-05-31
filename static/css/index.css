@@ -1,0 +1,43 @@
+@font-face {
+  font-family: "SF Pro";
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+  src: url("/static/fonts/sf.woff2") format("woff2");
+  unicode-range: U+0000-024F;
+}
+
+main {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 100px);
+	gap: 20px;
+}
+
+button {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	position: relative;
+	padding: 95px 5px 5px;
+	border: none;
+	background: none;
+	font-family: "SF Pro";
+}
+
+button::before {
+	content: "";
+	width: 80%;
+	height: 90px;
+	position: absolute;
+	top: 5px;
+	left: 10%;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+button.file::before {
+	background-image: url("/static/img/document.png");
+}
+
+button.directory::before {
+	background-image: url("/static/img/directory.webp");
+}

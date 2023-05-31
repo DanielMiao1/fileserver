@@ -13,7 +13,7 @@ const server = fastify({
 });
 
 server.register(static, {
-	root: join(process.cwd(), "imgs"),
+	root: join(process.cwd(), "static"),
 	prefix: "/static"
 });
 

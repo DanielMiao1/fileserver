@@ -6,10 +6,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title></title>
 		<script>
-			document.getElementsByTagName("title")[0].innerText = `${document.location.pathname.slice(5)} on ${document.location.hostname}`;
+			window.path = document.location.pathname.slice(5)
+			document.getElementsByTagName("title")[0].innerText = `${window.path} on ${document.location.hostname}`;
 		</script>
+		<link rel="stylesheet" href="/static/css/index.css">
 	</head>
 	<body>
-		
+		<main></main>
+		<script src="/static/js/index.js"></script>
 	</body>
 </html>
