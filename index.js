@@ -2,6 +2,7 @@ const fastify = require("fastify");
 const static = require("@fastify/static");
 const fs = require("fs");
 const { join } = require("path");
+const { execSync } = require("child_process");
 // const fileUpload = require("express-fileupload");
 
 const serving_directory = process.env.DIRECTORY ?? "/store";
@@ -26,11 +27,8 @@ server.register(static, {
 // 	createParentPath: true
 // }));
 
-// server.use("/download", express.static(serving_directory))
-
 server.get("/path/*", async (request, reply) => {
 	reply.type("text/html");
-	// reply.header("Access-Control-Allow-Origin", "*");
 	reply.header("Cache-Control", "no-store");
 	return fs.readFileSync(join(process.cwd(), "index.html"));
 });
@@ -51,15 +49,22 @@ server.get("/raw/*", function(request, reply) {
 		reply.status(404).send();
 	}
 
-	if (fs.statSync(path).isDirectory()) {
+	const stat = fs.statSync(path)
+
+	if (stat.isDirectory()) {
 		reply.send({
-			"type": "directory",
-			"data": Object.assign({}, ...fs.readdirSync(path).map(item => ({
+			type: "directory",
+			data: Object.assign({}, ...fs.readdirSync(path).map(item => ({
 				[item]: fs.statSync((path.endsWith("/") ? path : path + "/") + item).isDirectory()
 			})))
 		});
 	} else {
-		reply.send({"type": "file", "data": fs.readFileSync(path, "utf8")});
+		reply.send({
+			type: "file",
+			size: stat.size,
+			encoding: stat.size <= 2000000 && execSync("uchardet " + path).toString().slice(0, -1),
+			data: fs.readFileSync(path, "utf8")
+		});
 	};
 })
 
