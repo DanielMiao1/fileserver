@@ -1,3 +1,5 @@
+@import url("/static/css/extensions.css");
+
 @font-face {
   font-family: "SF Pro";
   font-display: swap;
@@ -34,10 +36,14 @@ button::before {
 	background-repeat: no-repeat;
 }
 
-button.file::before {
-	background-image: url("/static/img/document.png");
+button.hidden::before {
+	filter: contrast(0.3) brightness(1.6);
+}
+
+button::before {
+	background-image: url("/static/img/formats/Document.webp");
 }
 
 button.directory::before {
-	background-image: url("/static/img/directory.webp");
+	background-image: url("/static/img/Directory.webp");
 }

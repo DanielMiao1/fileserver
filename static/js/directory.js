@@ -3,7 +3,16 @@ export default function loadDirectory(items) {
 
 	for (const [item, type] of Object.entries(items)) {
 		const button = document.createElement("button");
-		button.classList.add(type ? "directory" : "file");
+		if (type) {
+			button.classList.add("directory");
+		}
+
+		if (item.startsWith(".")) {
+			button.classList.add("hidden");
+		} else if (!type && item.includes(".")) {
+			button.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1))
+		}
+
 		button.innerText = item;
 		button.addEventListener("click", function() {
 			document.location = (
