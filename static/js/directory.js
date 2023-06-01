@@ -1,8 +1,19 @@
+export function menuHandler(event) {
+	return {
+		"Open": () => event.target.click(),
+		"Remove": () => event.target.click(),
+		"Rename": () => event.target.click(),
+		"Download": () => event.target.click(),
+	}
+}
+
 export default function loadDirectory(items) {
 	const container = document.getElementsByTagName("main")[0];
 
 	for (const [item, type] of Object.entries(items)) {
 		const button = document.createElement("button");
+		button.dataset.menu = "/static/js/directory.js"
+
 		if (type) {
 			button.classList.add("directory");
 		}

@@ -1,11 +1,11 @@
-button.file-txt::before {
+main button.file-txt::before {
 	background-image: url("/static/img/formats/text/PlainText.webp");
 }
 
-button.file-rtf::before {
+main button.file-rtf::before {
 	background-image: url("/static/img/formats/text/RichText.webp");
 }
 
-button.file-png::before {
+main button.file-png::before {
 	background-image: url("/static/img/formats/graphics/PortableNetworkGraphics.webp");
 }

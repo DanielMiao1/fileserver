@@ -1,3 +1,4 @@
+@import url("/static/css/menu.css");
 @import url("/static/css/extensions.css");
 
 @font-face {
@@ -9,23 +10,26 @@
   unicode-range: U+0000-024F;
 }
 
+body {
+	font-family: "SF Pro";
+}
+
 main {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, 100px);
 	gap: 20px;
 }
 
-button {
+main button {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	position: relative;
 	padding: 95px 5px 5px;
 	border: none;
 	background: none;
-	font-family: "SF Pro";
 }
 
-button::before {
+main button::before {
 	content: "";
 	width: 80%;
 	height: 90px;
@@ -36,14 +40,14 @@ button::before {
 	background-repeat: no-repeat;
 }
 
-button.hidden::before {
+main button.hidden::before {
 	filter: contrast(0.3) brightness(1.6);
 }
 
-button::before {
+main button::before {
 	background-image: url("/static/img/formats/Document.webp");
 }
 
-button.directory::before {
+main button.directory::before {
 	background-image: url("/static/img/Directory.webp");
 }
