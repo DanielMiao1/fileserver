@@ -21,7 +21,7 @@ function openContextMenu() {
 }
 
 function closeContextMenu() {
-	menu.animate([{opacity: 1}, {opacity: 0}], {easing: "ease-out", duration: 200}).finished.then(() => menu.style.display = "none");
+	return menu.animate([{opacity: 1}, {opacity: 0}], {easing: "ease-out", duration: 200}).finished.then(() => menu.style.display = "none");
 }
 
 function appendMenuEntries(entries) {
@@ -37,6 +37,10 @@ function appendMenuEntries(entries) {
 }
 
 async function regenerateContextMenu(event) {
+	if (menu.style.display === "flex") {
+		return closeContextMenu().then(() => regenerateContextMenu(event));
+	}
+
 	while (menu.firstChild) {
 		menu.removeChild(menu.firstChild)
 	}

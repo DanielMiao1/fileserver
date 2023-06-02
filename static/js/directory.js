@@ -47,7 +47,11 @@ export default function loadDirectory(items) {
 			button.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1))
 		}
 
-		button.addEventListener("mousedown", function() {
+		button.addEventListener("mousedown", function(event) {
+			if (event.button === 1) {
+				return;
+			}
+
 			select(this);
 		});
 
