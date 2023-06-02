@@ -10,6 +10,10 @@
   unicode-range: U+0000-024F;
 }
 
+:root {
+	--select-color: #0c79df;
+}
+
 body {
 	font-family: "SF Pro";
 }
@@ -21,12 +25,29 @@ main {
 }
 
 main button {
-	text-overflow: ellipsis;
-	overflow: hidden;
 	position: relative;
 	padding: 95px 5px 5px;
 	border: none;
 	background: none;
+}
+
+main button span {
+	padding: 3px 5px 3px;
+	border-radius: 5px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+	width: fit-content;
+	max-width: 89%;
+	margin: auto;
+}
+
+main button.selected {
+	color: white;
+}
+
+main button.selected span {
+	background-color: var(--select-color);
 }
 
 main button::before {
@@ -50,4 +71,19 @@ main button::before {
 
 main button.directory::before {
 	background-image: url("/static/img/Directory.webp");
+}
+
+main button::after {
+	content: "";
+	width: 85%;
+	height: 83px;
+	position: absolute;
+	top: 5px;
+	left: 7.5%;
+	border-radius: 2px;
+}
+
+main button.selected::after {
+	background-color: rgba(0, 0, 0, 0.04);
+	outline: 2px solid #EEE;
 }

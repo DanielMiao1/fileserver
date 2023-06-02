@@ -1,6 +1,28 @@
+let selected;
+
+function select(element) {
+	if (selected) {
+		selected.classList.remove("selected");
+	}
+
+	if (!element) {
+		selected = null;
+		return;
+	}
+
+	selected = element;
+	selected.classList.add("selected");
+}
+
+document.addEventListener("click", function(event) {
+	if (event.target.parentNode.nodeName !== "MAIN") {
+		select();
+	}
+})
+
 export function menuHandler(event) {
 	return {
-		"Open": () => event.target.click(),
+		"Open": () => event.target.dispatchEvent(new MouseEvent("dblclick")),
 		"Remove": () => event.target.click(),
 		"Rename": () => event.target.click(),
 		"Download": () => event.target.click(),
@@ -12,6 +34,7 @@ export default function loadDirectory(items) {
 
 	for (const [item, type] of Object.entries(items)) {
 		const button = document.createElement("button");
+		button.title = item;
 		button.dataset.menu = "/static/js/directory.js"
 
 		if (type) {
@@ -24,14 +47,22 @@ export default function loadDirectory(items) {
 			button.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1))
 		}
 
-		button.innerText = item;
-		button.addEventListener("click", function() {
+		button.addEventListener("mousedown", function() {
+			select(this);
+		});
+
+		button.addEventListener("dblclick", function() {
 			document.location = (
 				document.location.pathname.endsWith("/") ?
 				document.location.pathname :
 				document.location.pathname + "/"
 			) + item;
 		});
+
+		const text_container = document.createElement("span");
+		text_container.innerText = item;
+		button.appendChild(text_container);
+
 		container.appendChild(button);
 	}
 }
