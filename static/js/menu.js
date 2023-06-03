@@ -60,7 +60,7 @@ async function regenerateContextMenu(event) {
 		}
 	} else {
 		appendMenuEntries({
-			"Reload": () => document.location.reload
+			"Reload": () => document.location.reload()
 		})
 	}
 

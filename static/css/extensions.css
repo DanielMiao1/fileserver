@@ -1,11 +1,566 @@
-main button.file-txt::before {
+main button.file-3fr::before,
+main button.file-arw::before,
+main button.file-cr2::before,
+main button.file-cr3::before,
+main button.file-dng::before,
+main button.file-fff::before,
+main button.file-j6i::before,
+main button.file-mrw::before,
+main button.file-nef::before,
+main button.file-nrw::before,
+main button.file-raw::before,
+main button.file-orf::before,
+main button.file-srf::before,
+main button.file-sr2::before {
+	background-image: url("/static/img/formats/graphics/RawImage.webp");
+}
+
+main button.file-aa::before {
+	background-image: url("/static/img/formats/audio/AudioBook.webp");
+}
+
+main button.file-aac::before {
+	background-image: url("/static/img/formats/audio/AdvancedAudioCoding.webp");
+}
+
+main button.file-abc::before {
+	background-image: url("/static/img/formats/graphics/AlembicGraphics.webp");
+}
+
+main button.file-ac3::before {
+	background-image: url("/static/img/formats/audio/AudioCodec3.webp");
+}
+
+main button.file-action::before {
+	background-image: url("/static/img/formats/scripting/AutomatorAction.webp");
+}
+
+main button.file-ada::before,
+main button.file-adb::before,
+main button.file-ads::before,
+main button.file-aupreset::before,
+main button.file-bash::before,
+main button.file-c::before,
+main button[class="file-c++"]::before,
+main button.file-cpp::before,
+main button.file-csh::before,
+main button.file-css::before,
+main button.file-csv::before,
+main button.file-cxx::before,
+main button.file-diff::before,
+main button.file-f::before,
+main button.file-f90::before,
+main button.file-f95::before,
+main button.file-for::before,
+main button.file-h::before,
+main button[class="file-h++"]::before,
+main button.file-hh::before,
+main button.file-hpp::before,
+main button.file-htm::before,
+main button.file-html::before,
+main button.file-hxx::before,
+main button.file-i::before,
+main button.file-jav::before,
+main button.file-java::before,
+main button.file-javascript::before,
+main button.file-js::before,
+main button.file-json::before,
+main button.file-l::before,
+main button.file-log::before,
+main button.file-m::before,
+main button.file-m3u::before,
+main button.file-mm::before,
+main button.file-obj::before,
+main button.file-patch::before,
+main button.file-pgn::before,
+main button.file-php::before,
+main button.file-php2::before,
+main button.file-php3::before,
+main button.file-php4::before,
+main button.file-php5::before,
+main button.file-pl::before,
+main button.file-pm::before,
+main button.file-py::before,
+main button.file-r::before,
+main button.file-rb::before,
+main button.file-rbw::before,
+main button.file-s::before,
+main button.file-sh::before,
+main button.file-shtml::before,
+main button.file-spx::before,
+main button.file-svg::before,
+main button.file-tab::before,
+main button.file-tsv::before,
+main button.file-txt::before,
+main button.file-xhtm::before,
+main button.file-xhtml::before,
+main button.file-xml::before,
+main button.file-y::before,
+main button.file-zsh::before {
 	background-image: url("/static/img/formats/text/PlainText.webp");
 }
 
-main button.file-rtf::before {
-	background-image: url("/static/img/formats/text/RichText.webp");
+main button.file-ai::before {
+	background-image: url("/static/img/formats/graphics/AdobeIllustrator.webp");
+}
+
+main button.file-aif::before,
+main button.file-aiff::before {
+	background-image: url("/static/img/formats/audio/AudioInterchange.webp");
+}
+
+main button.file-aifc::before {
+	background-image: url("/static/img/formats/audio/CompressedAudioInterchange.webp");
+}
+
+main button.file-appdownload::before {
+	background-image: url("/static/img/formats/web/AppStoreDownload.webp");
+}
+
+main button.file-applescript::before,
+main button.file-scpt::before {
+	background-image: url("/static/img/formats/scripting/AppleScript.webp");
+}
+
+main button.file-as::before {
+	background-image: url("/static/img/formats/compression/AppleSingleArchive.webp");
+}
+
+main button.file-au::before {
+	background-image: url("/static/img/formats/audio/AudacityAudio.webp");
+}
+
+main button.file-auchd::before {
+	background-image: url("/static/img/formats/video/HighDefinitionVideo.webp");
+}
+
+main button.file-band::before {
+	background-image: url("/static/img/formats/audio/GarageBandProject.webp");
+}
+
+main button.file-bdm::before {
+	background-image: url("/static/img/formats/video/AdvancedVideoCodingInformation.webp");
+}
+
+main button.file-bdmv::before {
+	background-image: url("/static/img/formats/video/Blu-rayDiskInformation.webp");
+}
+
+main button.file-bin::before {
+	background-image: url("/static/img/formats/text/Binary.webp");
+}
+
+main button.file-bmp::before {
+	background-image: url("/static/img/formats/graphics/BitmapRasterImage.webp");
+}
+
+main button.file-bundle::before,
+main button.file-framework::before,
+main button.file-fs::before,
+main button.file-mdimporter::before,
+main button.file-plugin::before,
+main button.file-qlgenerator::before,
+main button.file-spreporter::before {
+	background-image: url("/static/img/formats/compression/ApplicationBundle.webp");
+}
+
+main button.file-caction::before {
+	background-image: url("/static/img/formats/scripting/AutomatorConverterAction.webp");
+}
+
+main button.file-cer::before,
+main button.file-crt::before {
+	background-image: url("/static/img/formats/text/DigitalCertificateCER.webp");
+}
+
+main button.file-cert::before {
+	background-image: url("/static/img/formats/text/DigitalCertificate.webp");
+}
+
+main button.file-class::before {
+	background-image: url("/static/img/formats/scripting/JavaClass.webp");
+}
+
+main button.file-cp::before {
+	background-image: url("/static/img/formats/scripting/XcodeC++Source.webp");
+}
+
+main button.file-cpgz::before {
+	background-image: url("/static/img/formats/compression/CompressedCPIOArchive.webp");
+}
+
+main button.file-cpio::before,
+main button.file-pax::before {
+	background-image: url("/static/img/formats/compression/CPIOArchive.webp");
+}
+
+main button.file-dif::before,
+main button.file-dv::before {
+	background-image: url("/static/img/formats/video/DigitalVideo.webp");
+}
+
+main button.file-dls::before {
+	background-image: url("/static/img/formats/audio/DownloadableSounds.webp");
+}
+
+main button.file-dmg::before,
+main button.file-img::before,
+main button.file-sparseimage::before,
+main button.file-sparsebundle::before {
+	background-image: url("/static/img/formats/compression/DiskImage.webp");
+}
+
+main button.file-doc::before {
+	background-image: url("/static/img/formats/text/LegacyWordDocument.webp");
+}
+
+main button.file-docx::before {
+	background-image: url("/static/img/formats/text/WordDocument.webp");
+}
+
+main button.file-download::before {
+	background-image: url("/static/img/formats/web/SafariDownload.webp");
+}
+
+main button.file-dylib::before,
+main button.file-exe::before,
+main button.file-exec::before {
+	background-image: url("/static/img/formats/scripting/Executable.webp");
+}
+
+main button.file-eml::before {
+	background-image: url("/static/img/formats/text/EmailMessage.webp");
+}
+
+main button.file-epub::before {
+	background-image: url("/static/img/formats/text/ElectronicPublication.webp");
+}
+
+main button.file-exr::before {
+	background-image: url("/static/img/formats/graphics/OpenEXRImage.webp");
+}
+
+main button.file-f4v::before {
+	background-image: url("/static/img/formats/video/FlashVideo.webp");
+}
+
+main button.file-fileloc::before {
+	background-image: url("/static/img/formats/web/InternetFileLocation.webp");
+}
+
+main button.file-gcx::before {
+	background-image: url("/static/img/formats/graphics/GrapherFile.webp");
+}
+
+main button.file-gif::before {
+	background-image: url("/static/img/formats/graphics/GraphicalInterchangeImage.webp");
+}
+
+main button.file-gz::before,
+main button.file-gzip::before {
+	background-image: url("/static/img/formats/compression/GNUZipArchive.webp");
+}
+
+main button.file-heic::before {
+	background-image: url("/static/img/formats/graphics/HighEfficiencyImageHEIC.webp");
+}
+
+main button.file-heif::before {
+	background-image: url("/static/img/formats/graphics/HighEfficiencyImage.webp");
+}
+
+main button.file-ibooks::before {
+	background-image: url("/static/img/formats/text/AppleDigitalBook.webp");
+}
+
+main button.file-icc::before,
+main button.file-icm::before {
+	background-image: url("/static/img/formats/graphics/ICCProfile.webp");
+}
+
+main button.file-icns::before {
+	background-image: url("/static/img/formats/graphics/AppleIconResource.webp");
+}
+
+main button.file-ico::before {
+	background-image: url("/static/img/formats/graphics/MicrosoftIcon.webp");
+}
+
+main button.file-ipa::before {
+	background-image: url("/static/img/formats/compression/iOSApplication.webp");
+}
+
+main button.file-j2c::before,
+main button.file-jp2::before {
+	background-image: url("/static/img/formats/graphics/JPEG2KImage.webp");
+}
+
+main button.file-jar::before {
+	background-image: url("/static/img/formats/compression/JavaArchive.webp");
+}
+
+main button.file-jpeg::before,
+main button.file-jpg::before {
+	background-image: url("/static/img/formats/graphics/JPEGImage.webp");
+}
+
+main button.file-keychain::before {
+	background-image: url("/static/img/formats/text/AppleKeychain.webp");
+}
+
+main button.file-logarchive::before {
+	background-image: url("/static/img/formats/compression/LogArchive.webp");
+}
+
+main button.file-lpdf::before {
+	background-image: url("/static/img/formats/text/LocalizedPDF.webp");
+}
+
+main button.file-m2v::before {
+	background-image: url("/static/img/formats/video/MPEG2Video.webp");
+}
+
+main button.file-m4a::before {
+	background-image: url("/static/img/formats/audio/MPEG4Audio.webp");
+}
+
+main button.file-m4v::before {
+	background-image: url("/static/img/formats/video/AppleMPEG4Video.webp");
+}
+
+main button.file-mid::before,
+main button.file-midi::before,
+main button.file-smf::before {
+	background-image: url("/static/img/formats/audio/MIDIMusic.webp");
+}
+
+main button.file-mlmodel::before {
+	background-image: url("/static/img/formats/scripting/AppleCreateMLModel.webp");
+}
+
+main button.file-mlmodelc::before {
+	background-image: url("/static/img/formats/scripting/AppleCreateMLModelC.webp");
+}
+
+main button.file-mobileconfig::before {
+	background-image: url("/static/img/formats/text/AppleMobileConfiguration.webp");
+}
+
+main button.file-mov::before,
+main button.file-qt::before {
+	background-image: url("/static/img/formats/video/AppleMovie.webp");
+}
+
+main button.file-mp2::before {
+	background-image: url("/static/img/formats/audio/MP2Audio.webp");
+}
+
+main button.file-mp3::before {
+	background-image: url("/static/img/formats/audio/MP3Audio.webp");
+}
+
+main button.file-mp4::before {
+	background-image: url("/static/img/formats/video/MP4Video.webp");
+}
+
+main button.file-mpe::before,
+main button.file-mpeg::before,
+main button.file-mpg::before {
+	background-image: url("/static/img/formats/video/MPEGVideo.webp");
+}
+
+main button.file-mscz::before {
+	background-image: url("/static/img/formats/graphics/MuseScoreCompressedComposition.webp");
+}
+
+main button.file-musicxml::before {
+	background-image: url("/static/img/formats/text/MusicXMLScore.webp");
+}
+
+main button.file-mxl::before {
+	background-image: url("/static/img/formats/compression/CompressedMusicXMLScore.webp");
+}
+
+main button.file-odt::before {
+	background-image: url("/static/img/formats/text/OpenDocumentText.webp");
+}
+
+main button.file-osax::before {
+	background-image: url("/static/img/formats/scripting/AppleScriptExtension.webp");
+}
+
+main button.file-otf::before,
+main button.file-pfa::before,
+main button.file-pfb::before,
+main button.file-pfm::before,
+main button.file-ttf::before {
+	background-image: url("/static/img/formats/text/Font.webp");
+}
+
+main button.file-p10::before {
+	background-image: url("/static/img/formats/text/PublicKeyCertificateRequest.webp");
+}
+
+main button.file-p12::before,
+main button.file-pfx::before {
+	background-image: url("/static/img/formats/text/DigitalCertificateExchange.webp");
+}
+
+main button.file-pbm::before,
+main button.file-ppm::before {
+	background-image: url("/static/img/formats/graphics/PortableImage.webp");
+}
+
+main button.file-pct::before,
+main button.file-pict::before {
+	background-image: url("/static/img/formats/graphics/ApplePicture.webp");
+}
+
+main button.file-pdf::before,
+main button.file-pdf-1::before {
+	background-image: url("/static/img/formats/text/PortableDocument.webp");
+}
+
+main button.file-pictclipping::before {
+	background-image: url("/static/img/formats/graphics/PictureClipping.webp");
+}
+
+main button.file-pkg::before {
+	background-image: url("/static/img/formats/compression/AppleSoftwarePackage.webp");
 }
 
 main button.file-png::before {
-	background-image: url("/static/img/formats/graphics/PortableNetworkGraphics.webp");
+	background-image: url("/static/img/formats/compression/PortableNetworkGraphics.webp");
+}
+
+main button.file-prefpane::before {
+	background-image: url("/static/img/formats/scripting/ApplePreferencesPane.webp");
+}
+
+main button.file-psd::before,
+main button.file-psdc::before,
+main button.file-psb::before {
+	background-image: url("/static/img/formats/graphics/PhotoshopDocument.webp");
+}
+
+main button.file-ra::before,
+main button.file-ram::before {
+	background-image: url("/static/img/formats/audio/RealAudio.webp");
+}
+
+main button.file-rm::before,
+main button.file-rv::before {
+	background-image: url("/static/img/formats/video/RealMediaMultimedia.webp");
+}
+
+main button.file-rtf::before,
+main button.file-rtfd::before {
+	background-image: url("/static/img/formats/text/RichText.webp");
+}
+
+main button.file-safariextz::before {
+	background-image: url("/static/img/formats/compression/CompressedSafariExtension.webp");
+}
+
+main button.file-saver::before {
+	background-image: url("/static/img/formats/scripting/AppleScreenSaver.webp");
+}
+
+main button.file-scptd::before {
+	background-image: url("/static/img/formats/scripting/AppleScriptBundle.webp");
+}
+
+main button.file-sdef::before {
+	background-image: url("/static/img/formats/scripting/AppleScriptDictionary.webp");
+}
+
+main button.file-spin::before {
+	background-image: url("/static/img/formats/text/AppleSpinReport.webp");
+}
+
+main button.file-strings::before {
+	background-image: url("/static/img/formats/text/AppleStrings.webp");
+}
+
+main button.file-swift::before {
+	background-image: url("/static/img/formats/scripting/AppleSwiftSource.webp");
+}
+
+main button.file-tar::before {
+	background-image: url("/static/img/formats/compression/UnixArchive.webp");
+}
+
+main button.file-textclipping::before {
+	background-image: url("/static/img/formats/text/TextClipping.webp");
+}
+
+main button.file-tgz::before {
+	background-image: url("/static/img/formats/compression/UnixGNUZipArchive.webp");
+}
+
+main button.file-tif::before,
+main button.file-tiff::before {
+	background-image: url("/static/img/formats/graphics/TaggedImage.webp");
+}
+
+main button.file-ts::before {
+	background-image: url("/static/img/formats/video/VideoTransportStream.webp");
+}
+
+main button.file-url::before {
+	background-image: url("/static/img/formats/web/URLShortcut.webp");
+}
+
+main button.file-vcard::before,
+main button.file-vcf::before {
+	background-image: url("/static/img/formats/text/VCard.webp");
+}
+
+main button.file-wacz::before,
+main button.file-war::before,
+main button.file-warc::before {
+	background-image: url("/static/img/formats/compression/WebArchive.webp");
+}
+
+main button.file-wav::before {
+	background-image: url("/static/img/formats/audio/WaveAudio.webp");
+}
+
+main button.file-webloc::before {
+	background-image: url("/static/img/formats/web/AppleInternetLocation.webp");
+}
+
+main button.file-webm::before {
+	background-image: url("/static/img/formats/video/WebMVideo.webp");
+}
+
+main button.file-webp::before {
+	background-image: url("/static/img/formats/graphics/WebPImage.webp");
+}
+
+main button.file-wflow::before,
+main button.file-workflow::before {
+	background-image: url("/static/img/formats/scripting/AppleAutomatorWorkflow.webp");
+}
+
+main button.file-wma::before {
+	background-image: url("/static/img/formats/audio/WindowsMediaAudio.webp");
+}
+
+main button.file-xcode::before,
+main button.file-xcodeproj::before {
+	background-image: url("/static/img/formats/scripting/AppleXcodeProject.webp");
+}
+
+main button.file-xz::before {
+	background-image: url("/static/img/formats/compression/XZArchive.webp");
+}
+
+main button.file-z::before {
+	background-image: url("/static/img/formats/compression/LegacyUnixArchive.webp");
+}
+
+main button.file-zip::before,
+main button.file-zipx::before {
+	background-image: url("/static/img/formats/compression/ZipArchive.webp");
 }

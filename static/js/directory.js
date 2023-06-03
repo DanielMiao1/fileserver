@@ -18,7 +18,7 @@ document.addEventListener("click", function(event) {
 	if (event.target.parentNode.nodeName !== "MAIN") {
 		select();
 	}
-})
+});
 
 export function menuHandler(event) {
 	return {
@@ -44,7 +44,7 @@ export default function loadDirectory(items) {
 		if (item.startsWith(".")) {
 			button.classList.add("hidden");
 		} else if (!type && item.includes(".")) {
-			button.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1))
+			button.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1).toLowerCase())
 		}
 
 		button.addEventListener("mousedown", function(event) {
