@@ -430,7 +430,7 @@ main button.file-pkg::before {
 }
 
 main button.file-png::before {
-	background-image: url("/static/img/formats/compression/PortableNetworkGraphics.webp");
+	background-image: url("/static/img/formats/graphics/PortableNetworkGraphics.webp");
 }
 
 main button.file-prefpane::before {
