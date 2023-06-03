@@ -13,7 +13,7 @@ const menu = document.getElementById("menu");
 
 function repositionContextMenu(event) {
 	menu.style.left = event.clientX + "px";
-	menu.style.top = event.clientY + "px";
+	menu.style.top = window.scrollY + event.clientY + "px";
 }
 
 function openContextMenu() {
