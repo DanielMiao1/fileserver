@@ -1,8 +1,29 @@
 let drag_selection_start_position = false;
-
+let meta_pressed = false;
 let selected;
 
-function select(element) {
+function select(element, cumulate) {
+	if (element && cumulate) {
+		if (!selected) { 
+			selected = [];
+		}
+
+		if (!selected.push) {
+			selected = [selected];
+		}
+
+		if (element.push) {
+			for (const item of element) {
+				item.classList.add("selected");
+			}
+
+			return selected.push(...element);
+		}
+
+		element.classList.add("selected");
+		return selected.push(element);
+	}
+
 	if (selected) {
 		if (selected.push) {
 			for (const item of selected) {
@@ -71,7 +92,9 @@ window.addEventListener("mousedown", function(event) {
 		ancestor = ancestor.parentNode;
 	}
 
-	select();
+	if (!meta_pressed) {
+		select();
+	}
 });
 
 window.addEventListener("mouseup", function() {
@@ -121,8 +144,22 @@ window.addEventListener("mousemove", function(event) {
 		delete selection.dataset.negative_height;
 	}
 
-	select();
-	select(dragSelectedItems(selection));
+	if (!meta_pressed) {
+		select();
+	}
+	select(dragSelectedItems(selection), meta_pressed);
+});
+
+window.addEventListener("keydown", function(event) {
+	if (["Control", "Meta"].includes(event.key)) {
+		meta_pressed = true;
+	}
+});
+
+window.addEventListener("keyup", function(event) {
+	if (["Control", "Meta"].includes(event.key)) {
+		meta_pressed = false;
+	}
 });
 
 export function menuHandler(event) {
@@ -157,7 +194,7 @@ export default function loadDirectory(items) {
 				return;
 			}
 
-			select(this);
+			select(this, meta_pressed);
 		});
 
 		button.addEventListener("dblclick", function() {
