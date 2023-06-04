@@ -122,7 +122,7 @@ server.post("/write", function(request, reply) {
 
 const start = async () => {
 	try {
-		await server.listen({ port: 8192 });
+		await server.listen({ port: 8192, host: "0.0.0.0" });
 		console.log("Started listening on port 8192");
 	} catch (error) {
 		server.log.error(error);
