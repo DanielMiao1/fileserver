@@ -87,3 +87,9 @@ main button.selected::after {
 	background-color: rgba(0, 0, 0, 0.04);
 	outline: 2px solid #EEE;
 }
+
+#drag_selection {
+	position: absolute;
+	border: 1px solid #EEE;
+	background-color: rgba(0, 0, 0, 0.2);
+}
