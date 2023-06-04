@@ -14,10 +14,18 @@ function select(element) {
 	selected.classList.add("selected");
 }
 
-document.addEventListener("click", function(event) {
-	if (event.target.parentNode.nodeName !== "MAIN") {
-		select();
+window.addEventListener("mousedown", function(event) {
+	let ancestor = event.target.parentNode;
+
+	while (ancestor) {
+		if (ancestor.nodeName == "MAIN") {
+			return;
+		}
+
+		ancestor = ancestor.parentNode;
 	}
+
+	select();
 });
 
 export function menuHandler(event) {
