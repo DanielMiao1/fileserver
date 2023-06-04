@@ -4,7 +4,13 @@ let selected;
 
 function select(element) {
 	if (selected) {
-		selected.classList.remove("selected");
+		if (selected.push) {
+			for (const item of selected) {
+				item.classList.remove("selected");
+			}
+		} else {
+			selected.classList.remove("selected");
+		}
 	}
 
 	if (!element) {
@@ -12,8 +18,42 @@ function select(element) {
 		return;
 	}
 
+	if (element.push) {
+		selected = [];
+
+		for (const item of element) {
+			item.classList.add("selected");
+			selected.push(item);
+		}
+
+		return;
+	}
+
 	selected = element;
 	selected.classList.add("selected");
+}
+
+function dragSelectedItems(selection) {
+	const selected_items = [];
+
+	const width = parseFloat(selection.style.width.slice(0, -2));
+	const height = parseFloat(selection.style.height.slice(0, -2))
+
+	const minX = parseFloat(selection.style.left.slice(0, -2)) - (selection.dataset.negative_width ? width : 0);
+	const maxX = minX + width;
+	const minY = parseFloat(selection.style.top.slice(0, -2)) - (selection.dataset.negative_height ? height : 0);
+	const maxY = minY + height;
+
+
+	for (const item of document.getElementsByTagName("main")[0].children) {
+		const { x, y, bottom, right } = item.getBoundingClientRect();
+
+		if (bottom >= minY && maxY >= y && right >= minX && maxX >= x) {
+			selected_items.push(item);
+		}
+	}
+
+	return selected_items;
 }
 
 window.addEventListener("mousedown", function(event) {
@@ -63,9 +103,26 @@ window.addEventListener("mousemove", function(event) {
 	selection.style.width = Math.abs(width) + "px";
 	selection.style.height = Math.abs(height) + "px";
 
-	drag_selection_left_transform = width < 0 ? `translateX(${width}px)` : "";
-	drag_selection_top_transform = height < 0 ? `translateY(${height}px)` : "";
 	selection.style.transform = (width < 0 ? `translateX(${width}px)` : "translateX(0)") + " " + (height < 0 ? `translateY(${height}px)` : "translateY(0)");
+
+	if (width < 0) {
+		if (!selection.dataset.negative_width) {
+			selection.dataset.negative_width = "1";
+		}
+	} else if (selection.dataset.negative_width) {
+		delete selection.dataset.negative_width;
+	}
+
+	if (height < 0) {
+		if (!selection.dataset.negative_height) {
+			selection.dataset.negative_height = "1";
+		}
+	} else if (selection.dataset.negative_height) {
+		delete selection.dataset.negative_height;
+	}
+
+	select();
+	select(dragSelectedItems(selection));
 });
 
 export function menuHandler(event) {
