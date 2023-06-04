@@ -62,7 +62,7 @@ main button::before {
 }
 
 main button.hidden::before {
-	filter: contrast(0.3) brightness(1.6);
+	filter: contrast(0.3) brightness(1.53);
 }
 
 main button::before {
