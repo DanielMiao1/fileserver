@@ -76,8 +76,16 @@ document.addEventListener("contextmenu", async function(event) {
 	return false;
 });
 
-document.addEventListener("click", function(event) {
-	if (event.target.id !== "menu") {
+document.addEventListener("mousedown", function(event) {
+	if (event.button !== 2) {
+		let ancestor = event.target;
+		while (ancestor) {
+			if (ancestor.id === "menu") {
+				return;
+			}
+			ancestor = ancestor.parentNode;
+		}
+
 		closeContextMenu();
 	}
 });
