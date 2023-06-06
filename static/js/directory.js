@@ -1,5 +1,5 @@
 let drag_selection_start_position = false;
-let meta_pressed = false;
+let multi_select = false;
 let selected;
 
 function select(element, cumulate) {
@@ -67,7 +67,11 @@ function dragSelectedItems(selection) {
 
 
 	for (const item of document.getElementsByTagName("main")[0].children) {
-		const { x, y, bottom, right } = item.getBoundingClientRect();
+		const positions = item.getBoundingClientRect();
+		const x = positions.x;
+		const y = positions.y + window.scrollY;
+		const right = positions.right;
+		const bottom = positions.bottom + window.scrollY;
 
 		if (bottom >= minY && maxY >= y && right >= minX && maxX >= x) {
 			selected_items.push(item);
@@ -92,7 +96,7 @@ window.addEventListener("mousedown", function(event) {
 		ancestor = ancestor.parentNode;
 	}
 
-	if (!meta_pressed) {
+	if (!multi_select) {
 		select();
 	}
 });
@@ -144,21 +148,18 @@ window.addEventListener("mousemove", function(event) {
 		delete selection.dataset.negative_height;
 	}
 
-	if (!meta_pressed) {
-		select();
-	}
-	select(dragSelectedItems(selection), meta_pressed);
+	select(dragSelectedItems(selection), multi_select);
 });
 
 window.addEventListener("keydown", function(event) {
-	if (["Control", "Meta"].includes(event.key)) {
-		meta_pressed = true;
+	if (["Control", "Meta", "Shift"].includes(event.key)) {
+		multi_select = true;
 	}
 });
 
 window.addEventListener("keyup", function(event) {
-	if (["Control", "Meta"].includes(event.key)) {
-		meta_pressed = false;
+	if (["Control", "Meta", "Shift"].includes(event.key)) {
+		multi_select = false;
 	}
 });
 
@@ -194,7 +195,7 @@ export default function loadDirectory(items) {
 				return;
 			}
 
-			select(this, meta_pressed);
+			select(this, multi_select);
 		});
 
 		button.addEventListener("dblclick", function() {
