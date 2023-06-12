@@ -163,6 +163,32 @@ window.addEventListener("keyup", function(event) {
 	}
 });
 
+document.addEventListener("dragenter", function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+});
+
+document.addEventListener("dragover", function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+});
+
+document.addEventListener("dragleave", function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+});
+
+document.addEventListener("drop", function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+
+	const file = document.getElementById("file");
+	file.files = event.dataTransfer.files;
+
+	file.parentNode.action = "/write" + window.path + file.files[0].name;
+	file.parentNode.submit();
+});
+
 export function menuHandler(event) {
 	return {
 		"Open": () => event.target.dispatchEvent(new MouseEvent("dblclick")),

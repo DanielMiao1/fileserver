@@ -3,7 +3,8 @@ const static = require("@fastify/static");
 const fs = require("fs");
 const { join } = require("path");
 const { execSync } = require("child_process");
-// const fileUpload = require("express-fileupload");
+
+const pipeline = require("util").promisify(require("stream").pipeline);
 
 const serving_directory = process.env.DIRECTORY ?? "/store";
 
@@ -11,6 +12,8 @@ const server = fastify({
 	ignoreDuplicateSlashes: true,
 	logger: true
 });
+
+server.register(require("@fastify/multipart"));
 
 server.register(static, {
 	root: join(process.cwd(), "static"),
@@ -22,10 +25,6 @@ server.register(static, {
 	prefix: "/download",
 	decorateReply: false
 });
-
-// server.use(fileUpload({
-// 	createParentPath: true
-// }));
 
 server.get("/path/*", async (request, reply) => {
 	reply.type("text/html");
@@ -93,26 +92,21 @@ server.get("/newfile/:path", function(request, reply) {
 	reply.redirect("/");
 });
 
-server.post("/upload/:path", async (request, reply) => {
-	try {
-		if (!request.files) {
-			reply.send({
-				status: false,
-				message: "No file selected"
-			});
-		} else {
-			let file = request.files.file;
-			file.mv(serving_directory + "/" + (request.params.path.endsWith("/") ? request.params.path : request.params.path + "/") + file.name);
-			reply.redirect("/")
-		}
-	} catch (error) {
-		reply.status(500).send(error);
+server.post("/write/*", async function(request, reply) {
+	const path = serving_directory + request.url.slice(6);
+	
+	if (fs.existsSync(path)) {
+		return reply.status(409).send();
 	}
-});
 
-server.post("/write", function(request, reply) {
-	fs.writeFileSync(serving_directory + request.headers["x-path"], request.body);
-	reply.redirect("/");
+	for await (const part of request.parts()) {
+		if (part.file) {
+			await pipeline(part.file, fs.createWriteStream(serving_directory + "/" + part.filename));
+		}
+	}
+
+	reply.type("text/html");
+	return reply.send("<!DOCTYPE html><html><head><script>history.back();</script></head></html>");
 })
 
 // server.use(function(request, reply) {

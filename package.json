@@ -2,6 +2,7 @@
 	"name": "nas",
 	"version": "0.0.1-alpha0",
 	"dependencies": {
+		"@fastify/multipart": "^7.6.0",
 		"@fastify/static": "^6.10.2",
 		"fastify": "^4.17.0"
 	},

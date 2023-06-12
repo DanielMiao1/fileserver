@@ -93,3 +93,14 @@ main button.selected::after {
 	border: 1px solid #EEE;
 	background-color: rgba(0, 0, 0, 0.2);
 }
+
+form {
+	display: none;
+}
+
+form input {
+	position: fixed;
+	inset: 0;
+	height: 100vh;
+	width: 100vw;
+}
