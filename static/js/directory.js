@@ -12,7 +12,7 @@ function select(element, cumulate) {
 			selected = [selected];
 		}
 
-		if (element.push) {
+		if (typeof element[Symbol.iterator] === "function") {
 			for (const item of element) {
 				item.classList.add("selected");
 			}
@@ -39,7 +39,7 @@ function select(element, cumulate) {
 		return;
 	}
 
-	if (element.push) {
+	if (typeof element[Symbol.iterator] === "function") {
 		selected = [];
 
 		for (const item of element) {
@@ -154,6 +154,10 @@ window.addEventListener("mousemove", function(event) {
 window.addEventListener("keydown", function(event) {
 	if (["Control", "Meta", "Shift"].includes(event.key)) {
 		multi_select = true;
+	}
+
+	if (event.key == "a" && (event.metaKey || event.ctrlKey)) {
+		select(document.getElementsByTagName("main")[0].children);
 	}
 });
 
