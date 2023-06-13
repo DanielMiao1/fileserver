@@ -1,8 +1,9 @@
 import select, { multi_select } from "/static/js/directory/selection.js";
 import createSidebar from "/static/js/directory/sidebar.js";
+import createToolbar from "/static/js/directory/toolbar.js";
 
 export default function loadDirectory(items) {
-	window.loadStylesheets(["/static/css/extensions.css", "/static/css/sidebar.css"]);
+	window.loadStylesheets(["/static/css/extensions.css", "/static/css/toolbars.css"]);
 
 	const container = document.getElementsByTagName("main")[0];
 
@@ -57,4 +58,5 @@ export default function loadDirectory(items) {
 	document.body.appendChild(file_upload_wrapper);
 
 	document.getElementById("container").prepend(createSidebar());
+	document.body.appendChild(createToolbar());
 }

@@ -1,4 +1,5 @@
 import("/static/js/menu.js");
+import("/static/js/history.js")
 
 window.loadStylesheets = paths => {
 	for (const path of paths) {

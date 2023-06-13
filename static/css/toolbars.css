@@ -1,0 +1,94 @@
+#container {
+	padding-top: 7ex;
+	display: grid;
+	grid-template-columns: 30ex auto;
+}
+
+aside {
+	background-color: rgba(0, 0, 0, 0.1);
+	position: sticky;
+	top: 7ex;
+	height: calc(100vh - 7ex);
+	box-sizing: border-box;
+	padding: 5px;
+}
+
+aside * {
+	display: block;
+	padding: 10px;
+}
+
+aside section {
+	font-size: 0.9em;
+}
+
+aside b {
+	color: #888;
+	font-size: 0.9em;
+	letter-spacing: 0.1ex;
+}
+
+aside a {
+	color: black;
+	text-decoration: none;
+	cursor: default;
+	border-radius: 6px;
+}
+
+aside a.icon {
+	background-image: var(--icon);
+	background-repeat: no-repeat;
+	background-size: var(--icon-size, 17px) auto;
+	background-position-y: center;
+	background-position-x: var(--icon-offset, 10px);
+	text-indent: 27px;
+}
+
+aside a.selected {
+	background-color: #DDD;
+}
+
+header {
+	position: fixed;
+	top: 0;
+	height: 7ex;
+	width: 100%;
+	box-sizing: border-box;
+	background-color: #EEE;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0 15px;
+}
+
+header button {
+	position: relative;
+	padding: 5px 10px;
+	min-height: 50%;
+	min-width: 35px;
+	background-color: transparent;
+	border-radius: 5px;
+	border: none;
+}
+
+header button.icon::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: var(--icon);
+	background-size: 25%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+header button.disabled,
+header button.disabled::before {
+	filter: contrast(0.4);
+}
+
+header button:not(.disabled):hover {
+	background-color: rgba(0 0 0 / 7%);
+}
