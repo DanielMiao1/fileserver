@@ -70,7 +70,7 @@ main button::before {
 }
 
 main button.directory::before {
-	background-image: url("/static/img/Directory.webp");
+	background-image: url("/static/img/formats/Directory.webp");
 }
 
 main button::after {
