@@ -3,6 +3,17 @@ class Toolbar {
 		this.element = element;
 	}
 
+	addText(text, classList = []) {
+		const element = document.createElement("p");
+		element.innerText = text;
+		for (const classItem of classList) {
+			element.classList.add(classItem);
+		}
+
+		this.element.appendChild(element);
+		return element;
+	}
+
 	addButton(text, action, classList = []) {
 		const button = document.createElement("button");
 		button.innerText = text;
@@ -30,6 +41,7 @@ export default function createToolbar() {
 			window.history_parsed.pop();
 		}
 	}, window.history_parsed.length < 2 ? ["disabled"] : []);
+	window.toolbar.addText(window.path.split("/").slice(-1)[0] || document.location.hostname);
 
 	return toolbar;
 }
