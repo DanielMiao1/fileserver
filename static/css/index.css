@@ -1,5 +1,4 @@
 @import url("/static/css/menu.css");
-@import url("/static/css/extensions.css");
 
 @font-face {
   font-family: "SF Pro";
@@ -16,12 +15,14 @@
 
 body {
 	font-family: "SF Pro";
+	margin: 0;
 }
 
 main {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, 100px);
 	gap: 20px;
+	padding: 20px;
 }
 
 main button {

@@ -1,0 +1,44 @@
+body > div {
+	display: grid;
+	grid-template-columns: 30ex auto;
+}
+
+aside {
+	background-color: rgba(0, 0, 0, 0.1);
+	font-size: 0.9em;
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	padding: 5px;
+}
+
+aside * {
+	display: block;
+	padding: 10px;
+}
+
+aside b {
+	color: #888;
+	font-size: 0.9em;
+	letter-spacing: 0.1ex;
+}
+
+aside a {
+	color: black;
+	text-decoration: none;
+	cursor: default;
+	border-radius: 6px;
+}
+
+aside a.icon {
+	background-image: var(--icon);
+	background-repeat: no-repeat;
+	background-size: var(--icon-size, 17px) auto;
+	background-position-y: center;
+	background-position-x: var(--icon-offset, 10px);
+	text-indent: 27px;
+}
+
+aside a.selected {
+	background-color: rgba(0, 0, 0, 0.1);
+}

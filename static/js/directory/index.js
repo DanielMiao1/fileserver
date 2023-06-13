@@ -1,6 +1,9 @@
-import { select, multi_select } from "/static/js/directory/selection.js";
+import select, { multi_select } from "/static/js/directory/selection.js";
+import createSidebar from "/static/js/directory/sidebar.js";
 
 export default function loadDirectory(items) {
+	window.loadStylesheets(["/static/css/extensions.css", "/static/css/sidebar.css"]);
+
 	const container = document.getElementsByTagName("main")[0];
 
 	for (const [item, type] of Object.entries(items)) {
@@ -52,4 +55,6 @@ export default function loadDirectory(items) {
 
 	file_upload_wrapper.appendChild(file_upload);
 	document.body.appendChild(file_upload_wrapper);
+
+	document.getElementById("container").prepend(createSidebar());
 }

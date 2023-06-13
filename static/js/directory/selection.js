@@ -1,8 +1,10 @@
-let drag_selection_start_position = false;
 export let multi_select = false;
+let drag_selection_start_position = false;
 let selected;
 
-export function select(element, cumulate) {
+const main = document.getElementsByTagName("main")[0];
+
+export default function select(element, cumulate) {
 	if (element && cumulate) {
 		if (!selected) { 
 			selected = [];
@@ -66,7 +68,7 @@ function dragSelectedItems(selection) {
 	const maxY = minY + height;
 
 
-	for (const item of document.getElementsByTagName("main")[0].children) {
+	for (const item of main.children) {
 		const positions = item.getBoundingClientRect();
 		const x = positions.x;
 		const y = positions.y + window.scrollY;
@@ -81,7 +83,7 @@ function dragSelectedItems(selection) {
 	return selected_items;
 }
 
-window.addEventListener("mousedown", function(event) {
+main.addEventListener("mousedown", function(event) {
 	if (event.button === 0) {
 		drag_selection_start_position = [event.clientX, window.scrollY + event.clientY];
 	}
@@ -157,7 +159,9 @@ window.addEventListener("keydown", function(event) {
 	}
 
 	if (event.key == "a" && (event.metaKey || event.ctrlKey)) {
-		select(document.getElementsByTagName("main")[0].children);
+		select(main.children);
+		event.preventDefault();
+		event.stopPropagation();
 	}
 });
 
