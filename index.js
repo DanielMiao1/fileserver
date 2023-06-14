@@ -14,6 +14,12 @@ const server = fastify({
 });
 
 server.register(require("@fastify/multipart"));
+server.register(require("@fastify/compress"), {
+	threshold: 512,
+	zlibOptions: {
+		level: 9
+	}
+});
 
 server.register(static, {
 	root: join(process.cwd(), "static"),

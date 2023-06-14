@@ -8,4 +8,5 @@ COPY package.json .
 RUN npm install
 COPY . .
 EXPOSE 8192
-CMD ["node", "index.js"]
+ENV NODE_ENV production
+CMD node index.js
