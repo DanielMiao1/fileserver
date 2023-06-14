@@ -1,0 +1,10 @@
+form {
+	display: none;
+}
+
+form input {
+	position: fixed;
+	inset: 0;
+	height: 100vh;
+	width: 100vw;
+}

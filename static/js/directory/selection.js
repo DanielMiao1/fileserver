@@ -83,75 +83,77 @@ function dragSelectedItems(selection) {
 	return selected_items;
 }
 
-main.addEventListener("mousedown", function(event) {
-	if (event.button === 0) {
-		drag_selection_start_position = [event.clientX, window.scrollY + event.clientY];
-	}
+export function initiateDragSelection() {
+	main.addEventListener("mousedown", function(event) {
+		if (event.button === 0) {
+			drag_selection_start_position = [event.clientX, window.scrollY + event.clientY];
+		}
 
-	let ancestor = event.target.parentNode;
+		let ancestor = event.target.parentNode;
 
-	while (ancestor) {
-		if (ancestor.nodeName == "MAIN") {
+		while (ancestor) {
+			if (ancestor.nodeName == "MAIN") {
+				return;
+			}
+
+			ancestor = ancestor.parentNode;
+		}
+
+		if (!multi_select) {
+			select();
+		}
+	});
+
+	window.addEventListener("mouseup", function() {
+		drag_selection_start_position = false;
+
+		if (document.getElementById("drag_selection")) {
+			document.getElementById("drag_selection").parentNode.removeChild(document.getElementById("drag_selection"));
+		}
+	});
+
+	window.addEventListener("mousemove", function(event) {
+		if (!drag_selection_start_position) {
 			return;
 		}
 
-		ancestor = ancestor.parentNode;
-	}
+		let selection = document.getElementById("drag_selection");
 
-	if (!multi_select) {
-		select();
-	}
-});
-
-window.addEventListener("mouseup", function() {
-	drag_selection_start_position = false;
-
-	if (document.getElementById("drag_selection")) {
-		document.getElementById("drag_selection").parentNode.removeChild(document.getElementById("drag_selection"));
-	}
-});
-
-window.addEventListener("mousemove", function(event) {
-	if (!drag_selection_start_position) {
-		return;
-	}
-
-	let selection = document.getElementById("drag_selection");
-
-	if (!selection) {
-		selection = document.createElement("div");
-		selection.id = "drag_selection";
-		selection.style.left = drag_selection_start_position[0] + "px";
-		selection.style.top = drag_selection_start_position[1] + "px";
-		document.body.appendChild(selection);
-	}
-
-	const width = event.clientX - drag_selection_start_position[0];
-	const height = window.scrollY + event.clientY - drag_selection_start_position[1];
-
-	selection.style.width = Math.abs(width) + "px";
-	selection.style.height = Math.abs(height) + "px";
-
-	selection.style.transform = (width < 0 ? `translateX(${width}px)` : "translateX(0)") + " " + (height < 0 ? `translateY(${height}px)` : "translateY(0)");
-
-	if (width < 0) {
-		if (!selection.dataset.negative_width) {
-			selection.dataset.negative_width = "1";
+		if (!selection) {
+			selection = document.createElement("div");
+			selection.id = "drag_selection";
+			selection.style.left = drag_selection_start_position[0] + "px";
+			selection.style.top = drag_selection_start_position[1] + "px";
+			document.body.appendChild(selection);
 		}
-	} else if (selection.dataset.negative_width) {
-		delete selection.dataset.negative_width;
-	}
 
-	if (height < 0) {
-		if (!selection.dataset.negative_height) {
-			selection.dataset.negative_height = "1";
+		const width = event.clientX - drag_selection_start_position[0];
+		const height = window.scrollY + event.clientY - drag_selection_start_position[1];
+
+		selection.style.width = Math.abs(width) + "px";
+		selection.style.height = Math.abs(height) + "px";
+
+		selection.style.transform = (width < 0 ? `translateX(${width}px)` : "translateX(0)") + " " + (height < 0 ? `translateY(${height}px)` : "translateY(0)");
+
+		if (width < 0) {
+			if (!selection.dataset.negative_width) {
+				selection.dataset.negative_width = "1";
+			}
+		} else if (selection.dataset.negative_width) {
+			delete selection.dataset.negative_width;
 		}
-	} else if (selection.dataset.negative_height) {
-		delete selection.dataset.negative_height;
-	}
 
-	select(dragSelectedItems(selection), multi_select);
-});
+		if (height < 0) {
+			if (!selection.dataset.negative_height) {
+				selection.dataset.negative_height = "1";
+			}
+		} else if (selection.dataset.negative_height) {
+			delete selection.dataset.negative_height;
+		}
+
+		select(dragSelectedItems(selection), multi_select);
+	});
+};
 
 window.addEventListener("keydown", function(event) {
 	if (["Control", "Meta", "Shift"].includes(event.key)) {

@@ -1,49 +1,11 @@
-import select, { multi_select } from "/static/js/directory/selection.js";
+import createDirectoryView from "/static/js/directory/view.js";
 import createSidebar from "/static/js/directory/sidebar.js";
 import createToolbar from "/static/js/directory/toolbar.js";
 
 export default function loadDirectory(items) {
-	window.loadStylesheets(["/static/css/extensions.css", "/static/css/toolbars.css"]);
+	window.loadStylesheets(["/static/css/directory/extensions.css", "/static/css/directory/toolbars.css", "/static/css/directory/index.css"]);
 
-	const container = document.getElementsByTagName("main")[0];
-
-	for (const [item, type] of Object.entries(items)) {
-		const button = document.createElement("button");
-		button.title = item;
-		button.dataset.menu = "/static/js/directory/menu.js"
-
-		if (type) {
-			button.classList.add("directory");
-		}
-
-		if (item.startsWith(".")) {
-			button.classList.add("hidden");
-		} else if (!type && item.includes(".")) {
-			button.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1).toLowerCase())
-		}
-
-		button.addEventListener("mousedown", function(event) {
-			if (event.button === 1) {
-				return;
-			}
-
-			select(this, multi_select);
-		});
-
-		button.addEventListener("dblclick", function() {
-			document.location = (
-				document.location.pathname.endsWith("/") ?
-				document.location.pathname :
-				document.location.pathname + "/"
-			) + item;
-		});
-
-		const text_container = document.createElement("span");
-		text_container.innerText = item;
-		button.appendChild(text_container);
-
-		container.appendChild(button);
-	}
+	createDirectoryView(items);
 
 	const file_upload = document.createElement("input");
 	file_upload.type = "file";

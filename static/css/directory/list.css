@@ -1,0 +1,46 @@
+main ul {
+	list-style: none;
+	margin: 0;
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+main ul li {
+	display: flex;
+	flex-direction: row;
+	padding: 2px;
+	border-radius: 5px;
+	padding-left: 15px;
+}
+
+main ul li:nth-child(odd) {
+	background-color: #EEE;
+}
+
+main ul li::before {
+	background-image: url("/static/img/formats/Document.webp");
+}
+
+main ul li.directory::before {
+	background-image: url("/static/img/formats/Directory.webp");
+}
+
+main ul li.selected {
+	background-color: var(--select-color);
+	color: white;
+}
+
+main ul li::before {
+	content: "";
+	width: 20px;
+	padding-right: 3px;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+main ul li p {
+	margin: 0;
+	font-size: 0.9em;
+}
