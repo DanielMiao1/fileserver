@@ -45,27 +45,33 @@ async function regenerateContextMenu(event) {
 		menu.removeChild(menu.firstChild)
 	}
 
-	const target = event.target;
-	if (target.dataset.menu) {
-		try {
-			const { menuHandler } = await import(target.dataset.menu);
+	let target = event.target;
+	while (target) {
+		if (target.dataset && target.dataset.menu) {
+			try {
+				const { menuHandler } = await import(target.dataset.menu);
 
-			if (menuHandler) {
-				appendMenuEntries(menuHandler(event));
-			} else {
-				console.warn(`Context menu handler does not exist in ${target.dataset.menu}`);
+				if (menuHandler) {
+					appendMenuEntries(menuHandler(event));
+					repositionContextMenu(event);
+					openContextMenu();
+					return;
+				} else {
+					console.warn(`Context menu handler does not exist in ${target.dataset.menu}`);
+				}
+			} catch {
+				console.warn(`Importing context menu handler for ${target} failed`);
 			}
-		} catch {
-			console.warn(`Importing context menu handler for ${target} failed`);
+		} else {
+			target = target.parentNode;
 		}
-	} else {
-		appendMenuEntries({
-			"Reload": () => document.location.reload()
-		})
 	}
+	
+	appendMenuEntries({
+		"Reload": () => document.location.reload()
+	})
 
 	repositionContextMenu(event);
-
 	openContextMenu();
 }
 

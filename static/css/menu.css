@@ -11,6 +11,7 @@
 	box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.1);
 	border: 1px solid #DDD;
 	color: #272727;
+	z-index: 1;
 }
 
 #menu button {
