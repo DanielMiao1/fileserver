@@ -165,7 +165,7 @@ window.addEventListener("keydown", function(event) {
 		event.preventDefault();
 		event.stopPropagation();
 	}
-});
+}, true);
 
 window.addEventListener("keyup", function(event) {
 	if (["Control", "Meta", "Shift"].includes(event.key)) {
@@ -176,17 +176,17 @@ window.addEventListener("keyup", function(event) {
 document.addEventListener("dragenter", function(event) {
 	event.preventDefault();
 	event.stopPropagation();
-});
+}, true);
 
 document.addEventListener("dragover", function(event) {
 	event.preventDefault();
 	event.stopPropagation();
-});
+}, true);
 
 document.addEventListener("dragleave", function(event) {
 	event.preventDefault();
 	event.stopPropagation();
-});
+}, true);
 
 document.addEventListener("drop", function(event) {
 	event.preventDefault();
@@ -197,4 +197,4 @@ document.addEventListener("drop", function(event) {
 
 	file.parentNode.action = "/write" + window.path + file.files[0].name;
 	file.parentNode.submit();
-});
+}, true);

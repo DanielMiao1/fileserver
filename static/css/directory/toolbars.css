@@ -20,13 +20,13 @@ aside * {
 }
 
 aside section {
-	font-size: 0.9em;
+	font-size: 0.8em;
 }
 
-aside b {
+aside span {
 	color: #888;
 	font-size: 0.9em;
-	letter-spacing: 0.1ex;
+	font-weight: normal;
 }
 
 aside a {

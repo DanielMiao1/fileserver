@@ -74,7 +74,7 @@ document.addEventListener("contextmenu", async function(event) {
 	event.stopPropagation();
 	await regenerateContextMenu(event);
 	return false;
-});
+}, true);
 
 document.addEventListener("mousedown", function(event) {
 	if (event.button !== 2) {

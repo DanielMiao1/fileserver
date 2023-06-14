@@ -13,7 +13,7 @@ class Sidebar {
 			items: items
 		};
 
-		const title = document.createElement("b");
+		const title = document.createElement("span");
 		title.innerText = name;
 		section.appendChild(title);
 

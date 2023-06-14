@@ -1,10 +1,27 @@
-import select, { multi_select, initiateDragSelection} from "/static/js/directory/selection.js";
+import select, { multi_select, initiateDragSelection} from "./selection.js";
+import filetype, { hasExtension, extension } from "./filetype.js";
 
 if (!localStorage.directory_view) {
 	localStorage.directory_view = "grid";
 }
 
 const container = document.getElementsByTagName("main")[0];
+
+function navigateToRelative(name) {
+	document.location = (
+		document.location.pathname.endsWith("/") ?
+		document.location.pathname :
+		document.location.pathname + "/"
+	) + name;
+}
+
+function selectItem(button, element) {
+	if (button === 1) {
+		return;
+	}
+
+	select(element, multi_select);
+}
 
 function createGridView(items) {
 	window.loadStylesheets(["/static/css/directory/grid.css"]);
@@ -21,25 +38,12 @@ function createGridView(items) {
 
 		if (item.startsWith(".")) {
 			button.classList.add("hidden");
-		} else if (!type && item.includes(".")) {
-			button.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1).toLowerCase())
+		} else if (!type && hasExtension(item)) {
+			button.classList.add("file-" + extension(item))
 		}
 
-		button.addEventListener("mousedown", function(event) {
-			if (event.button === 1) {
-				return;
-			}
-
-			select(this, multi_select);
-		});
-
-		button.addEventListener("dblclick", function() {
-			document.location = (
-				document.location.pathname.endsWith("/") ?
-				document.location.pathname :
-				document.location.pathname + "/"
-			) + item;
-		});
+		button.addEventListener("mousedown", event => selectItem(event.button, button));
+		button.addEventListener("dblclick", () => navigateToRelative(item));
 
 		const text_container = document.createElement("span");
 		text_container.innerText = item;
@@ -54,46 +58,33 @@ function createGridView(items) {
 function createListView(items) {
 	window.loadStylesheets(["/static/css/directory/list.css"]);
 	container.classList.add("list");
-	const list = document.createElement("ul");
-
+	
 	for (const [item, type] of Object.entries(items)) {
-		const row = document.createElement("li")
+		const row = document.createElement("div")
 		row.dataset.menu = "/static/js/directory/menu.js"
+		row.addEventListener("mousedown", event => selectItem(event.button, row));
+		row.addEventListener("dblclick", () => navigateToRelative(item));
+		
 		if (type) {
 			row.classList.add("directory");
 		}
 		if (item.startsWith(".")) {
 			row.classList.add("hidden");
-		} else if (!type && item.includes(".")) {
-			row.classList.add("file-" + item.slice(item.lastIndexOf(".") + 1).toLowerCase())
+		} else if (!type && hasExtension(item)) {
+			row.classList.add("file-" + extension(item))
 		}
-
-		row.addEventListener("mousedown", function(event) {
-			if (event.button === 1) {
-				return;
-			}
-
-			select(this, multi_select);
-		});
-
-		row.addEventListener("dblclick", function() {
-			document.location = (
-				document.location.pathname.endsWith("/") ?
-				document.location.pathname :
-				document.location.pathname + "/"
-			) + item;
-		});
 		
 		const filename = document.createElement("p");
 		filename.innerText = item;
 		filename.title = item;
-
-
 		row.appendChild(filename);
-		list.appendChild(row);
+		
+		const format = document.createElement("p");
+		format.innerText = filetype(item);
+		row.appendChild(format);
+		
+		container.appendChild(row);
 	}
-
-	container.appendChild(list);
 }
 
 export default function createDirectoryView(items) {
