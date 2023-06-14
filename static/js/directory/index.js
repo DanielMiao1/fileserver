@@ -8,6 +8,7 @@ export default function loadDirectory(items) {
 	createDirectoryView(items);
 
 	const file_upload = document.createElement("input");
+	file_upload.multiple = true;
 	file_upload.type = "file";
 	file_upload.id = "file";
 	file_upload.name = "file";

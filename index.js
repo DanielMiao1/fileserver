@@ -13,7 +13,15 @@ const server = fastify({
 	logger: true
 });
 
-server.register(require("@fastify/multipart"));
+server.register(require("@fastify/multipart"), {
+	limits: {
+		fieldNameSize: 1000000000,
+		fieldSize: 1000000000000,
+		fileSize: 1000000000000,
+		files: 1000000000
+	}
+});
+
 server.register(require("@fastify/compress"), {
 	threshold: 512,
 	zlibOptions: {
@@ -100,15 +108,14 @@ server.get("/newfile/:path", function(request, reply) {
 
 server.post("/write/*", async function(request, reply) {
 	const path = serving_directory + request.url.slice(6);
-	
-	if (fs.existsSync(path)) {
-		return reply.status(409).send();
-	}
-
-	for await (const part of request.parts()) {
-		if (part.file) {
-			await pipeline(part.file, fs.createWriteStream(serving_directory + "/" + part.filename));
+		
+	for await (const part of request.files()) {
+		console.log(part.filename);
+		if (fs.existsSync(path + part.filename)) {
+			return reply.status(409).send();
 		}
+
+		pipeline(part.file, fs.createWriteStream(path + part.filename));
 	}
 
 	reply.type("text/html");

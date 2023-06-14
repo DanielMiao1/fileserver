@@ -191,10 +191,10 @@ document.addEventListener("dragleave", function(event) {
 document.addEventListener("drop", function(event) {
 	event.preventDefault();
 	event.stopPropagation();
-
+	
 	const file = document.getElementById("file");
 	file.files = event.dataTransfer.files;
 
-	file.parentNode.action = "/write" + window.path + file.files[0].name;
+	file.parentNode.action = "/write" + window.path + (window.path.endsWith("/") ? "" : "/");
 	file.parentNode.submit();
 }, true);
