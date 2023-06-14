@@ -16,4 +16,9 @@
 body {
 	font-family: "SF Pro";
 	margin: 0;
+	color: #4B4B4B;
+}
+
+main {
+	color: #272727;
 }

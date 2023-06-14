@@ -16,7 +16,7 @@ main ul li {
 }
 
 main ul li:nth-child(odd) {
-	background-color: #EEE;
+	background-color: #F5F5F5;
 }
 
 main ul li::before {
