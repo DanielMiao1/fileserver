@@ -1,6 +1,6 @@
 export let multi_select = false;
+export let selected;
 let drag_selection_start_position = false;
-let selected;
 
 const main = document.getElementsByTagName("main")[0];
 

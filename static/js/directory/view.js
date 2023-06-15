@@ -1,5 +1,6 @@
 import select, { multi_select, initiateDragSelection} from "./selection.js";
 import filetype, { hasExtension, extension } from "./filetype.js";
+import isGridView, { handleArrowUpKey, handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
 
 if (!localStorage.directory_view) {
 	localStorage.directory_view = "grid";
@@ -88,9 +89,34 @@ function createListView(items) {
 }
 
 export default function createDirectoryView(items) {
-	if (localStorage.directory_view === "grid") {
+	if (!Object.keys(items).length) {
+		return;
+	}
+	
+	if (isGridView()) {
 		createGridView(items);
 	} else {
 		createListView(items);
 	}
+
+	window.addEventListener("keydown", event => {
+		switch (event.key) {
+			case "ArrowUp":
+				handleArrowUpKey(event);
+				scrollSelectionIntoView();
+				break;
+			case "ArrowDown":
+				handleArrowDownKey(event);
+				scrollSelectionIntoView();
+				break;
+			case "ArrowLeft":
+				handleArrowLeftKey(event);
+				scrollSelectionIntoView();
+				break;
+			case "ArrowRight":
+				handleArrowRightKey(event);
+				scrollSelectionIntoView();
+				break;
+		}
+	});
 }
