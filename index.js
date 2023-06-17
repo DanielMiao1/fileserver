@@ -35,6 +35,10 @@ server.register(static, {
 });
 
 server.register(static, {
+	setHeaders: (response, path) => {
+		response.setHeader("Content-Disposition", `attachment; filename="${path.slice(path.lastIndexOf("/") + 1)}"`);
+		response.setHeader("Cache-Control", "no-store");
+	},
 	root: serving_directory,
 	prefix: "/raw",
 	decorateReply: false
@@ -42,7 +46,6 @@ server.register(static, {
 
 server.get("/path/*", async (request, reply) => {
 	reply.type("text/html");
-	reply.header("Cache-Control", "no-store");
 	return fs.readFileSync(join(process.cwd(), "index.html"));
 });
 

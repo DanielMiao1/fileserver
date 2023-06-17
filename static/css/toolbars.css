@@ -1,7 +1,7 @@
 #container {
 	padding-top: var(--toolbar-height);
 	display: grid;
-	grid-template-columns: 30ex auto;
+	grid-template-columns: var(--sidebar-width) auto;
 }
 
 aside {

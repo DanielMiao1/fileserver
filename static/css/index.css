@@ -13,6 +13,7 @@
 :root {
 	--select-color: #0c79df;
 	--toolbar-height: 7ex;
+	--sidebar-width: 30ex;
 }
 
 body {
