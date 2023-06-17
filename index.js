@@ -36,7 +36,7 @@ server.register(static, {
 
 server.register(static, {
 	root: serving_directory,
-	prefix: "/download",
+	prefix: "/raw",
 	decorateReply: false
 });
 
@@ -54,9 +54,9 @@ server.get("/", function(request, reply) {
 	reply.redirect("/path/");
 });
 
-server.get("/raw/*", function(request, reply) {
+server.get("/data/*", function(request, reply) {
 	reply.header("Cache-Control", "no-store");
-	const path = serving_directory + request.url.slice(4);
+	const path = serving_directory + request.url.slice(5);
 
 	if (!fs.existsSync(path)) {
 		reply.status(404).send();
@@ -75,11 +75,10 @@ server.get("/raw/*", function(request, reply) {
 		reply.send({
 			type: "file",
 			size: stat.size,
-			encoding: stat.size <= 2000000 && execSync("uchardet " + path).toString().slice(0, -1),
-			data: fs.readFileSync(path, "utf8")
+			encoding: stat.size <= 2000000 && execSync("uchardet " + path).toString().slice(0, -1)
 		});
 	};
-})
+});
 
 server.get("/rename/:from/:to", function(request, reply) {
 	fs.renameSync(serving_directory + request.params.from, serving_directory + request.params.to);

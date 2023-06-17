@@ -10,8 +10,10 @@ window.loadStylesheets = paths => {
 	}
 }
 
-fetch("/raw" + window.path).then(data => data.json()).then(data => {
+fetch("/data" + window.path).then(data => data.json()).then(data => {
 	if (data.type == "directory") {
-		import("/static/js/directory/index.js").then(directory => directory.default(data.data));
+		import("/static/js/directory/index.js").then(directory => directory.default(data));
+	} else {
+		import("/static/js/file/index.js").then(file => file.default(data));
 	}
 });

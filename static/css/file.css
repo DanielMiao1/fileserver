@@ -1,0 +1,9 @@
+main {
+	display: flex;
+	justify-content: center;
+	background-color: #969696;
+}
+
+main img {
+	height: calc(100vh - var(--toolbar-height));
+}

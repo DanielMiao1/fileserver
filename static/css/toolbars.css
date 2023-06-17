@@ -1,5 +1,5 @@
 #container {
-	padding-top: 7ex;
+	padding-top: var(--toolbar-height);
 	display: grid;
 	grid-template-columns: 30ex auto;
 }
@@ -7,8 +7,8 @@
 aside {
 	background-color: #E5E5E5;
 	position: sticky;
-	top: 7ex;
-	height: calc(100vh - 7ex);
+	top: var(--toolbar-height);
+	height: calc(100vh - var(--toolbar-height));
 	box-sizing: border-box;
 	padding: 5px;
 	color: #3C3C3C;
@@ -52,7 +52,7 @@ aside a.selected {
 header {
 	position: fixed;
 	top: 0;
-	height: 7ex;
+	height: var(--toolbar-height);
 	width: 100%;
 	box-sizing: border-box;
 	background-color: #F0F0F0;

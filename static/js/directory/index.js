@@ -1,11 +1,11 @@
-import createDirectoryView from "/static/js/directory/view.js";
-import createSidebar from "/static/js/directory/sidebar.js";
-import createToolbar from "/static/js/directory/toolbar.js";
+import createDirectoryView from "./view.js";
+import createSidebar from "../sidebar.js";
+import createToolbar from "../toolbar.js";
 
-export default function loadDirectory(items) {
-	window.loadStylesheets(["/static/css/directory/extensions.css", "/static/css/directory/toolbars.css", "/static/css/directory/index.css"]);
+export default function loadDirectory(data) {
+	window.loadStylesheets(["/static/css/directory/extensions.css", "/static/css/directory/index.css"]);
 
-	createDirectoryView(items);
+	createDirectoryView(data.data);
 
 	const file_upload = document.createElement("input");
 	file_upload.multiple = true;
@@ -21,5 +21,5 @@ export default function loadDirectory(items) {
 	document.body.appendChild(file_upload_wrapper);
 
 	document.getElementById("container").prepend(createSidebar());
-	document.body.appendChild(createToolbar());
+	document.body.appendChild(createToolbar(true));
 }

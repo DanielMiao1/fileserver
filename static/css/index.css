@@ -1,4 +1,5 @@
 @import url("/static/css/menu.css");
+@import url("/static/css/toolbars.css");
 
 @font-face {
   font-family: "SF Pro";
@@ -11,6 +12,7 @@
 
 :root {
 	--select-color: #0c79df;
+	--toolbar-height: 7ex;
 }
 
 body {

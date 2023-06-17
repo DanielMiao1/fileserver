@@ -1,5 +1,5 @@
 import select, { multi_select, initiateDragSelection} from "./selection.js";
-import filetype, { hasExtension, extension } from "./filetype.js";
+import filetype, { hasExtension, extension } from "../filetype.js";
 import isGridView, { handleArrowUpKey, handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
 
 if (!localStorage.directory_view) {

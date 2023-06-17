@@ -45,7 +45,7 @@ class Toolbar {
 	}
 }
 
-export default function createToolbar() {
+export default function createToolbar(directory_view) {
 	const toolbar = document.createElement("header");
 	window.toolbar = new Toolbar(toolbar);
 	window.toolbar.addIcon("***REMOVED***", () => {
@@ -54,24 +54,26 @@ export default function createToolbar() {
 		}
 	}, window.history_parsed.length < 2 ? ["disabled"] : []);
 	window.toolbar.addText(window.path.split("/").slice(-1)[0] || document.location.hostname);
-	window.toolbar.addStretch();
-	const grid_view = window.toolbar.addIcon("***REMOVED***", () => {
-		if (localStorage.directory_view !== "grid") {
-			localStorage.directory_view = "grid";
-			document.location.reload();
-		}
-	}, [], "40%");
-	const list_view = window.toolbar.addIcon("***REMOVED***", () => {
-		if (localStorage.directory_view !== "list") {
-			localStorage.directory_view = "list";
-			document.location.reload();
-		}
-	}, [], "40%");
+	if (directory_view) {
+		window.toolbar.addStretch();
+		const grid_view = window.toolbar.addIcon("***REMOVED***", () => {
+			if (localStorage.directory_view !== "grid") {
+				localStorage.directory_view = "grid";
+				document.location.reload();
+			}
+		}, [], "40%");
+		const list_view = window.toolbar.addIcon("***REMOVED***", () => {
+			if (localStorage.directory_view !== "list") {
+				localStorage.directory_view = "list";
+				document.location.reload();
+			}
+		}, [], "40%");
 
-	if (localStorage.directory_view === "grid") {
-		grid_view.classList.add("selected");
-	} else {
-		list_view.classList.add("selected");
+		if (localStorage.directory_view === "grid") {
+			grid_view.classList.add("selected");
+		} else {
+			list_view.classList.add("selected");
+		}
 	}
 
 	return toolbar;
