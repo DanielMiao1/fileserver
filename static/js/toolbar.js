@@ -53,7 +53,7 @@ export default function createToolbar(directory_view) {
 			window.history_parsed.pop();
 		}
 	}, window.history_parsed.length < 2 ? ["disabled"] : []);
-	window.toolbar.addText(window.path.split("/").slice(-1)[0] || document.location.hostname);
+	window.toolbar.addText(decodeURIComponent(window.path.slice(window.path.lastIndexOf("/") + 1)) || document.location.hostname);
 	if (directory_view) {
 		window.toolbar.addStretch();
 		const grid_view = window.toolbar.addIcon("***REMOVED***", () => {

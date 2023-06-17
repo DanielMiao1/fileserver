@@ -59,10 +59,10 @@ server.get("/", function(request, reply) {
 
 server.get("/data/*", function(request, reply) {
 	reply.header("Cache-Control", "no-store");
-	const path = serving_directory + request.url.slice(5);
+	const path = serving_directory + decodeURIComponent(request.url.slice(5));
 
 	if (!fs.existsSync(path)) {
-		reply.status(404).send();
+		return reply.status(404).send();
 	}
 
 	const stat = fs.statSync(path)
@@ -112,7 +112,6 @@ server.post("/write/*", async function(request, reply) {
 	const path = serving_directory + request.url.slice(6);
 		
 	for await (const part of request.files()) {
-		console.log(part.filename);
 		if (fs.existsSync(path + part.filename)) {
 			return reply.status(409).send();
 		}
