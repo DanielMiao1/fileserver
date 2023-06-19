@@ -45,7 +45,7 @@ class Toolbar {
 	}
 }
 
-export default function createToolbar(directory_view) {
+export default function createToolbar() {
 	const toolbar = document.createElement("header");
 	window.toolbar = new Toolbar(toolbar);
 	window.toolbar.addIcon("***REMOVED***", () => {
@@ -54,27 +54,6 @@ export default function createToolbar(directory_view) {
 		}
 	}, window.history_parsed.length < 2 ? ["disabled"] : []);
 	window.toolbar.addText(decodeURIComponent(window.path.slice(window.path.lastIndexOf("/") + 1)) || document.location.hostname);
-	if (directory_view) {
-		window.toolbar.addStretch();
-		const grid_view = window.toolbar.addIcon("***REMOVED***", () => {
-			if (localStorage.directory_view !== "grid") {
-				localStorage.directory_view = "grid";
-				document.location.reload();
-			}
-		}, [], "40%");
-		const list_view = window.toolbar.addIcon("***REMOVED***", () => {
-			if (localStorage.directory_view !== "list") {
-				localStorage.directory_view = "list";
-				document.location.reload();
-			}
-		}, [], "40%");
-
-		if (localStorage.directory_view === "grid") {
-			grid_view.classList.add("selected");
-		} else {
-			list_view.classList.add("selected");
-		}
-	}
 
 	return toolbar;
 }

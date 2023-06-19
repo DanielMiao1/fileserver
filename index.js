@@ -57,6 +57,10 @@ server.get("/", function(request, reply) {
 	reply.redirect("/path/");
 });
 
+server.get("/favicon.ico", function(request, reply) {
+	reply.redirect("/static/favicon.ico");
+});
+
 server.get("/data/*", function(request, reply) {
 	reply.header("Cache-Control", "no-store");
 	const path = serving_directory + decodeURIComponent(request.url.slice(5));

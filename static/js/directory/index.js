@@ -2,6 +2,30 @@ import createDirectoryView from "./view.js";
 import createSidebar from "../sidebar.js";
 import createToolbar from "../toolbar.js";
 
+function populateToolbar() {
+	window.toolbar.addStretch();
+
+	const grid_view = window.toolbar.addIcon("***REMOVED***", () => {
+		if (localStorage.directory_view !== "grid") {
+			localStorage.directory_view = "grid";
+			document.location.reload();
+		}
+	}, [], "40%");
+
+	const list_view = window.toolbar.addIcon("***REMOVED***", () => {
+		if (localStorage.directory_view !== "list") {
+			localStorage.directory_view = "list";
+			document.location.reload();
+		}
+	}, [], "40%");
+
+	if (localStorage.directory_view === "grid") {
+		grid_view.classList.add("selected");
+	} else {
+		list_view.classList.add("selected");
+	}
+}
+
 export default function loadDirectory(data) {
 	window.loadStylesheets(["/static/css/directory/extensions.css", "/static/css/directory/index.css"]);
 
@@ -21,5 +45,6 @@ export default function loadDirectory(data) {
 	document.body.appendChild(file_upload_wrapper);
 
 	document.getElementById("container").prepend(createSidebar());
-	document.body.appendChild(createToolbar(true));
+	document.body.appendChild(createToolbar());
+	populateToolbar();
 }
