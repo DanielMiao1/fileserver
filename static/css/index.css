@@ -16,10 +16,17 @@
 	--sidebar-width: 30ex;
 }
 
-body {
-	font-family: "SF Pro";
+* {
 	margin: 0;
+}
+
+body {
 	color: #4B4B4B;
+}
+
+body,
+button span {
+	font-family: "SF Pro";
 }
 
 main {

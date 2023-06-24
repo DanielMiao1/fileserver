@@ -40,6 +40,15 @@ server.register(static, {
 		response.setHeader("Cache-Control", "no-store");
 	},
 	root: serving_directory,
+	prefix: "/download",
+	decorateReply: false
+});
+
+server.register(static, {
+	setHeaders: (response, path) => {
+		response.setHeader("Cache-Control", "no-store");
+	},
+	root: serving_directory,
 	prefix: "/raw",
 	decorateReply: false
 });
