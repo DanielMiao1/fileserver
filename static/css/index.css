@@ -1,5 +1,5 @@
-@import url("/static/css/menu.css");
-@import url("/static/css/toolbars.css");
+@import url("./menu.css");
+@import url("./toolbars.css");
 
 @font-face {
   font-family: "SF Pro";

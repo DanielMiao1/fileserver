@@ -9,6 +9,7 @@ const extensions = {
 	"au": "Audacity Audio",
 	"avchd": "AVCHD Video",
 	"avif": "AV1 Image",
+	"awk": "AWK Source File",
 	"band": "Apple GarageBand Project",
 	"bash": "Bash Shell Script",
 	"bat": "DOS Batch File",
@@ -173,7 +174,7 @@ export default function filetype(filename) {
 		return "AppleScript Source File";
 	}
 
-	if (["c#", "cs"].includes(format)) {
+	if (["c#", "cs", "csx"].includes(format)) {
 		return "C# Source File";
 	}
 
@@ -295,6 +296,10 @@ export default function filetype(filename) {
 
 	if (["m2v", "m2p", "mp2v", "mpeg2"].includes(format)) {
 		return "MPEG-2 Video";
+	}
+
+	if (["md", "mdx"].includes(format)) {
+		return "Markdown Source File";
 	}
 
 	if (["mht", "mhtml"].includes(format)) {
