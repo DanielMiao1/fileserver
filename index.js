@@ -96,13 +96,13 @@ server.get("/data/*", function(request, reply) {
 	};
 });
 
-server.get("/rename/:from/:to", function(request, reply) {
-	fs.renameSync(serving_directory + request.params.from, serving_directory + request.params.to);
+server.delete("/:path", function(request, reply) {
+	fs.unlinkSync(serving_directory + request.params.path);
 	reply.redirect("/");
 });
 
-server.get("/delete/:path", function(request, reply) {
-	fs.unlinkSync(serving_directory + request.params.path);
+server.get("/rename/:from/:to", function(request, reply) {
+	fs.renameSync(serving_directory + request.params.from, serving_directory + request.params.to);
 	reply.redirect("/");
 });
 
@@ -121,7 +121,7 @@ server.get("/newfile/:path", function(request, reply) {
 	reply.redirect("/");
 });
 
-server.post("/write/*", async function(request, reply) {
+server.post("/*", async function(request, reply) {
 	const path = serving_directory + request.url.slice(6);
 		
 	for await (const part of request.files()) {

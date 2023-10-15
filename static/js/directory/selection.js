@@ -195,6 +195,6 @@ document.addEventListener("drop", function(event) {
 	const file = document.getElementById("file");
 	file.files = event.dataTransfer.files;
 
-	file.parentNode.action = "/write" + window.path + (window.path.endsWith("/") ? "" : "/");
+	file.parentNode.action = window.path + (window.path.endsWith("/") ? "" : "/");
 	file.parentNode.submit();
 }, true);
