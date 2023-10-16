@@ -2,7 +2,7 @@ const fastify = require("fastify");
 const static = require("@fastify/static");
 const fs = require("fs");
 const { join } = require("path");
-const { execSync } = require("child_process");
+const { spawnSync } = require("child_process");
 
 const pipeline = require("util").promisify(require("stream").pipeline);
 
@@ -91,7 +91,7 @@ server.get("/data/*", function(request, reply) {
 		reply.send({
 			type: "file",
 			size: stat.size,
-			encoding: stat.size <= 2000000 && execSync("uchardet " + path).toString().slice(0, -1)
+			encoding: stat.size <= 2000000 && spawnSync("uchardet", [path]).stdout.toString().slice(0, -1)
 		});
 	};
 });
@@ -125,21 +125,18 @@ server.post("/*", async function(request, reply) {
 	const path = serving_directory + request.url.slice(6);
 		
 	for await (const part of request.files()) {
-		if (fs.existsSync(path + part.filename)) {
+		const file_path = `${path}/${part.filename}`;
+		
+		if (fs.existsSync(file_path)) {
 			return reply.status(409).send();
 		}
 
-		pipeline(part.file, fs.createWriteStream(path + part.filename));
+		pipeline(part.file, fs.createWriteStream(file_path));
 	}
 
 	reply.type("text/html");
 	return reply.send("<!DOCTYPE html><html><head><script>history.back();</script></head></html>");
-})
-
-// server.use(function(request, reply) {
-// 	reply.status(404);
-// 	reply.redirect("/");
-// });
+});
 
 const start = async () => {
 	try {

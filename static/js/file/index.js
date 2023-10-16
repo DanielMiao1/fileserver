@@ -1,7 +1,7 @@
 import createSidebar from "../sidebar.js";
 import createToolbar from "../toolbar.js";
 import { extension } from "../filetype.js";
-import { default as loadText } from "./loaders/text.js";
+import load, { default as loadText } from "./loaders/text.js";
 import { default as loadImage } from "./loaders/image.js";
 import { default as loadPDF } from "./loaders/pdf.js";
 

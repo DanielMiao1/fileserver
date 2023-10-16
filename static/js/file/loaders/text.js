@@ -1,12 +1,4 @@
-export default async function load(source, language) {
-	if (language) {
-		const script = document.createElement("script");
-		script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js";
-		script.integrity = "sha512-rdhY3cbXURo13l/WU9VlaRyaIYeJ/KBakckXIvJNAQde8DgpOmE+eZf7ha4vdqVjTtwQt69bD2wH2LXob/LB7Q==";
-		script.crossOrigin = "anonymous";
-		document.body.appendChild(script);
-	}
-	
+async function createElements(source, language) {
 	window.loadStylesheets(["/static/css/file/loaders/text.css"]);
 
 	const data = await (await fetch(source)).text();
@@ -26,7 +18,25 @@ export default async function load(source, language) {
 	} else {
 		code.innerText = data;
 	}
-	text.appendChild(code)
+	text.appendChild(code);
 
 	return text;
+}
+
+export default async function load(source, language) {
+	if (language) {
+		const script = document.createElement("script");
+		script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js";
+		script.integrity = "sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==";
+		script.crossOrigin = "anonymous";
+		document.body.appendChild(script);
+
+		return new Promise(resolve => {
+			script.addEventListener("load", async () => {
+				resolve(await createElements(source, language));
+			});
+		});
+	} else {
+		return await createElements(source, language);
+	}
 }
