@@ -138,6 +138,10 @@ server.post("/*", async (request, reply) => {
 	return reply.send("<!DOCTYPE html><html><head><script>history.back();</script></head></html>");
 });
 
+server.get("*", async (request, reply) => {
+	reply.redirect("/path" + request.url);
+});
+
 const start = async () => {
 	try {
 		await server.listen({ port: 8192, host: "0.0.0.0" });

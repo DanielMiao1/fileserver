@@ -1,9 +1,9 @@
-import createSidebar from "../sidebar.js";
-import createToolbar from "../toolbar.js";
-import { extension } from "../filetype.js";
-import load, { default as loadText } from "./loaders/text.js";
-import { default as loadImage } from "./loaders/image.js";
-import { default as loadPDF } from "./loaders/pdf.js";
+import createSidebar from "/static/js/sidebar.js";
+import createToolbar from "/static/js/toolbar.js";
+import { extension } from "/static/js/filetype.js";
+import { default as loadText } from "/static/js/file/loaders/text.js";
+import { default as loadImage } from "/static/js/file/loaders/image.js";
+import { default as loadPDF } from "/static/js/file/loaders/pdf.js";
 
 const main = document.getElementsByTagName("main")[0];
 const source = "/raw" + window.path;

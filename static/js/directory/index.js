@@ -1,6 +1,6 @@
-import createDirectoryView from "./view.js";
-import createSidebar from "../sidebar.js";
-import createToolbar from "../toolbar.js";
+import createDirectoryView from "/static/js/directory/view.js";
+import createSidebar from "/static/js/sidebar.js";
+import createToolbar from "/static/js/toolbar.js";
 
 function populateToolbar() {
 	window.toolbar.addStretch();
