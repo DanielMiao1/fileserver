@@ -45,7 +45,7 @@ server.register(static, {
 });
 
 server.register(static, {
-	setHeaders: (response, path) => {
+	setHeaders: (response) => {
 		response.setHeader("Cache-Control", "no-store");
 	},
 	root: serving_directory,
@@ -53,24 +53,24 @@ server.register(static, {
 	decorateReply: false
 });
 
-server.get("/path/*", async (request, reply) => {
+server.get("/path/*", async (_, reply) => {
 	reply.type("text/html");
 	return fs.readFileSync(join(process.cwd(), "index.html"));
 });
 
-server.get("/path", function(request, reply) {
+server.get("/path", async (_, reply) => {
 	reply.redirect("/path/");
 });
 
-server.get("/", function(request, reply) {
+server.get("/", async (_, reply) => {
 	reply.redirect("/path/");
 });
 
-server.get("/favicon.ico", function(request, reply) {
+server.get("/favicon.ico", async (_, reply) => {
 	reply.redirect("/static/favicon.ico");
 });
 
-server.get("/data/*", function(request, reply) {
+server.get("/data/*", async (request, reply) => {
 	reply.header("Cache-Control", "no-store");
 	const path = serving_directory + decodeURIComponent(request.url.slice(5));
 
@@ -96,32 +96,32 @@ server.get("/data/*", function(request, reply) {
 	};
 });
 
-server.delete("/:path", function(request, reply) {
+server.delete("/:path", async (request, reply) => {
 	fs.unlinkSync(serving_directory + request.params.path);
 	reply.redirect("/");
 });
 
-server.get("/rename/:from/:to", function(request, reply) {
+server.get("/rename/:from/:to", async (request, reply) => {
 	fs.renameSync(serving_directory + request.params.from, serving_directory + request.params.to);
 	reply.redirect("/");
 });
 
-server.get("/deletedir/:path", function(request, reply) {
+server.get("/deletedir/:path", async (request, reply) => {
 	fs.rmSync(serving_directory + request.params.path, { recursive: true, force: true });
 	reply.redirect("/");
 });
 
-server.get("/newdir/:path", function(request, reply) {
+server.get("/newdir/:path", async (request, reply) => {
 	fs.mkdirSync(serving_directory + request.params.path);
 	reply.redirect("/");
 });
 
-server.get("/newfile/:path", function(request, reply) {
+server.get("/newfile/:path", async (request, reply) => {
 	fs.writeFileSync(serving_directory + request.params.path, "");
 	reply.redirect("/");
 });
 
-server.post("/*", async function(request, reply) {
+server.post("/*", async (request, reply) => {
 	const path = serving_directory + request.url.slice(6);
 		
 	for await (const part of request.files()) {
