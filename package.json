@@ -2,10 +2,10 @@
 	"name": "nas",
 	"version": "0.0.1-alpha0",
 	"dependencies": {
-		"@fastify/compress": "^6.4.0",
-		"@fastify/multipart": "^7.6.0",
-		"@fastify/static": "^6.10.2",
-		"fastify": "^4.17.0"
+		"@fastify/compress": "^7.0.3",
+		"@fastify/multipart": "^8.2.0",
+		"@fastify/static": "^7.0.4",
+		"fastify": "^4.27.0"
 	},
 	"engines": {
 		"node": ">=18"
