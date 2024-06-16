@@ -96,9 +96,9 @@ server.get("/data/*", async (request, reply) => {
 	};
 });
 
-server.delete("/:path", async (request, reply) => {
-	fs.unlinkSync(serving_directory + request.params.path);
-	reply.redirect("/");
+server.delete("/path/:path", async (request, reply) => {
+	fs.unlinkSync(`${serving_directory}/${request.params.path}`);
+	reply.send();
 });
 
 server.get("/rename/:from/:to", async (request, reply) => {
@@ -123,7 +123,7 @@ server.get("/newfile/:path", async (request, reply) => {
 
 server.post("/*", async (request, reply) => {
 	const path = serving_directory + request.url.slice(6);
-		
+
 	for await (const part of request.files()) {
 		const file_path = `${path}/${part.filename}`;
 		
