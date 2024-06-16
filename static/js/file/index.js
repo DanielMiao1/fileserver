@@ -1,13 +1,14 @@
 import createSidebar from "/static/js/sidebar.js";
 import createToolbar from "/static/js/toolbar.js";
 import { extension } from "/static/js/filetype.js";
+import { initiateDownloader } from "/static/js/download.js"
 import { default as loadText } from "/static/js/file/loaders/text.js";
 import { default as loadImage } from "/static/js/file/loaders/image.js";
 import { default as loadPDF } from "/static/js/file/loaders/pdf.js";
 
 const main = document.getElementsByTagName("main")[0];
 const source = "/raw" + window.path;
-let download;
+let download_iframe;
 
 function loadElement(element) {
 	document.getElementsByClassName("loading")[0].remove();
@@ -22,7 +23,7 @@ export default async function loadFile(data) {
 
 	window.toolbar.addStretch();
 	window.toolbar.addIcon("***REMOVED***", () => {
-		download.src = "/download" + window.path;
+		download_iframe.src = "/download" + window.path;
 	}, [], "40%");
 
 	const loading = document.createElement("p");
@@ -119,7 +120,5 @@ export default async function loadFile(data) {
 
 	loader.then(loadElement);
 
-	download = document.createElement("iframe");
-	download.style.display = "none";
-	document.body.appendChild(download);
+	download_iframe = initiateDownloader();
 }

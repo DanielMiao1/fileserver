@@ -8,6 +8,12 @@ export function menuHandler(event) {
 			) + event.target.title, {method: "DELETE"}
 		),
 		"Rename": () => event.target.click(),
-		"Download": () => event.target.click(),
+		"Download": () => document.getElementById("downloader").src = (
+			"/download" + (
+				document.location.pathname.endsWith("/") ?
+				document.location.pathname :
+				document.location.pathname + "/"
+			).slice(5) + event.target.title
+		)
 	}
 }

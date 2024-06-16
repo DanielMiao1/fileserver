@@ -1,6 +1,7 @@
 import createDirectoryView from "/static/js/directory/view.js";
 import createSidebar from "/static/js/sidebar.js";
 import createToolbar from "/static/js/toolbar.js";
+import { initiateDownloader } from "/static/js/download.js"
 
 function populateToolbar() {
 	window.toolbar.addStretch();
@@ -47,4 +48,6 @@ export default function loadDirectory(data) {
 	document.getElementById("container").prepend(createSidebar());
 	document.body.appendChild(createToolbar());
 	populateToolbar();
+
+	initiateDownloader();
 }
