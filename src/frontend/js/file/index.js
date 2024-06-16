@@ -15,7 +15,7 @@ function loadElement(element) {
 	main.appendChild(element);
 }
 
-export default async function loadFile(data) {
+export default async function loadFile() {
 	window.loadStylesheets(["/static/css/file/index.css"]);
 
 	document.getElementById("container").prepend(createSidebar());

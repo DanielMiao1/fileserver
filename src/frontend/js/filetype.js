@@ -41,7 +41,6 @@ const extensions = {
 	"jxr": "JPEG-XR Image",
 	"less": "CSS/LESS Source File",
 	"log": "Log File",
-	"log": "Localized PDF Document",
 	"m": "Objective-C Source File",
 	"mm": "Objective-C++ Source File",
 	"m2t": "HDV Video",
