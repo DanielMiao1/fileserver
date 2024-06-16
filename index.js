@@ -97,17 +97,18 @@ server.get("/data/*", async (request, reply) => {
 });
 
 server.delete("/path/:path", async (request, reply) => {
-	fs.unlinkSync(`${serving_directory}/${request.params.path}`);
+	const path = `${serving_directory}/${request.params.path}`;
+	if (fs.statSync(path).isDirectory()) {
+		fs.rmSync(path, { recursive: true, force: true });
+	} else {
+		fs.unlinkSync(path);
+	}
+	
 	reply.send();
 });
 
 server.get("/rename/:from/:to", async (request, reply) => {
 	fs.renameSync(serving_directory + request.params.from, serving_directory + request.params.to);
-	reply.redirect("/");
-});
-
-server.get("/deletedir/:path", async (request, reply) => {
-	fs.rmSync(serving_directory + request.params.path, { recursive: true, force: true });
 	reply.redirect("/");
 });
 
