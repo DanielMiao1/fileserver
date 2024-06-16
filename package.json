@@ -1,6 +1,10 @@
 {
 	"name": "nas",
 	"version": "0.0.1-alpha0",
+	"type": "module",
+	"scripts": {
+		"start": "node src/backend/index.js"
+	},
 	"dependencies": {
 		"@fastify/compress": "^7.0.3",
 		"@fastify/multipart": "^8.3.0",

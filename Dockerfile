@@ -5,8 +5,8 @@ RUN apt update
 RUN apt install -y uchardet
 
 COPY package.json .
-RUN npm install
+RUN npm ci
 COPY . .
 EXPOSE 8192
 ENV NODE_ENV production
-CMD node index.js
+CMD npm start
