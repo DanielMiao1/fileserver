@@ -13,7 +13,7 @@ const serving_directory = process.env.DIRECTORY ?? "/store";
 
 const server = fastify({
 	ignoreDuplicateSlashes: true,
-	// logger: true
+	logger: process.env.NODE_ENV !== "production"
 });
 
 registerMultipartHooks(server);
@@ -82,7 +82,7 @@ server.delete("/*", async (request, reply) => {
 		serving_directory + "/"
 		+ decodeURIComponent(request.url).slice(6)
 	);
-	
+
 	if (fs.statSync(path).isDirectory()) {
 		fs.rmSync(path, { recursive: true, force: true });
 	} else {
