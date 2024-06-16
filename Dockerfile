@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 RUN apt update
 RUN apt install -y uchardet
 
-COPY package.json .
+COPY package.json package-lock.json .
 RUN npm ci
 COPY . .
 EXPOSE 8192
