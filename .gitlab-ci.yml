@@ -1,7 +1,7 @@
 test:
   stage: test
   environment: production
-  script: npm run lint
+  script: npm ci; npm run lint
 
 deploy:
   stage: deploy
