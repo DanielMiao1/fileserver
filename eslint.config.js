@@ -5,7 +5,10 @@ export default [
 	{
 		files: ["src/frontend/**/*.js"],
 		languageOptions: {
-			globals: globals.browser
+			globals: {
+				...globals.browser,
+				hljs: "readonly"
+			}
 		}
 	},
 	{

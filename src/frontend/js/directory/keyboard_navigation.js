@@ -59,7 +59,7 @@ export function handleArrowUpKey(event) {
 
 	if (isGridView()) {
 		let sibling = getFirstSelectedItem();
-		for (const _ of Array(gridViewColumns())) {
+		for (let index = 0; index < gridViewColumns(); index++) {
 			sibling = sibling.previousElementSibling;
 
 			if (!sibling) {
@@ -83,7 +83,7 @@ export function handleArrowDownKey(event) {
 
 	if (isGridView()) {
 		let sibling = getFirstSelectedItem();
-		for (const _ of Array(gridViewColumns())) {
+		for (let index = 0; index < gridViewColumns(); index++) {
 			sibling = sibling.nextElementSibling;
 
 			if (!sibling) {
