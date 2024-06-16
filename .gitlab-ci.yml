@@ -1,6 +1,5 @@
 test:
   stage: test
-  image: node:22
   environment: production
   script: npm run lint
 
