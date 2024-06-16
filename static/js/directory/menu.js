@@ -6,7 +6,7 @@ export function menuHandler(event) {
 				document.location.pathname :
 				document.location.pathname + "/"
 			) + event.target.title, {method: "DELETE"}
-		),
+		).then(document.location.reload()),
 		"Rename": () => event.target.click(),
 		"Download": () => document.getElementById("downloader").src = (
 			"/download" + (
