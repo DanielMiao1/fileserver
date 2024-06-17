@@ -19,6 +19,7 @@ function applyRename(old_filename) {
 	});
 }
 
+// eslint-disable-next-line max-lines-per-function
 function createRenameInput(target) {
 	const old_filename = target.children[0].innerText;
 
@@ -70,9 +71,9 @@ function createRenameInput(target) {
 			span_element.innerText = old_filename;
 			target.prepend(span_element);
 			target.children[1].remove();
-
-			return false;
 		}
+
+		return false;
 	});
 }
 
