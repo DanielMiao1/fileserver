@@ -1,4 +1,4 @@
-import { exec, execSync } from "child_process";
+import { execSync } from "child_process";
 
 import * as fs from "fs";
 
@@ -10,15 +10,15 @@ function getFileContents(path) {
 
 		if (stat.isDirectory()) {
 			return { isFile: false };
-		} else {
-			return {
-				contents: fs.readFileSync(path),
-				isFile: true
-			};
+		}
+
+		return {
+			contents: fs.readFileSync(path),
+			isFile: true
 		};
-	} else {
-		return {};
 	}
+
+	return {};
 }
 
 export function initializeTmp() {
@@ -57,6 +57,6 @@ export function registerDownloadHooks(server) {
 			cwd: path
 		});
 		
-		reply.status(299).send(getFileContents(zip_path).contents);
+		return reply.status(299).send(getFileContents(zip_path).contents);
 	});
 }

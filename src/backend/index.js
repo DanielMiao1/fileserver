@@ -6,8 +6,8 @@ import * as fs from "fs"
 import { join } from "path";
 import { spawnSync } from "child_process";
 
-import { registerMultipartHooks, upload } from "./upload.js";
 import { initializeTmp, registerDownloadHooks } from "./download.js";
+import { registerMultipartHooks, upload } from "./upload.js";
 import registerFrontendHooks from "./frontend.js";
 
 initializeTmp();
