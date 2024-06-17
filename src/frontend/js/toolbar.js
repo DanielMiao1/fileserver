@@ -54,7 +54,9 @@ export default function createToolbar() {
 			current_path = current_path.slice(0, -1);
 		}
 		
-		document.location = current_path.slice(0, current_path.lastIndexOf("/"))
+		if (document.location.pathname.length > 6) {
+			document.location = current_path.slice(0, current_path.lastIndexOf("/"));
+		}
 	}, false, (document.location.pathname.length <= 6 ? ["disabled"] : []));
 	window.toolbar.addText(decodeURIComponent(window.path.slice(window.path.lastIndexOf("/") + 1)) || document.location.hostname);
 
