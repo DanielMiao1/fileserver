@@ -1,4 +1,5 @@
 main {
+	align-content: baseline;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, 100px);
 	gap: 20px;
