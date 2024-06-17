@@ -102,7 +102,7 @@ export function initiateDragSelection() {
 
 		while (ancestor) {
 			if (ancestor.nodeName === "MAIN") {
-				return;
+				return selected;
 			}
 
 			ancestor = ancestor.parentNode;
