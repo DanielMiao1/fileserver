@@ -20,13 +20,17 @@ function applyRename(old_filename) {
 }
 
 function createRenameInput(target) {
+	if (target.nodeName === "P") {
+		target = target.parentNode;
+	}
+	console.log(target)
 	const old_filename = target.children[0].innerText;
 
 	const input_element = document.createElement("input");
 	input_element.value = old_filename;
 	input_element.id = "rename";
-	target.children[0].remove();
-	target.appendChild(input_element);
+	target.prepend(input_element);
+	target.children[1].remove();
 
 	input_element.focus();
 	input_element.selectionStart = old_filename.length;
