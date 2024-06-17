@@ -9,7 +9,7 @@ const descriptions = {
 }
 
 export default function load(code) {
-	window.loadStylesheets(["../css/error.css"]);
+	window.loadStylesheets(["/static/css/error.css"]);
 
 	document.getElementById("container").prepend(createSidebar());
 	document.body.appendChild(createToolbar());
