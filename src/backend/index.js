@@ -102,6 +102,27 @@ server.post("/*", async (request, reply) => {
 	return reply.send("<!DOCTYPE html><html><head><script>history.back();</script></head></html>");
 });
 
+server.put("/*", (request, reply) => {
+	if (!Object.keys(request.headers).includes("path")) {
+		return reply.status(400).send();
+	}
+
+	const new_path = `${serving_directory}/${decodeURIComponent(request.url).slice(6)}`
+	const old_path = serving_directory + request.headers.path;
+
+	if (!fs.existsSync(old_path)) {
+		return reply.status(404).send();
+	}
+
+	if (fs.existsSync(new_path)) {
+		return reply.status(409).send();
+	}
+
+	fs.renameSync(old_path, new_path);
+
+	return reply.send();
+});
+
 registerFrontendHooks(server);
 
 const start = async () => {
