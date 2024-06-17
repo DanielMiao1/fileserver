@@ -20,10 +20,6 @@ function applyRename(old_filename) {
 }
 
 function createRenameInput(target) {
-	if (target.nodeName === "P") {
-		target = target.parentNode;
-	}
-	console.log(target)
 	const old_filename = target.children[0].innerText;
 
 	const input_element = document.createElement("input");
@@ -73,6 +69,12 @@ export function menuHandler(event) {
 		},
 		// TODO: Properly open the file
 		Open: () => event.target.dispatchEvent(new MouseEvent("dblclick")),
-		Rename: () => createRenameInput(event.target)
+		Rename: () => {
+			if (["P", "SPAN"].includes(event.target.nodeName)) {
+				return createRenameInput(event.target.parentNode);
+			}
+
+			return createRenameInput(event.target)
+		}
 	}
 }
