@@ -39,7 +39,6 @@ export function registerDownloadHooks(server) {
 		const path = serving_directory + decodeURIComponent(request.url.slice(9));
 		const filename = path.slice(path.lastIndexOf("/") + 1);
 
-		reply.header("Content-Disposition", `attachment; filename="${filename}.zip"`);
 		reply.header("Cache-Control", "no-store");
 
 		const data = getFileContents(path);
@@ -49,8 +48,11 @@ export function registerDownloadHooks(server) {
 		}
 
 		if (data.isFile) {
+			reply.header("Content-Disposition", `attachment; filename="${filename}"`);
 			return reply.send(data.contents);
 		}
+
+		reply.header("Content-Disposition", `attachment; filename="${filename}.zip"`);
 
 		const zip_path = `${process.cwd()}/tmp/${filename}.zip`;
 
