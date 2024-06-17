@@ -65,7 +65,7 @@ export default function createSidebar() {
 	window.sidebar.addSection("Locations", [
 		{
 			icon: `***REMOVED***"${getComputedStyle(document.documentElement).getPropertyValue("--select-color").replace("#", "%23")}"/></svg>`,
-			name: "Root",
+			name: "Home",
 			path: "/"
 		},
 		{
