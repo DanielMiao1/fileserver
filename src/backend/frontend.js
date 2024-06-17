@@ -18,4 +18,8 @@ export default function registerFrontendHooks(server) {
 	server.get("/favicon.ico", (_, reply) => {
 		reply.redirect("/static/favicon.ico");
 	});
+
+	server.get("*", (request, reply) => {
+		reply.redirect(`/path${request.url}`);
+	});
 }

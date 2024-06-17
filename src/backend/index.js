@@ -43,7 +43,6 @@ server.register(fastifyStatic, {
 });
 
 registerDownloadHooks(server);
-registerFrontendHooks(server);
 
 server.get("/data/*", (request, reply) => {
 	reply.header("Cache-Control", "no-store");
@@ -103,9 +102,7 @@ server.post("/*", async (request, reply) => {
 	return reply.send("<!DOCTYPE html><html><head><script>history.back();</script></head></html>");
 });
 
-server.get("*", (request, reply) => {
-	reply.redirect(`/path${request.url}`);
-});
+registerFrontendHooks(server);
 
 const start = async () => {
 	try {
