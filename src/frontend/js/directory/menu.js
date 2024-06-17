@@ -1,8 +1,30 @@
+function applyRename(old_filename) {
+	let enclosing_directory = document.location.pathname;
+	if (!enclosing_directory.endsWith("/")) {
+		enclosing_directory += "/";
+	}
+
+	const old_path = enclosing_directory.slice(5) + old_filename;
+	const new_path = enclosing_directory + document.getElementById("rename").value;
+
+	fetch(new_path, {
+		headers: {
+			path: old_path
+		},
+		method: "put"
+	}).then(response => {
+		if (response.ok) {
+			document.location.reload();
+		}
+	});
+}
+
 function createRenameInput(target) {
 	const old_filename = target.children[0].innerText;
 
 	const input_element = document.createElement("input");
 	input_element.value = old_filename;
+	input_element.id = "rename";
 	target.children[0].remove();
 	target.appendChild(input_element);
 
@@ -11,26 +33,15 @@ function createRenameInput(target) {
 
 	input_element.addEventListener("keypress", event => {
 		if (event.key === "Enter") {
-			let enclosing_directory = document.location.pathname;
-			if (!enclosing_directory.endsWith("/")) {
-				enclosing_directory += "/";
-			}
-
-			const old_path = enclosing_directory.slice(5) + old_filename;
-			const new_path = enclosing_directory + input_element.value;
-
-			fetch(new_path, {
-				headers: {
-					path: old_path
-				},
-				method: "put"
-			}).then(response => {
-				if (response.ok) {
-					document.location.reload();
-				}
-			})
+			applyRename(old_filename);
 		}
 	})
+
+	document.getElementsByTagName("main")[0].addEventListener("mousedown", event => {
+		if (event.target !== target && event.target.parentNode !== target) {
+			applyRename(old_filename);
+		}
+	}, true);
 }
 
 export function menuHandler(event) {
