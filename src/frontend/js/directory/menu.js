@@ -31,17 +31,49 @@ function createRenameInput(target) {
 	input_element.focus();
 	input_element.selectionStart = old_filename.length;
 
-	input_element.addEventListener("keypress", event => {
-		if (event.key === "Enter") {
-			applyRename(old_filename);
-		}
-	})
+	const listener_signal = new AbortController();
 
 	document.getElementsByTagName("main")[0].addEventListener("mousedown", event => {
 		if (event.target !== target && event.target.parentNode !== target) {
-			applyRename(old_filename);
+			if (old_filename === input_element.value) {
+				const span_element = document.createElement("span");
+				span_element.innerText = old_filename;
+				target.prepend(span_element);
+				target.children[1].remove();
+
+				listener_signal.abort();
+			} else {
+				applyRename(old_filename);
+			}
 		}
-	}, true);
+	}, {
+		signal: listener_signal.signal
+	});
+
+	input_element.addEventListener("keydown", event => {
+		if (event.key === "Enter") {
+			if (old_filename === input_element.value) {
+				listener_signal.abort();
+
+				const span_element = document.createElement("span");
+				span_element.innerText = old_filename;
+				target.prepend(span_element);
+				target.children[1].remove();
+			} else {
+				applyRename(old_filename);
+			}
+		} else if (event.key === "Escape") {
+			event.preventDefault();
+			listener_signal.abort();
+
+			const span_element = document.createElement("span");
+			span_element.innerText = old_filename;
+			target.prepend(span_element);
+			target.children[1].remove();
+
+			return false;
+		}
+	});
 }
 
 export function menuHandler(event) {
