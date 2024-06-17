@@ -86,7 +86,7 @@ server.delete("/*", (request, reply) => {
 });
 
 server.post("/*", async (request, reply) => {
-	const path = serving_directory + request.url.slice(6);
+	const path = serving_directory + request.url;
 
 	for await (const part of request.files()) {
 		const file_path = `${path}/${part.filename}`;
