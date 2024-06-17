@@ -49,10 +49,13 @@ export default function createToolbar() {
 	const toolbar = document.createElement("header");
 	window.toolbar = new Toolbar(toolbar);
 	window.toolbar.addIcon("***REMOVED***", () => {
-		if (window.history_parsed.length >= 2) {
-			window.history_parsed.pop();
+		let current_path = document.location.pathname.toString();
+		if (current_path.endsWith("/")) {
+			current_path = current_path.slice(0, -1);
 		}
-	}, false, (window.history_parsed.length < 2 ? ["disabled"] : []));
+		
+		document.location = current_path.slice(0, current_path.lastIndexOf("/"))
+	}, false, (document.location.pathname.length <= 6 ? ["disabled"] : []));
 	window.toolbar.addText(decodeURIComponent(window.path.slice(window.path.lastIndexOf("/") + 1)) || document.location.hostname);
 
 	return toolbar;
