@@ -1,13 +1,15 @@
 import createSidebar from "../sidebar.js";
 import createToolbar from "../toolbar.js";
+
 import { extension } from "../filetype.js";
 import { initiateDownloader } from "../download.js"
-import { default as loadText } from "./loaders/text.js";
+
 import { default as loadImage } from "./loaders/image.js";
 import { default as loadPDF } from "./loaders/pdf.js";
+import { default as loadText } from "./loaders/text.js";
 
 const main = document.getElementsByTagName("main")[0];
-const source = "/raw" + window.path;
+const source = `/raw${window.path}`;
 let download_iframe;
 
 function loadElement(element) {
@@ -15,7 +17,8 @@ function loadElement(element) {
 	main.appendChild(element);
 }
 
-export default async function loadFile(data) {
+// eslint-disable-next-line complexity, max-statements, max-lines-per-function
+export default function loadFile() {
 	window.loadStylesheets(["/static/css/file/index.css"]);
 
 	document.getElementById("container").prepend(createSidebar());
@@ -23,8 +26,8 @@ export default async function loadFile(data) {
 
 	window.toolbar.addStretch();
 	window.toolbar.addIcon("***REMOVED***", () => {
-		download_iframe.src = "/download" + window.path;
-	}, [], "40%");
+		download_iframe.src = `/download${window.path}`;
+	}, "40%");
 
 	const loading = document.createElement("p");
 	loading.classList.add("loading");
@@ -36,6 +39,7 @@ export default async function loadFile(data) {
 	const format = extension(filename);
 
 	let loader;
+
 	if (!format) {
 		loader = loadText(source);
 	} else if (["apng", "avif", "bmp", "cur", "gif", "ico", "heic", "heif", "j2k", "jp2", "jpc", "jpe", "jpeg", "jpf", "jpg", "jpg2", "jpm", "jpx", "jfi", "jif", "jfif", "jxl", "jxr", "pjp", "pjpeg", "pjpg", "png", "svg", "svgz", "tif", "tiff", "webp", "xbm"].includes(format)) {
@@ -118,7 +122,7 @@ export default async function loadFile(data) {
 		loader = loadText(source);
 	}
 
-	loader.then(loadElement);
+	Promise.resolve(loader).then(loadElement);
 
 	download_iframe = initiateDownloader();
 }

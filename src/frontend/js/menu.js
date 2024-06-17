@@ -12,8 +12,8 @@ if (!document.getElementById("menu")) {
 const menu = document.getElementById("menu");
 
 function repositionContextMenu(event) {
-	menu.style.left = event.clientX + "px";
-	menu.style.top = window.scrollY + event.clientY + "px";
+	menu.style.left = `${event.clientX}px`;
+	menu.style.top = `${window.scrollY + event.clientY}px`;
 }
 
 function openContextMenu() {
@@ -21,7 +21,15 @@ function openContextMenu() {
 }
 
 function closeContextMenu() {
-	return menu.animate([{opacity: 1}, {opacity: 0}], {easing: "ease-out", duration: 200}).finished.then(() => menu.style.display = "none");
+	return menu.animate([
+		{ opacity: 1 },
+		{ opacity: 0 }
+	], {
+		duration: 200,
+		easing: "ease-out"
+	}).finished.then(() => {
+		menu.style.display = "none"
+	});
 }
 
 function appendMenuEntries(entries) {
@@ -54,11 +62,10 @@ async function regenerateContextMenu(event) {
 				if (menuHandler) {
 					appendMenuEntries(menuHandler(event));
 					repositionContextMenu(event);
-					openContextMenu();
-					return;
-				} else {
-					console.warn(`Context menu handler does not exist in ${target.dataset.menu}`);
+					return openContextMenu();
 				}
+
+				console.warn(`Context menu handler does not exist in ${target.dataset.menu}`);
 			} catch {
 				console.warn(`Importing context menu handler for ${target} failed`);
 			}
@@ -72,17 +79,17 @@ async function regenerateContextMenu(event) {
 	})
 
 	repositionContextMenu(event);
-	openContextMenu();
+	return openContextMenu();
 }
 
-document.addEventListener("contextmenu", async function(event) {
+document.addEventListener("contextmenu", async event => {
 	event.preventDefault();
 	event.stopPropagation();
 	await regenerateContextMenu(event);
 	return false;
 }, true);
 
-document.addEventListener("mousedown", function(event) {
+document.addEventListener("mousedown", event => {
 	if (event.button !== 2) {
 		let ancestor = event.target;
 		while (ancestor) {

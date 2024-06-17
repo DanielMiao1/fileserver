@@ -10,16 +10,16 @@ window.loadStylesheets = paths => {
 	}
 }
 
-fetch("/data" + window.path).then(async response => {
+fetch(`/data${window.path}`).then(async response => {
 	if (!response.ok) {
 		return import("./error.js").then(loader => loader.default(response.status));
 	}
 
 	const data = await response.json();
 
-	if (data.type == "directory") {
-		import("./directory/index.js").then(loader => loader.default(data));
-	} else {
-		import("./file/index.js").then(loader => loader.default(data));
+	if (data.type === "directory") {
+		return import("./directory/index.js").then(loader => loader.default(data));
 	}
+	
+	return import("./file/index.js").then(loader => loader.default(data));
 });

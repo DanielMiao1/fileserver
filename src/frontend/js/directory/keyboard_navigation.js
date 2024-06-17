@@ -31,7 +31,6 @@ function gridViewColumns() {
 }
 
 function itemIndex(item) {
-	const main = document.getElementsByTagName("main")[0];
 	return Array.prototype.indexOf.call(main.children, item);
 }
 
@@ -40,6 +39,8 @@ function selectPreviousItem() {
 	if (sibling) {
 		return select(sibling);
 	}
+
+	return false;
 }
 
 function selectNextItem() {
@@ -47,6 +48,8 @@ function selectNextItem() {
 	if (sibling) {
 		return select(sibling);
 	}
+
+	return false;
 }
 
 export function handleArrowUpKey(event) {
@@ -59,18 +62,18 @@ export function handleArrowUpKey(event) {
 
 	if (isGridView()) {
 		let sibling = getFirstSelectedItem();
-		for (const _ of Array(gridViewColumns())) {
+		for (let index = 0; index < gridViewColumns(); index++) {
 			sibling = sibling.previousElementSibling;
 
 			if (!sibling) {
-				return;
+				return false;
 			}
 		}
 
 		return select(sibling);
 	}
 
-	selectPreviousItem();
+	return selectPreviousItem();
 }
 
 export function handleArrowDownKey(event) {
@@ -83,18 +86,18 @@ export function handleArrowDownKey(event) {
 
 	if (isGridView()) {
 		let sibling = getFirstSelectedItem();
-		for (const _ of Array(gridViewColumns())) {
+		for (let index = 0; index < gridViewColumns(); index++) {
 			sibling = sibling.nextElementSibling;
 
 			if (!sibling) {
-				return;
+				return false;
 			}
 		}
 
 		return select(sibling);
 	}
 
-	selectNextItem();
+	return selectNextItem();
 }
 
 export function handleArrowLeftKey(event) {
@@ -107,9 +110,11 @@ export function handleArrowLeftKey(event) {
 		}
 
 		if (itemIndex(getFirstSelectedItem()) % gridViewColumns() > 0) {
-			selectPreviousItem();
+			return selectPreviousItem();
 		}
 	}
+
+	return false;
 }
 
 export function handleArrowRightKey(event) {
@@ -124,7 +129,9 @@ export function handleArrowRightKey(event) {
 		const columns = gridViewColumns();
 
 		if (itemIndex(getFirstSelectedItem()) % columns !== columns - 1) {
-			selectNextItem();
+			return selectNextItem();
 		}
 	}
+
+	return false;
 }

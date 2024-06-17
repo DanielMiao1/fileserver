@@ -11,14 +11,14 @@ function populateToolbar() {
 			localStorage.directory_view = "grid";
 			document.location.reload();
 		}
-	}, [], "40%");
+	}, "40%");
 
 	const list_view = window.toolbar.addIcon("***REMOVED***", () => {
 		if (localStorage.directory_view !== "list") {
 			localStorage.directory_view = "list";
 			document.location.reload();
 		}
-	}, [], "40%");
+	}, "40%");
 
 	if (localStorage.directory_view === "grid") {
 		grid_view.classList.add("selected");
@@ -27,11 +27,7 @@ function populateToolbar() {
 	}
 }
 
-export default function loadDirectory(data) {
-	window.loadStylesheets(["/static/css/directory/extensions.css", "/static/css/directory/index.css"]);
-
-	createDirectoryView(data.data);
-
+function fileUploadElements() {
 	const file_upload = document.createElement("input");
 	file_upload.multiple = true;
 	file_upload.type = "file";
@@ -44,6 +40,14 @@ export default function loadDirectory(data) {
 
 	file_upload_wrapper.appendChild(file_upload);
 	document.body.appendChild(file_upload_wrapper);
+}
+
+export default function loadDirectory(data) {
+	window.loadStylesheets(["/static/css/directory/extensions.css", "/static/css/directory/index.css"]);
+
+	createDirectoryView(data.data);
+
+	fileUploadElements();
 
 	document.getElementById("container").prepend(createSidebar());
 	document.body.appendChild(createToolbar());

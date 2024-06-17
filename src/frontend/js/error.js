@@ -8,7 +8,7 @@ const descriptions = {
 	500: "An error occured while transferring the content."
 }
 
-export default async function load(code) {
+export default function load(code) {
 	window.loadStylesheets(["../css/error.css"]);
 
 	document.getElementById("container").prepend(createSidebar());
