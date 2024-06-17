@@ -7,7 +7,7 @@ import { join } from "path";
 import { spawnSync } from "child_process";
 
 import { initializeTmp, registerDownloadHooks } from "./download.js";
-import { registerMultipartHooks, upload } from "./upload.js";
+import { registerMultipartHooks, registerUploadHooks } from "./upload.js";
 import registerFrontendHooks from "./frontend.js";
 
 initializeTmp();
@@ -85,23 +85,7 @@ server.delete("/*", (request, reply) => {
 	reply.send();
 });
 
-server.post("/*", async (request, reply) => {
-	const path = serving_directory + request.url;
-
-	for await (const part of request.files()) {
-		const file_path = `${path}/${part.filename}`;
-		
-		if (fs.existsSync(file_path)) {
-			return reply.status(409).send();
-		}
-
-		upload(part.file, fs.createWriteStream(file_path));
-	}
-
-	reply.type("text/html");
-	return reply.send("<!DOCTYPE html><html><head><script>history.back();</script></head></html>");
-});
-
+registerUploadHooks(server);
 registerFrontendHooks(server);
 
 const start = async () => {
