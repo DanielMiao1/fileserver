@@ -2,12 +2,15 @@ import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
 import { fastifyStatic } from "@fastify/static";
 
-import { default as fs } from "fs"
+import * as fs from "fs"
 import { join } from "path";
 import { spawnSync } from "child_process";
 
 import { registerMultipartHooks, upload } from "./upload.js";
+import { initializeTmp, registerDownloadHooks } from "./download.js";
 import registerFrontendHooks from "./frontend.js";
+
+initializeTmp();
 
 const serving_directory = process.env.DIRECTORY ?? "/store";
 
@@ -32,16 +35,6 @@ server.register(fastifyStatic, {
 
 server.register(fastifyStatic, {
 	decorateReply: false,
-	prefix: "/download",
-	root: serving_directory,
-	setHeaders: (response, path) => {
-		response.setHeader("Content-Disposition", `attachment; filename="${path.slice(path.lastIndexOf("/") + 1)}"`);
-		response.setHeader("Cache-Control", "no-store");
-	}
-});
-
-server.register(fastifyStatic, {
-	decorateReply: false,
 	prefix: "/raw",
 	root: serving_directory,
 	setHeaders: (response) => {
@@ -49,6 +42,7 @@ server.register(fastifyStatic, {
 	}
 });
 
+registerDownloadHooks(server);
 registerFrontendHooks(server);
 
 server.get("/data/*", (request, reply) => {
