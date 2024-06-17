@@ -26,7 +26,7 @@ class Toolbar {
 		return button;
 	}
 
-	addIcon(icon, action, classList = [], icon_size) {
+	addIcon(icon, action, icon_size, classList = []) {
 		const button = this.addButton("", action, classList.concat("icon"));
 		button.style.setProperty("--icon", `url('${icon}')`);
 		if (icon_size) {
@@ -52,7 +52,7 @@ export default function createToolbar() {
 		if (window.history_parsed.length >= 2) {
 			window.history_parsed.pop();
 		}
-	}, window.history_parsed.length < 2 ? ["disabled"] : []);
+	}, false, (window.history_parsed.length < 2 ? ["disabled"] : []));
 	window.toolbar.addText(decodeURIComponent(window.path.slice(window.path.lastIndexOf("/") + 1)) || document.location.hostname);
 
 	return toolbar;

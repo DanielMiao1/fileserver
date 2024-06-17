@@ -1,4 +1,4 @@
-export default async function load(source) {
+export default function load(source) {
 	window.loadStylesheets(["/static/css/file/loaders/pdf.css"]);
 
 	const embed = document.createElement("embed");

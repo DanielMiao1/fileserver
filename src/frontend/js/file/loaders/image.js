@@ -1,4 +1,4 @@
-export default async function load(source) {
+export default function load(source) {
 	window.loadStylesheets(["/static/css/file/loaders/image.css"]);
 
 	const image_element = document.createElement("div");
@@ -6,7 +6,7 @@ export default async function load(source) {
 	image_element.style.setProperty("--image", `url("${source}")`);
 
 	const image = new Image();
-	image.addEventListener("error", function() {
+	image.addEventListener("error", () => {
 		const error = document.createElement("p");
 		error.innerText = "Failed to load image";
 		image_element.appendChild(error);

@@ -1,5 +1,4 @@
 const extensions = {
-	"ds_store": "Apple Desktop Services Store",
 	"aa": "Audible Audio Book",
 	"aac": "AAC Audio",
 	"ac3": "AC3 Audio",
@@ -26,6 +25,7 @@ const extensions = {
 	"csv": "Comma-Separated Values",
 	"dat": "Application Data",
 	"dll": "Dynamic Link Library",
+	"ds_store": "Apple Desktop Services Store",
 	"dv": "DV Video",
 	"dylib": "Apple Dynamic Library",
 	"erl": "Erlang Source File",
@@ -35,19 +35,19 @@ const extensions = {
 	"gcx": "Apple Graph File",
 	"gif": "GIF Image",
 	"go": "Go Source File",
-	"ino": "Arduino Source File",
 	"inetloc": "Internet Location",
+	"ino": "Arduino Source File",
 	"jar": "Java Archive",
 	"jxr": "JPEG-XR Image",
 	"less": "CSS/LESS Source File",
 	"log": "Log File",
 	"m": "Objective-C Source File",
-	"mm": "Objective-C++ Source File",
 	"m2t": "HDV Video",
 	"m3u": "MPEG-3 Playlist",
 	"m4a": "MPEG-4 Audio",
 	"m4b": "MPEG-4 Audiobook",
 	"m4v": "Apple MPEG-4 Video",
+	"mm": "Objective-C++ Source File",
 	"mp2": "MPEG Layer 2 Audio",
 	"mp3": "MPEG Layer 3 Audio",
 	"mpo": "Multi Picture Object Image",
@@ -142,10 +142,12 @@ export function extension(filename) {
 	return filename.slice(filename.lastIndexOf(".") + 1).toLowerCase();
 }
 
+
+// eslint-disable-next-line complexity, max-statements, max-lines-per-function
 export default function filetype(filename) {
 	const format = extension(filename);
 	
-	if (/^[0-9]{3}$/.test(format)) {
+	if (/^[0-9]{3}$/u.test(format)) {
 		return "Split Archive";
 	}
 
@@ -381,7 +383,7 @@ export default function filetype(filename) {
 		return "Extensible HTML Document";
 	}
 
-	if (/^z[0-9]{2}$/.test(format)) {
+	if (/^z[0-9]{2}$/u.test(format)) {
 		return "Split Zip Archive"
 	}
 	

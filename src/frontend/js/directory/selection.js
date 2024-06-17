@@ -1,9 +1,11 @@
 export let multi_select = false;
 export let selected;
+
 let drag_selection_start_position = false;
 
 const main = document.getElementsByTagName("main")[0];
 
+// eslint-disable-next-line max-statements, max-lines-per-function
 export default function select(element, cumulate) {
 	if (element && cumulate) {
 		if (!selected) { 
@@ -38,7 +40,7 @@ export default function select(element, cumulate) {
 
 	if (!element) {
 		selected = null;
-		return;
+		return false;
 	}
 
 	if (typeof element[Symbol.iterator] === "function") {
@@ -49,11 +51,13 @@ export default function select(element, cumulate) {
 			selected.push(item);
 		}
 
-		return;
+		return selected;
 	}
 
 	selected = element;
 	selected.classList.add("selected");
+
+	return selected;
 }
 
 function dragSelectedItems(selection) {
@@ -83,8 +87,9 @@ function dragSelectedItems(selection) {
 	return selected_items;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export function initiateDragSelection() {
-	main.addEventListener("mousedown", function(event) {
+	main.addEventListener("mousedown", event => {
 		if (event.button === 0) {
 			drag_selection_start_position = [event.clientX, window.scrollY + event.clientY];
 		}
@@ -92,7 +97,7 @@ export function initiateDragSelection() {
 		let ancestor = event.target.parentNode;
 
 		while (ancestor) {
-			if (ancestor.nodeName == "MAIN") {
+			if (ancestor.nodeName === "MAIN") {
 				return;
 			}
 
@@ -104,7 +109,7 @@ export function initiateDragSelection() {
 		}
 	});
 
-	window.addEventListener("mouseup", function() {
+	window.addEventListener("mouseup", () => {
 		drag_selection_start_position = false;
 
 		if (document.getElementById("drag_selection")) {
@@ -112,7 +117,8 @@ export function initiateDragSelection() {
 		}
 	});
 
-	window.addEventListener("mousemove", function(event) {
+	// eslint-disable-next-line max-statements
+	window.addEventListener("mousemove", event => {
 		if (!drag_selection_start_position) {
 			return;
 		}
@@ -122,18 +128,18 @@ export function initiateDragSelection() {
 		if (!selection) {
 			selection = document.createElement("div");
 			selection.id = "drag_selection";
-			selection.style.left = drag_selection_start_position[0] + "px";
-			selection.style.top = drag_selection_start_position[1] + "px";
+			selection.style.left = `${drag_selection_start_position[0]}px`;
+			selection.style.top = `${drag_selection_start_position[1]}px`;
 			document.body.appendChild(selection);
 		}
 
 		const width = event.clientX - drag_selection_start_position[0];
 		const height = window.scrollY + event.clientY - drag_selection_start_position[1];
 
-		selection.style.width = Math.abs(width) + "px";
-		selection.style.height = Math.abs(height) + "px";
+		selection.style.width = `${Math.abs(width)}px`;
+		selection.style.height = `${Math.abs(height)}px`;
 
-		selection.style.transform = (width < 0 ? `translateX(${width}px)` : "translateX(0)") + " " + (height < 0 ? `translateY(${height}px)` : "translateY(0)");
+		selection.style.transform = `${(width < 0 ? `translateX(${width}px)` : "translateX(0)")} ${(height < 0 ? `translateY(${height}px)` : "translateY(0)")}`;
 
 		if (width < 0) {
 			if (!selection.dataset.negative_width) {
@@ -155,40 +161,40 @@ export function initiateDragSelection() {
 	});
 };
 
-window.addEventListener("keydown", function(event) {
+window.addEventListener("keydown", event => {
 	if (["Control", "Meta", "Shift"].includes(event.key)) {
 		multi_select = true;
 	}
 
-	if (event.key == "a" && (event.metaKey || event.ctrlKey)) {
+	if (event.key === "a" && (event.metaKey || event.ctrlKey)) {
 		select(main.children);
 		event.preventDefault();
 		event.stopPropagation();
 	}
 }, true);
 
-window.addEventListener("keyup", function(event) {
+window.addEventListener("keyup", event => {
 	if (["Control", "Meta", "Shift"].includes(event.key)) {
 		multi_select = false;
 	}
 });
 
-document.addEventListener("dragenter", function(event) {
+document.addEventListener("dragenter", event => {
 	event.preventDefault();
 	event.stopPropagation();
 }, true);
 
-document.addEventListener("dragover", function(event) {
+document.addEventListener("dragover", event => {
 	event.preventDefault();
 	event.stopPropagation();
 }, true);
 
-document.addEventListener("dragleave", function(event) {
+document.addEventListener("dragleave", event => {
 	event.preventDefault();
 	event.stopPropagation();
 }, true);
 
-document.addEventListener("drop", function(event) {
+document.addEventListener("drop", event => {
 	event.preventDefault();
 	event.stopPropagation();
 	

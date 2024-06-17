@@ -10,7 +10,7 @@ class Sidebar {
 
 		this.sections[name] = {
 			element: section,
-			items: items
+			items
 		};
 
 		const title = document.createElement("span");
@@ -18,28 +18,32 @@ class Sidebar {
 		section.appendChild(title);
 
 		for (let item_index = 0; item_index < items.length; item_index++) {
-			const link = document.createElement("a");
-			link.href = "/path" + items[item_index].path;
-			link.innerText = items[item_index].name;			
-			section.appendChild(link);
-
-			if (items[item_index].icon) {
-				link.classList.add("icon");
-				link.style.setProperty("--icon", `url('${items[item_index].icon}')`);
-
-				if (items[item_index].icon_size) {
-					link.style.setProperty("--icon-size", items[item_index].icon_size);
-				}
-
-				if (items[item_index].icon_offset) {
-					link.style.setProperty("--icon-offset", items[item_index].icon_offset);
-				}
-			}
-
-			this.sections[name].items[item_index].element = link;
+			this.sections[name].items[item_index].element = Sidebar.#addItemToSection(items[item_index], section);
 		}
 
 		return section;
+	}
+
+	static #addItemToSection(item, section) {
+		const link = document.createElement("a");
+		link.href = `/path${item.path}`;
+		link.innerText = item.name;			
+		section.appendChild(link);
+
+		if (item.icon) {
+			link.classList.add("icon");
+			link.style.setProperty("--icon", `url('${item.icon}')`);
+
+			if (item.icon_size) {
+				link.style.setProperty("--icon-size", item.icon_size);
+			}
+
+			if (item.icon_offset) {
+				link.style.setProperty("--icon-offset", item.icon_offset);
+			}
+		}
+
+		return link;
 	}
 
 	containsPath(path) {
@@ -60,16 +64,16 @@ export default function createSidebar() {
 	window.sidebar = new Sidebar(sidebar);
 	window.sidebar.addSection("Locations", [
 		{
-			name: "Root",
 			icon: `***REMOVED***"${getComputedStyle(document.documentElement).getPropertyValue("--select-color").replace("#", "%23")}"/></svg>`,
+			name: "Root",
 			path: "/"
 		},
 		{
-			name: "Documents",
 			icon: `***REMOVED***"${getComputedStyle(document.documentElement).getPropertyValue("--select-color").replace("#", "%23")}"/></svg>`,
-			path: "/Documents",
+			icon_offset: "12px",
 			icon_size: "12.5px",
-			icon_offset: "12px"
+			name: "Documents",
+			path: "/Documents"
 		}
 	]);
 	

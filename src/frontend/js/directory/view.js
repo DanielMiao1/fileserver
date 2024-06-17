@@ -1,6 +1,6 @@
-import select, { multi_select, initiateDragSelection} from "./selection.js";
-import filetype, { hasExtension, extension } from "../filetype.js";
-import isGridView, { handleArrowUpKey, handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
+import filetype, { extension, hasExtension } from "../filetype.js";
+import isGridView, { handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, handleArrowUpKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
+import select, { initiateDragSelection, multi_select } from "./selection.js";
 
 if (!localStorage.directory_view) {
 	localStorage.directory_view = "grid";
@@ -9,11 +9,11 @@ if (!localStorage.directory_view) {
 const container = document.getElementsByTagName("main")[0];
 
 function navigateToRelative(name) {
-	document.location = (
+	document.location = `${(
 		document.location.pathname.endsWith("/") ?
 		document.location.pathname :
-		document.location.pathname + "/"
-	) + name;
+		`${document.location.pathname}/`
+	)}${name}`;
 }
 
 function selectItem(button, element) {
@@ -40,7 +40,7 @@ function createGridView(items) {
 		if (item.startsWith(".")) {
 			button.classList.add("hidden");
 		} else if (!type && hasExtension(item)) {
-			button.classList.add("file-" + extension(item))
+			button.classList.add(`file-${extension(item)}`)
 		}
 
 		button.addEventListener("mousedown", event => selectItem(event.button, button));
@@ -72,7 +72,7 @@ function createListView(items) {
 		if (item.startsWith(".")) {
 			row.classList.add("hidden");
 		} else if (!type && hasExtension(item)) {
-			row.classList.add("file-" + extension(item))
+			row.classList.add(`file-${extension(item)}`)
 		}
 		
 		const filename = document.createElement("p");

@@ -36,7 +36,7 @@ export default async function load(source, language) {
 				resolve(await createElements(source, language));
 			});
 		});
-	} else {
-		return await createElements(source, language);
 	}
+	
+	return await createElements(source, language);
 }
