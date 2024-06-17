@@ -20,10 +20,10 @@ function createRenameInput(target) {
 			const new_path = enclosing_directory + input_element.value;
 
 			fetch(new_path, {
-				method: "put",
 				headers: {
 					path: old_path
-				}
+				},
+				method: "put"
 			}).then(response => {
 				if (response.ok) {
 					document.location.reload();
