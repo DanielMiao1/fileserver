@@ -65,6 +65,6 @@ export function registerUploadHooks(server) {
 		}
 	
 		reply.type("text/html");
-		return reply.send("<!DOCTYPE html><html><head><script>history.back();</script></head></html>");
+		return reply.redirect(request.url);
 	});
 }
