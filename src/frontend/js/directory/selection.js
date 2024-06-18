@@ -90,6 +90,10 @@ function dragSelectedItems(selection) {
 // eslint-disable-next-line max-lines-per-function
 export function initiateDragSelection() {
 	main.addEventListener("mousedown", event => {
+		if (document.getElementById("rename")) {
+			return false;
+		}
+
 		if (event.button === 0) {
 			drag_selection_start_position = [event.clientX, window.scrollY + event.clientY];
 		}
@@ -98,7 +102,7 @@ export function initiateDragSelection() {
 
 		while (ancestor) {
 			if (ancestor.nodeName === "MAIN") {
-				return;
+				return selected;
 			}
 
 			ancestor = ancestor.parentNode;
@@ -107,6 +111,8 @@ export function initiateDragSelection() {
 		if (!multi_select) {
 			select();
 		}
+
+		return selected;
 	});
 
 	window.addEventListener("mouseup", () => {

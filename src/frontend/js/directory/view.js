@@ -9,11 +9,13 @@ if (!localStorage.directory_view) {
 const container = document.getElementsByTagName("main")[0];
 
 function navigateToRelative(name) {
-	document.location = `${(
-		document.location.pathname.endsWith("/") ?
-		document.location.pathname :
-		`${document.location.pathname}/`
-	)}${name}`;
+	if (!document.getElementById("rename")) {
+		document.location = `${(
+			document.location.pathname.endsWith("/") ?
+			document.location.pathname :
+			`${document.location.pathname}/`
+		)}${name}`;
+	}
 }
 
 function selectItem(button, element) {
@@ -100,23 +102,25 @@ export default function createDirectoryView(items) {
 	}
 
 	window.addEventListener("keydown", event => {
-		switch (event.key) {
-			case "ArrowUp":
-				handleArrowUpKey(event);
-				scrollSelectionIntoView();
-				break;
-			case "ArrowDown":
-				handleArrowDownKey(event);
-				scrollSelectionIntoView();
-				break;
-			case "ArrowLeft":
-				handleArrowLeftKey(event);
-				scrollSelectionIntoView();
-				break;
-			case "ArrowRight":
-				handleArrowRightKey(event);
-				scrollSelectionIntoView();
-				break;
+		if (!document.getElementById("rename")) {
+			switch (event.key) {
+				case "ArrowUp":
+					handleArrowUpKey(event);
+					scrollSelectionIntoView();
+					break;
+				case "ArrowDown":
+					handleArrowDownKey(event);
+					scrollSelectionIntoView();
+					break;
+				case "ArrowLeft":
+					handleArrowLeftKey(event);
+					scrollSelectionIntoView();
+					break;
+				case "ArrowRight":
+					handleArrowRightKey(event);
+					scrollSelectionIntoView();
+					break;
+			}
 		}
 	});
 }

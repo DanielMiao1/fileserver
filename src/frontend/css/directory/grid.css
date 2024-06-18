@@ -26,6 +26,11 @@ main button span {
 	white-space: nowrap;
 }
 
+main button input {
+	text-align: center;
+	width: 89%;
+}
+
 main button.selected {
 	color: white;
 }
