@@ -88,7 +88,7 @@ function getButtonFromEventTarget(target) {
 export function menuHandler(event) {
 	return {
 		[getButtonFromEventTarget(event.target).children[0].innerText]: [
-			() => { },
+			false,
 			"text separator-bottom"
 		],
 		Delete: [() => fetch(

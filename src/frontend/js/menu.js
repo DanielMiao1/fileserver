@@ -38,15 +38,17 @@ function appendMenuEntries(entries) {
 		menu_entry.innerText = name;
 
 		if (options[1]) {
-			for (let className of options[1].split(" ")) {
+			for (const className of options[1].split(" ")) {
 				menu_entry.classList.add(className);
 			}
 		}
 
-		menu_entry.addEventListener("click", () => {
-			options[0]();
-			closeContextMenu();
-		});
+		if (options[0] instanceof Function) {
+			menu_entry.addEventListener("click", () => {
+				options[0]();
+				closeContextMenu();
+			});
+		}
 
 		menu.appendChild(menu_entry);
 	}
