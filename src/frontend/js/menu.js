@@ -33,13 +33,21 @@ function closeContextMenu() {
 }
 
 function appendMenuEntries(entries) {
-	for (const [name, action] of Object.entries(entries)) {
+	for (const [name, options] of Object.entries(entries)) {
 		const menu_entry = document.createElement("button");
 		menu_entry.innerText = name;
+
+		if (options[1]) {
+			for (let className of options[1].split(" ")) {
+				menu_entry.classList.add(className);
+			}
+		}
+
 		menu_entry.addEventListener("click", () => {
-			action()
+			options[0]();
 			closeContextMenu();
 		});
+
 		menu.appendChild(menu_entry);
 	}
 }
@@ -75,7 +83,7 @@ async function regenerateContextMenu(event) {
 	}
 	
 	appendMenuEntries({
-		"Reload": () => document.location.reload()
+		"Reload": [() => document.location.reload()]
 	})
 
 	repositionContextMenu(event);
