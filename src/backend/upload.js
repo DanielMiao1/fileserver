@@ -41,13 +41,13 @@ function assignDeduplicateFilename(path) {
 	while (fs.existsSync(deduplicated_path)) {
 		const [filename, extension] = fileNameAndExtension(deduplicated_path);
 		if (filename.endsWith(" copy")) {
-			deduplicated_path = filename + " 1" + extension;
+			deduplicated_path = `${filename} 1${extension}`;
 		} else if (/ copy \d+$/u.test(filename)) {
 			const copy_index = filename.lastIndexOf(" ") + 1;
-			const new_digit = parseInt(filename.slice(copy_index)) + 1;
+			const new_digit = parseInt(filename.slice(copy_index), 10) + 1;
 			deduplicated_path = filename.slice(0, copy_index) + new_digit + extension;
 		} else {
-			deduplicated_path = filename + " copy" + extension;
+			deduplicated_path = `${filename} copy${extension}`;
 		}
 	}
 
