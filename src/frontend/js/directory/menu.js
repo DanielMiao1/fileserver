@@ -77,9 +77,21 @@ function createRenameInput(target) {
 	});
 }
 
+function getButtonFromEventTarget(target) {
+	if (["P", "SPAN"].includes(target.nodeName)) {
+		return target.parentNode;
+	}
+
+	return target;
+}
+
 export function menuHandler(event) {
 	return {
-		Delete: () => fetch(
+		[getButtonFromEventTarget(event.target).children[0].innerText]: [
+			false,
+			"text separator-bottom"
+		],
+		Delete: [() => fetch(
 			`${(
 				document.location.pathname.endsWith("/") ?
 				document.location.pathname :
@@ -92,22 +104,16 @@ export function menuHandler(event) {
 			if (response.ok) {
 				document.location.reload();
 			}
-		}),
-		Download: () => {
+		})],
+		Download: [() => {
 			document.getElementById("downloader").src = `/download${(
 				document.location.pathname.endsWith("/") ?
 				document.location.pathname :
 				`${document.location.pathname}/`
 			).slice(5)}${event.target.title}`
-		},
+		}],
 		// TODO: Properly open the file
-		Open: () => event.target.dispatchEvent(new MouseEvent("dblclick")),
-		Rename: () => {
-			if (["P", "SPAN"].includes(event.target.nodeName)) {
-				return createRenameInput(event.target.parentNode);
-			}
-
-			return createRenameInput(event.target)
-		}
+		Open: [() => event.target.dispatchEvent(new MouseEvent("dblclick"))],
+		Rename: [() => createRenameInput(getButtonFromEventTarget(event.target))]
 	}
 }

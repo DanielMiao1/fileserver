@@ -33,13 +33,23 @@ function closeContextMenu() {
 }
 
 function appendMenuEntries(entries) {
-	for (const [name, action] of Object.entries(entries)) {
+	for (const [name, options] of Object.entries(entries)) {
 		const menu_entry = document.createElement("button");
 		menu_entry.innerText = name;
-		menu_entry.addEventListener("click", () => {
-			action()
-			closeContextMenu();
-		});
+
+		if (options[1]) {
+			for (const className of options[1].split(" ")) {
+				menu_entry.classList.add(className);
+			}
+		}
+
+		if (options[0] instanceof Function) {
+			menu_entry.addEventListener("click", () => {
+				options[0]();
+				closeContextMenu();
+			});
+		}
+
 		menu.appendChild(menu_entry);
 	}
 }
@@ -75,7 +85,7 @@ async function regenerateContextMenu(event) {
 	}
 	
 	appendMenuEntries({
-		"Reload": () => document.location.reload()
+		"Reload": [() => document.location.reload()]
 	})
 
 	repositionContextMenu(event);
