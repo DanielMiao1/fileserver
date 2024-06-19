@@ -95,7 +95,7 @@ export function initiateDragSelection() {
 		}
 
 		if (event.button === 0) {
-			drag_selection_start_position = [event.clientX, window.scrollY + event.clientY];
+			drag_selection_start_position = [window.scrollX + event.clientX, window.scrollY + event.clientY];
 		}
 
 		let ancestor = event.target.parentNode;
@@ -139,8 +139,16 @@ export function initiateDragSelection() {
 			document.body.appendChild(selection);
 		}
 
-		const width = event.clientX - drag_selection_start_position[0];
-		const height = window.scrollY + event.clientY - drag_selection_start_position[1];
+		let width = window.scrollX + event.clientX - drag_selection_start_position[0];
+		let height = window.scrollY + event.clientY - drag_selection_start_position[1];
+
+		if (drag_selection_start_position[0] + width >= document.body.clientWidth - 2) {
+			width = document.body.clientWidth - 2 - drag_selection_start_position[0];
+		}
+			
+		if (drag_selection_start_position[1] + height >= document.body.clientHeight - 2) {
+			height = document.body.clientHeight - 2 - drag_selection_start_position[1];
+		}
 
 		selection.style.width = `${Math.abs(width)}px`;
 		selection.style.height = `${Math.abs(height)}px`;
