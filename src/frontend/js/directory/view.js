@@ -102,7 +102,10 @@ export default function createDirectoryView(items) {
 	}
 
 	window.addEventListener("keydown", event => {
-		if (!document.getElementById("rename")) {
+		if (
+			!document.getElementById("rename") &&
+			!document.getElementById("drag_selection")
+		) {
 			switch (event.key) {
 				case "ArrowUp":
 					handleArrowUpKey(event);
