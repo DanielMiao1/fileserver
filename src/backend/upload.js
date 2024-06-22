@@ -36,8 +36,8 @@ function assignDeduplicateFilename(path) {
 	return deduplicated_path;
 }
 
-export function registerUploadHooks(server) {
-	server.post("/*", async (request, reply) => {
+export default function registerUploadHooks(server) {
+	server.post("/*", (request, reply) => {
 		const path = assignDeduplicateFilename(serving_directory + decodeURIComponent(request.url));
 	
 		fs.writeFileSync(path, request.body, {

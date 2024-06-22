@@ -7,8 +7,8 @@ import { join } from "path";
 import { spawnSync } from "child_process";
 
 import { initializeTmp, registerDownloadHooks } from "./download.js";
-import { registerUploadHooks } from "./upload.js";
 import registerFrontendHooks from "./frontend.js";
+import registerUploadHooks from "./upload.js";
 
 initializeTmp();
 

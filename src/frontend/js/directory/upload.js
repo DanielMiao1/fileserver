@@ -2,30 +2,29 @@ function affixSlash(path) {
 	return path.endsWith("/") ? path : `${path}/`;
 }
 
+function uploadFile(transfer_item, entry) {
+	const file = transfer_item.getAsFile();
+	const reader = new FileReader();
+
+	reader.addEventListener("load", async event => {
+		await fetch(affixSlash(window.path) + encodeURIComponent(entry.name), {
+			body: event.target.result,
+			method: "POST"
+		});
+	});
+
+	reader.readAsText(file);
+}
+
 function parseDroppedItems(items) {
 	for (let index = 0; index < items.length; index++) {
-		if (items[index].kind !== "file") {
-			continue;
+		if (items[index].kind === "file") {
+			const entry = "getAsEntry" in DataTransferItem.prototype ? items[index].getAsEntry() : items[index].webkitGetAsEntry();
+
+			if (!entry.isDirectory) {
+				uploadFile(items[index], entry);
+			}
 		}
-
-		const entry = "getAsEntry" in DataTransferItem.prototype ? items[index].getAsEntry() : items[index].webkitGetAsEntry();
-
-		if (entry.isDirectory) {
-			// TODO: Uplaod directory contents
-			continue;
-		};
-
-		const file = items[index].getAsFile();
-		const reader = new FileReader();
-
-		reader.addEventListener("load", async event => {
-			await fetch(affixSlash(window.path) + encodeURIComponent(entry.name), {
-				method: "POST",
-				body: event.target.result
-			});
-		});
-
-		reader.readAsText(file);
 	}
 
 	document.location.reload();
