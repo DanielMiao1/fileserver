@@ -192,29 +192,3 @@ window.addEventListener("keyup", event => {
 		multi_select = false;
 	}
 });
-
-document.addEventListener("dragenter", event => {
-	event.preventDefault();
-	event.stopPropagation();
-}, true);
-
-document.addEventListener("dragover", event => {
-	event.preventDefault();
-	event.stopPropagation();
-}, true);
-
-document.addEventListener("dragleave", event => {
-	event.preventDefault();
-	event.stopPropagation();
-}, true);
-
-document.addEventListener("drop", event => {
-	event.preventDefault();
-	event.stopPropagation();
-	
-	const file = document.getElementById("file");
-	file.files = event.dataTransfer.files;
-
-	file.parentNode.action = window.path + (window.path.endsWith("/") ? "" : "/");
-	file.parentNode.submit();
-}, true);

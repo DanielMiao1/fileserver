@@ -1,14 +1,61 @@
+function affixSlash(path) {
+	return path.endsWith("/") ? path : `${path}/`;
+}
+
+function parseDroppedItems(items) {
+	for (let index = 0; index < items.length; index++) {
+		if (items[index].kind !== "file") {
+			continue;
+		}
+
+		const entry = "getAsEntry" in DataTransferItem.prototype ? items[index].getAsEntry() : items[index].webkitGetAsEntry();
+
+		if (entry.isDirectory) {
+			// TODO: Uplaod directory contents
+			continue;
+		};
+
+		const file = items[index].getAsFile();
+		const reader = new FileReader();
+
+		reader.addEventListener("load", async event => {
+			await fetch(affixSlash(window.path) + encodeURIComponent(entry.name), {
+				method: "POST",
+				body: event.target.result
+			});
+		});
+
+		reader.readAsText(file);
+	}
+
+	document.location.reload();
+}
+
 export function prepareUploadElement() {
-	const file_upload = document.createElement("input");
-	file_upload.multiple = true;
-	file_upload.type = "file";
-	file_upload.id = "file";
-	file_upload.name = "file";
+	document.addEventListener("dragenter", event => {
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}, true);
+	
+	document.addEventListener("dragover", event => {
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}, true);
+	
+	document.addEventListener("dragleave", event => {
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}, true);
 
-	const file_upload_wrapper = document.createElement("form");
-	file_upload_wrapper.method = "post";
-	file_upload_wrapper.enctype = "multipart/form-data";
+	document.addEventListener("drop", event => {
+		event.preventDefault();
+		event.stopPropagation();
 
-	file_upload_wrapper.appendChild(file_upload);
-	document.body.appendChild(file_upload_wrapper);
+		parseDroppedItems(event.dataTransfer.items);
+
+		return false;
+	}, true);
 }

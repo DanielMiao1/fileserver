@@ -7,7 +7,7 @@ import { join } from "path";
 import { spawnSync } from "child_process";
 
 import { initializeTmp, registerDownloadHooks } from "./download.js";
-import { registerMultipartHooks, registerUploadHooks } from "./upload.js";
+import { registerUploadHooks } from "./upload.js";
 import registerFrontendHooks from "./frontend.js";
 
 initializeTmp();
@@ -18,8 +18,6 @@ const server = fastify({
 	ignoreDuplicateSlashes: true,
 	logger: process.env.NODE_ENV !== "production"
 });
-
-registerMultipartHooks(server);
 
 server.register(fastifyCompress, {
 	threshold: 512,
@@ -72,6 +70,8 @@ server.get("/data/*", (request, reply) => {
 
 server.delete("/*", (request, reply) => {
 	const path = `${serving_directory}/${decodeURIComponent(request.url).slice(6)}`
+
+	console.log(path)
 
 	if (fs.statSync(path).isDirectory()) {
 		fs.rmSync(path, {

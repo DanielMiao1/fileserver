@@ -1,24 +1,6 @@
-import { fastifyMultipart } from "@fastify/multipart";
-
-import { pipeline } from "stream";
-import { promisify } from "util";
-
 import * as fs from "fs";
 
-const upload = promisify(pipeline);
-
 const serving_directory = process.env.DIRECTORY ?? "/store";
-
-export function registerMultipartHooks(server) {
-	server.register(fastifyMultipart, {
-		limits: {
-			fieldNameSize: 1000000000,
-			fieldSize: 1000000000000,
-			fileSize: 1000000000000,
-			files: 1000000000
-		}
-	});
-}
 
 function fileNameAndExtension(path) {
 	const dot_index = path.lastIndexOf(".");
@@ -56,15 +38,16 @@ function assignDeduplicateFilename(path) {
 
 export function registerUploadHooks(server) {
 	server.post("/*", async (request, reply) => {
-		const path = serving_directory + request.url;
+		const path = assignDeduplicateFilename(serving_directory + decodeURIComponent(request.url));
 	
-		for await (const part of request.files()) {
-			const file_path = assignDeduplicateFilename(path + part.filename);
-
-			upload(part.file, fs.createWriteStream(file_path));
-		}
+		fs.writeFileSync(path, request.body, {
+			flag: "w"
+		}, error => {
+			if (error) {
+				server.log.error(error);
+			}
+		});
 	
-		reply.type("text/html");
-		return reply.redirect(request.url);
+		reply.type("text/html").send();
 	});
 }
