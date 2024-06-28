@@ -7,13 +7,11 @@ async function uploadFile(transfer_item, entry) {
 	const reader = new FileReader();
 
 	return await new Promise(resolve => {
-		reader.addEventListener("load", async event => {
-			await fetch(affixSlash(window.path) + encodeURIComponent(entry.name), {
+		reader.addEventListener("load", event => {
+			fetch(affixSlash(window.path) + encodeURIComponent(entry.name), {
 				body: event.target.result,
 				method: "POST"
-			});
-
-			resolve();
+			}).then(resolve);
 		});
 	
 		reader.readAsText(file);
@@ -27,7 +25,6 @@ async function parseDroppedItems(items) {
 
 			if (!entry.isDirectory) {
 				await uploadFile(items[index], entry);
-				console.log("upload");
 			}
 		}
 	}
