@@ -69,9 +69,7 @@ server.get("/data/*", (request, reply) => {
 });
 
 server.delete("/*", (request, reply) => {
-	const path = `${serving_directory}/${decodeURIComponent(request.url).slice(6)}`
-
-	console.log(path)
+	const path = `${serving_directory}/${decodeURIComponent(request.url).slice(6)}`;
 
 	if (fs.statSync(path).isDirectory()) {
 		fs.rmSync(path, {

@@ -2,27 +2,32 @@ function affixSlash(path) {
 	return path.endsWith("/") ? path : `${path}/`;
 }
 
-function uploadFile(transfer_item, entry) {
+async function uploadFile(transfer_item, entry) {
 	const file = transfer_item.getAsFile();
 	const reader = new FileReader();
 
-	reader.addEventListener("load", async event => {
-		await fetch(affixSlash(window.path) + encodeURIComponent(entry.name), {
-			body: event.target.result,
-			method: "POST"
-		});
-	});
+	return await new Promise(resolve => {
+		reader.addEventListener("load", async event => {
+			await fetch(affixSlash(window.path) + encodeURIComponent(entry.name), {
+				body: event.target.result,
+				method: "POST"
+			});
 
-	reader.readAsText(file);
+			resolve();
+		});
+	
+		reader.readAsText(file);
+	});
 }
 
-function parseDroppedItems(items) {
+async function parseDroppedItems(items) {
 	for (let index = 0; index < items.length; index++) {
 		if (items[index].kind === "file") {
 			const entry = "getAsEntry" in DataTransferItem.prototype ? items[index].getAsEntry() : items[index].webkitGetAsEntry();
 
 			if (!entry.isDirectory) {
-				uploadFile(items[index], entry);
+				await uploadFile(items[index], entry);
+				console.log("upload");
 			}
 		}
 	}
@@ -49,11 +54,11 @@ export function prepareUploadElement() {
 		return false;
 	}, true);
 
-	document.addEventListener("drop", event => {
+	document.addEventListener("drop", async event => {
 		event.preventDefault();
 		event.stopPropagation();
 
-		parseDroppedItems(event.dataTransfer.items);
+		await parseDroppedItems(event.dataTransfer.items);
 
 		return false;
 	}, true);
