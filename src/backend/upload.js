@@ -39,15 +39,21 @@ function assignDeduplicateFilename(path) {
 export default function registerUploadHooks(server) {
 	server.post("/*", (request, reply) => {
 		const path = assignDeduplicateFilename(serving_directory + decodeURIComponent(request.url));
+
+		if (request.headers.type === "file") {
+			fs.writeFileSync(path, request.body, {
+				flag: "w"
+			}, error => {
+				if (error) {
+					server.log.error(error);
+				}
+			});
+		} else if (request.headers.type === "directory") {
+			fs.mkdirSync(path);
+		} else {
+			return reply.status(400).send();
+		}
 	
-		fs.writeFileSync(path, request.body, {
-			flag: "w"
-		}, error => {
-			if (error) {
-				server.log.error(error);
-			}
-		});
-	
-		reply.type("text/html").send();
+		return reply.type("text/html").send();
 	});
 }
