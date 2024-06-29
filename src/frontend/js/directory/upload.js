@@ -21,27 +21,19 @@ async function uploadTransferItem(file, path) {
 }
 
 async function createFileFromEntry(entry) {
-	try {
-		return await new Promise((resolve, reject) => {
-			entry.file(resolve, reject);
-		});
-	} catch (error) {
-		console.error(error); // TODO: Create UI element to handle errors
-	}
+	return await new Promise(resolve => {
+		entry.file(resolve);
+	});
 }
 
 async function readDirectoryEntries(reader) {
-	try {
-		return await new Promise((resolve, reject) => {
-			reader.readEntries(resolve, reject);
-		});
-	} catch (error) {
-		console.error(error);
-	}
+	return await new Promise(resolve => {
+		reader.readEntries(resolve);
+	});
 }
 
 async function readAllDirectoryEntries(reader) {
-	let entries = [];
+	const entries = [];
 	let current_entries = await readDirectoryEntries(reader);
 	while (current_entries.length > 0) {
 		entries.push(...current_entries);
@@ -58,7 +50,7 @@ async function uploadDirectory(entry) {
 		method: "POST"
 	});
 
-	let entries = await readAllDirectoryEntries(entry.createReader());
+	const entries = await readAllDirectoryEntries(entry.createReader());
 	
 	for (const subentry of entries) {
 		if (subentry.isDirectory) {
