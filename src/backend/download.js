@@ -3,7 +3,7 @@ import { join } from "path";
 
 import * as fs from "fs";
 
-const serving_directory = process.env.DIRECTORY ?? "/store";
+import getScopedPath from "./path.js";
 
 function getFileContents(path) {
 	if (fs.existsSync(path)) {
@@ -36,7 +36,7 @@ export function initializeTmp() {
 
 export function registerDownloadHooks(server) {
 	server.get("/download/*", (request, reply) => {
-		const path = serving_directory + decodeURIComponent(request.url.slice(9));
+		const path = getScopedPath(decodeURIComponent(request.url.slice(9)), true);
 		const filename = path.slice(path.lastIndexOf("/") + 1);
 
 		reply.header("Cache-Control", "no-store");

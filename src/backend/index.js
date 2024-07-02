@@ -7,6 +7,7 @@ import { join } from "path";
 import { spawnSync } from "child_process";
 
 import { initializeTmp, registerDownloadHooks } from "./download.js";
+import getScopedPath from "./path.js";
 import registerFrontendHooks from "./frontend.js";
 import registerUploadHooks from "./upload.js";
 
@@ -44,7 +45,7 @@ registerDownloadHooks(server);
 
 server.get("/data/*", (request, reply) => {
 	reply.header("Cache-Control", "no-store");
-	const path = serving_directory + decodeURIComponent(request.url.slice(5));
+	const path = getScopedPath(decodeURIComponent(request.url.slice(5)), true);
 
 	if (fs.existsSync(path)) {
 		const stat = fs.statSync(path)
@@ -69,7 +70,15 @@ server.get("/data/*", (request, reply) => {
 });
 
 server.delete("/*", (request, reply) => {
-	const path = `${serving_directory}/${decodeURIComponent(request.url).slice(6)}`;
+	const path = getScopedPath(decodeURIComponent(request.url).slice(6));
+
+	if (!path) {
+		return reply.status(400).send();
+	}
+
+	if (!fs.existsSync(path)) {
+		return reply.status(404).send();
+	}
 
 	if (fs.statSync(path).isDirectory()) {
 		fs.rmSync(path, {
@@ -80,7 +89,7 @@ server.delete("/*", (request, reply) => {
 		fs.unlinkSync(path);
 	}
 
-	reply.send();
+	return reply.send();
 });
 
 registerUploadHooks(server);
@@ -90,8 +99,12 @@ server.put("/*", (request, reply) => {
 		return reply.status(400).send();
 	}
 
-	const new_path = `${serving_directory}/${decodeURIComponent(request.url).slice(6)}`
-	const old_path = serving_directory + request.headers.path;
+	const new_path = getScopedPath(decodeURIComponent(request.url).slice(6));
+	const old_path = getScopedPath(request.headers.path);
+
+	if (!new_path || !old_path) {
+		return reply.status(400).send()
+	}
 
 	if (!fs.existsSync(old_path)) {
 		return reply.status(404).send();

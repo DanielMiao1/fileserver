@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-const serving_directory = process.env.DIRECTORY ?? "/store";
+import getScopedPath from "./path.js";
 
 function fileNameAndExtension(path) {
 	const dot_index = path.lastIndexOf(".");
@@ -38,7 +38,11 @@ function assignDeduplicateFilename(path) {
 
 export default function registerUploadHooks(server) {
 	server.post("/*", (request, reply) => {
-		const path = assignDeduplicateFilename(serving_directory + decodeURIComponent(request.url));
+		const path = assignDeduplicateFilename(getScopedPath(decodeURIComponent(request.url)));
+
+		if (!path) {
+			return reply.status(400).send();
+		}
 
 		if (request.headers.type === "file") {
 			fs.writeFileSync(path, request.body, {
@@ -51,7 +55,7 @@ export default function registerUploadHooks(server) {
 		} else if (request.headers.type === "directory") {
 			fs.mkdirSync(path);
 		} else {
-			return reply.status(400).send();
+			return reply.status(415).send();
 		}
 	
 		return reply.type("text/html").send();
