@@ -1,7 +1,9 @@
 import createDirectoryView from "./view.js";
 import createSidebar from "../sidebar.js";
 import createToolbar from "../toolbar.js";
+
 import { initiateDownloader } from "../download.js"
+import { prepareUploadElement } from "./upload.js";
 
 function populateToolbar() {
 	window.toolbar.addStretch();
@@ -27,31 +29,15 @@ function populateToolbar() {
 	}
 }
 
-function fileUploadElements() {
-	const file_upload = document.createElement("input");
-	file_upload.multiple = true;
-	file_upload.type = "file";
-	file_upload.id = "file";
-	file_upload.name = "file";
-
-	const file_upload_wrapper = document.createElement("form");
-	file_upload_wrapper.method = "post";
-	file_upload_wrapper.enctype = "multipart/form-data";
-
-	file_upload_wrapper.appendChild(file_upload);
-	document.body.appendChild(file_upload_wrapper);
-}
-
 export default function loadDirectory(data) {
 	window.loadStylesheets(["/static/css/directory/extensions.css", "/static/css/directory/index.css"]);
 
 	createDirectoryView(data.data);
 
-	fileUploadElements();
-
 	document.getElementById("container").prepend(createSidebar());
 	document.body.appendChild(createToolbar());
 	populateToolbar();
-
+	
 	initiateDownloader();
+	prepareUploadElement();
 }

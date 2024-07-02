@@ -91,26 +91,28 @@ export function menuHandler(event) {
 			false,
 			"text separator-bottom"
 		],
-		Delete: [() => fetch(
-			`${(
-				document.location.pathname.endsWith("/") ?
-				document.location.pathname :
-				`${document.location.pathname}/`
-			)}${event.target.title}`,
-			{
-				method: "DELETE"
-			}
-		).then(response => {
-			if (response.ok) {
-				document.location.reload();
-			}
-		})],
+		Delete: [() => {
+			fetch(
+				`${(
+					document.location.pathname.endsWith("/") ?
+					document.location.pathname :
+					`${document.location.pathname}/`
+				)}${encodeURIComponent(event.target.title)}`,
+				{
+					method: "DELETE"
+				}
+			).then(response => {
+				if (response.ok) {
+					document.location.reload();
+				}
+			});
+		}],
 		Download: [() => {
 			document.getElementById("downloader").src = `/download${(
 				document.location.pathname.endsWith("/") ?
 				document.location.pathname :
 				`${document.location.pathname}/`
-			).slice(5)}${event.target.title}`
+			).slice(5)}${encodeURIComponent(event.target.title)}`
 		}],
 		// TODO: Properly open the file
 		Open: [() => event.target.dispatchEvent(new MouseEvent("dblclick"))],
