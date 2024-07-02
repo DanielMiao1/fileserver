@@ -85,6 +85,10 @@ function getButtonFromEventTarget(target) {
 	return target;
 }
 
+function ensureSlashSuffix(path) {
+	return path.endsWith("/") ? path : `${path}/`;
+}
+
 export function menuHandler(event) {
 	return {
 		[getButtonFromEventTarget(event.target).children[0].innerText]: [
@@ -92,16 +96,9 @@ export function menuHandler(event) {
 			"text separator-bottom"
 		],
 		Delete: [() => {
-			fetch(
-				`${(
-					document.location.pathname.endsWith("/") ?
-					document.location.pathname :
-					`${document.location.pathname}/`
-				)}${encodeURIComponent(event.target.title)}`,
-				{
-					method: "DELETE"
-				}
-			).then(response => {
+			fetch(ensureSlashSuffix(window.path) + encodeURIComponent(event.target.title), {
+				method: "DELETE"
+			}).then(response => {
 				if (response.ok) {
 					document.location.reload();
 				}
