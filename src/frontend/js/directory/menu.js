@@ -1,10 +1,10 @@
 function applyRename(old_filename) {
-	let enclosing_directory = document.location.pathname;
+	let enclosing_directory = window.path;
 	if (!enclosing_directory.endsWith("/")) {
 		enclosing_directory += "/";
 	}
 
-	const old_path = enclosing_directory.slice(5) + old_filename;
+	const old_path = enclosing_directory + old_filename;
 	const new_path = enclosing_directory + document.getElementById("rename").value;
 
 	fetch(new_path, {
@@ -85,6 +85,10 @@ function getButtonFromEventTarget(target) {
 	return target;
 }
 
+function ensureSlashSuffix(path) {
+	return path.endsWith("/") ? path : `${path}/`;
+}
+
 export function menuHandler(event) {
 	return {
 		[getButtonFromEventTarget(event.target).children[0].innerText]: [
@@ -92,27 +96,18 @@ export function menuHandler(event) {
 			"text separator-bottom"
 		],
 		Delete: [() => {
-			fetch(
-				`${(
-					document.location.pathname.endsWith("/") ?
-					document.location.pathname :
-					`${document.location.pathname}/`
-				)}${encodeURIComponent(event.target.title)}`,
-				{
-					method: "DELETE"
-				}
-			).then(response => {
+			const filename = document.getElementById("menu").children[0].innerText;
+			
+			fetch(ensureSlashSuffix(window.path) + encodeURIComponent(filename), {
+				method: "DELETE"
+			}).then(response => {
 				if (response.ok) {
 					document.location.reload();
 				}
 			});
 		}],
 		Download: [() => {
-			document.getElementById("downloader").src = `/download${(
-				document.location.pathname.endsWith("/") ?
-				document.location.pathname :
-				`${document.location.pathname}/`
-			).slice(5)}${encodeURIComponent(event.target.title)}`
+			document.getElementById("downloader").src = `/download${window.path}/${encodeURIComponent(event.target.title)}`
 		}],
 		// TODO: Properly open the file
 		Open: [() => event.target.dispatchEvent(new MouseEvent("dblclick"))],
