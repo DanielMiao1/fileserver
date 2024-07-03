@@ -31,10 +31,6 @@ function createListView(items) {
 }
 
 export default function createDirectoryView(items) {
-	if (!Object.keys(items).length) {
-		return;
-	}
-	
 	if (isGridView()) {
 		createGridView(items);
 	} else {
