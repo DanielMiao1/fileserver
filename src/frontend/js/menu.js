@@ -83,13 +83,8 @@ async function regenerateContextMenu(event) {
 			target = target.parentNode;
 		}
 	}
-	
-	appendMenuEntries({
-		"Reload": [() => document.location.reload()]
-	})
 
-	repositionContextMenu(event);
-	return openContextMenu();
+	return false;
 }
 
 document.addEventListener("contextmenu", async event => {

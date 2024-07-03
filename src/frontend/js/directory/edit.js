@@ -1,3 +1,5 @@
+import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
+
 function applyRename(old_filename) {
 	let enclosing_directory = window.path;
 	if (!enclosing_directory.endsWith("/")) {
@@ -19,8 +21,25 @@ function applyRename(old_filename) {
 	});
 }
 
+function ensureSlashSuffix(path) {
+	return path.endsWith("/") ? path : `${path}/`;
+}
+
+function requestNewDirectory(name) {
+	fetch(ensureSlashSuffix(window.path) + name, {
+		headers: {
+			type: "directory"
+		},
+		method: "POST"
+	}).then(response => {
+		if (response.ok) {
+			document.location.reload();
+		}
+	});
+}
+
 // eslint-disable-next-line max-lines-per-function
-function createRenameInput(target) {
+function createInput(target, finished_callback, aborted_callback) {
 	const old_filename = target.children[0].innerText;
 
 	const input_element = document.createElement("input");
@@ -37,14 +56,18 @@ function createRenameInput(target) {
 	document.getElementsByTagName("main")[0].addEventListener("mousedown", event => {
 		if (event.target !== target && event.target.parentNode !== target) {
 			if (old_filename === input_element.value) {
+				if (typeof aborted_callback === "function") {
+					aborted_callback(old_filename, false);
+				}
+
 				const span_element = document.createElement("span");
 				span_element.innerText = old_filename;
 				target.prepend(span_element);
 				target.children[1].remove();
 
 				listener_signal.abort();
-			} else {
-				applyRename(old_filename);
+			} else if (typeof finished_callback === "function") {
+				finished_callback(old_filename);
 			}
 		}
 	}, {
@@ -54,14 +77,18 @@ function createRenameInput(target) {
 	input_element.addEventListener("keydown", event => {
 		if (event.key === "Enter") {
 			if (old_filename === input_element.value) {
+				if (typeof aborted_callback === "function") {
+					aborted_callback(old_filename, false);
+				}
+
 				listener_signal.abort();
 
 				const span_element = document.createElement("span");
 				span_element.innerText = old_filename;
 				target.prepend(span_element);
 				target.children[1].remove();
-			} else {
-				applyRename(old_filename);
+			} else if (typeof finished_callback === "function") {
+				finished_callback(old_filename);
 			}
 		} else if (event.key === "Escape") {
 			event.preventDefault();
@@ -71,46 +98,40 @@ function createRenameInput(target) {
 			span_element.innerText = old_filename;
 			target.prepend(span_element);
 			target.children[1].remove();
+
+			if (typeof aborted_callback === "function") {
+				aborted_callback(old_filename, true);
+			}
 		}
 
 		return false;
 	});
 }
 
-function getButtonFromEventTarget(target) {
-	if (["P", "SPAN"].includes(target.nodeName)) {
-		return target.parentNode;
+export function createNewDirectoryInput() {
+	const main = document.getElementsByTagName("main")[0];
+
+	let directory_element;
+
+	if (main.classList.contains("grid")) {
+		directory_element = appendGridViewEntry("untitled directory", true);
+	} else {
+		directory_element = appendListViewEntry("untitled directory", true);
 	}
 
-	return target;
+	createInput(directory_element, () => {
+		requestNewDirectory(document.getElementById("rename").value);
+	}, (_, is_escape) => {
+		if (is_escape) {
+			return directory_element.remove();
+		}
+		
+		return requestNewDirectory(document.getElementById("rename").value);
+	});
 }
 
-function ensureSlashSuffix(path) {
-	return path.endsWith("/") ? path : `${path}/`;
-}
-
-export function menuHandler(event) {
-	return {
-		[getButtonFromEventTarget(event.target).children[0].innerText]: [
-			false,
-			"text separator-bottom"
-		],
-		Delete: [() => {
-			const filename = document.getElementById("menu").children[0].innerText;
-			
-			fetch(ensureSlashSuffix(window.path) + encodeURIComponent(filename), {
-				method: "DELETE"
-			}).then(response => {
-				if (response.ok) {
-					document.location.reload();
-				}
-			});
-		}],
-		Download: [() => {
-			document.getElementById("downloader").src = `/download${window.path}/${encodeURIComponent(event.target.title)}`
-		}],
-		// TODO: Properly open the file
-		Open: [() => event.target.dispatchEvent(new MouseEvent("dblclick"))],
-		Rename: [() => createRenameInput(getButtonFromEventTarget(event.target))]
-	}
+export function createRenameInput(target) {
+	return createInput(target, old_filename => {
+		applyRename(old_filename);
+	});
 }
