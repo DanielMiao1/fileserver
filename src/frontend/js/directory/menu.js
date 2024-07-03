@@ -1,10 +1,10 @@
 function applyRename(old_filename) {
-	let enclosing_directory = document.location.pathname;
+	let enclosing_directory = window.path;
 	if (!enclosing_directory.endsWith("/")) {
 		enclosing_directory += "/";
 	}
 
-	const old_path = enclosing_directory.slice(5) + old_filename;
+	const old_path = enclosing_directory + old_filename;
 	const new_path = enclosing_directory + document.getElementById("rename").value;
 
 	fetch(new_path, {
@@ -96,7 +96,9 @@ export function menuHandler(event) {
 			"text separator-bottom"
 		],
 		Delete: [() => {
-			fetch(ensureSlashSuffix(window.path) + encodeURIComponent(event.target.title), {
+			const filename = document.getElementById("menu").children[0].innerText;
+			
+			fetch(ensureSlashSuffix(window.path) + encodeURIComponent(filename), {
 				method: "DELETE"
 			}).then(response => {
 				if (response.ok) {

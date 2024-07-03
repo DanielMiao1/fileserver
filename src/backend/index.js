@@ -99,7 +99,7 @@ server.put("/*", (request, reply) => {
 		return reply.status(400).send();
 	}
 
-	const new_path = getScopedPath(decodeURIComponent(request.url).slice(6));
+	const new_path = getScopedPath(decodeURIComponent(request.url));
 	const old_path = getScopedPath(request.headers.path);
 
 	if (!new_path || !old_path) {
