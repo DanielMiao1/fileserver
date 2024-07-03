@@ -56,10 +56,12 @@ export function registerDownloadHooks(server) {
 
 		const zip_path = `${process.cwd()}/tmp/${filename}.zip`;
 
-		execSync(`zip -r ${zip_path} ${filename}/*`, {
+		execSync(`zip ${zip_path} -r ${filename}`, {
 			cwd: join(path, "..")
 		});
 		
-		return reply.status(299).send(getFileContents(zip_path).contents);
+		reply.status(299).send(getFileContents(zip_path).contents);
+
+		return fs.rmSync(zip_path);
 	});
 }

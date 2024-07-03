@@ -105,11 +105,7 @@ export function menuHandler(event) {
 			});
 		}],
 		Download: [() => {
-			document.getElementById("downloader").src = `/download${(
-				document.location.pathname.endsWith("/") ?
-				document.location.pathname :
-				`${document.location.pathname}/`
-			).slice(5)}${encodeURIComponent(event.target.title)}`
+			document.getElementById("downloader").src = `/download${window.path}/${encodeURIComponent(event.target.title)}`
 		}],
 		// TODO: Properly open the file
 		Open: [() => event.target.dispatchEvent(new MouseEvent("dblclick"))],
