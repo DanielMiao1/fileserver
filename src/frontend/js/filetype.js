@@ -280,7 +280,7 @@ export default function filetype(filename) {
 	}
 
 	if (["jpe", "jpeg", "jpg", "jpg-large", "jpg_large"].includes(format)) {
-		return "JavaScript Source File";
+		return "JPEG Image";
 	}
 
 	if (["json", "jsonc", "jsonl"].includes(format)) {
