@@ -70,7 +70,13 @@ export function appendListViewEntry(name, is_directory) {
 	row.appendChild(filename);
 	
 	const format = document.createElement("p");
-	format.innerText = filetype(name);
+	
+	if (is_directory) {
+		format.innerText = "Directory";
+	} else {
+		format.innerText = filetype(name);
+	}
+
 	row.appendChild(format);
 	
 	container.appendChild(row);
