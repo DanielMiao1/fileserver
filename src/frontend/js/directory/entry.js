@@ -1,10 +1,11 @@
 import filetype, { extension, hasExtension } from "../filetype.js";
-import select, { multi_select } from "./selection.js";
+import { multi_select, select } from "./selection.js";
+import isEditing from "./edit.js";
 
 const container = document.getElementsByTagName("main")[0];
 
 function navigateToRelative(name) {
-	if (!document.getElementById("rename")) {
+	if (!isEditing()) {
 		document.location = `${(
 			document.location.pathname.endsWith("/") ?
 			document.location.pathname :

@@ -1,6 +1,7 @@
 import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
+import isDragSelecting, { initiateDragSelection } from "./selection.js";
 import isGridView, { handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, handleArrowUpKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
-import { initiateDragSelection } from "./selection.js";
+import isEditing from "./edit.js";
 
 if (!localStorage.directory_view) {
 	localStorage.directory_view = "grid";
@@ -38,28 +39,29 @@ export default function createDirectoryView(items) {
 	}
 
 	window.addEventListener("keydown", event => {
-		if (
-			!document.getElementById("rename") &&
-			!document.getElementById("drag_selection")
-		) {
-			switch (event.key) {
-				case "ArrowUp":
-					handleArrowUpKey(event);
-					scrollSelectionIntoView();
-					break;
-				case "ArrowDown":
-					handleArrowDownKey(event);
-					scrollSelectionIntoView();
-					break;
-				case "ArrowLeft":
-					handleArrowLeftKey(event);
-					scrollSelectionIntoView();
-					break;
-				case "ArrowRight":
-					handleArrowRightKey(event);
-					scrollSelectionIntoView();
-					break;
-			}
+		if (isEditing() || isDragSelecting()) {
+			return false;
 		}
+
+		switch (event.key) {
+			case "ArrowUp":
+				handleArrowUpKey(event);
+				scrollSelectionIntoView();
+				break;
+			case "ArrowDown":
+				handleArrowDownKey(event);
+				scrollSelectionIntoView();
+				break;
+			case "ArrowLeft":
+				handleArrowLeftKey(event);
+				scrollSelectionIntoView();
+				break;
+			case "ArrowRight":
+				handleArrowRightKey(event);
+				scrollSelectionIntoView();
+				break;
+		}
+
+		return true;
 	});
 }
