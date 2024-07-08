@@ -135,3 +135,7 @@ export function createRenameInput(target) {
 		applyRename(old_filename);
 	});
 }
+
+export default function isEditing() {
+	return Boolean(document.getElementById("rename"));
+}

@@ -1,3 +1,5 @@
+import isEditing from "./edit.js";
+
 export let multi_select = false;
 export let selected;
 
@@ -5,8 +7,12 @@ let drag_selection_start_position = false;
 
 const main = document.getElementsByTagName("main")[0];
 
+export default function isDragSelecting() {
+	return Boolean(document.getElementById("drag_selection"));
+}
+
 // eslint-disable-next-line max-statements, max-lines-per-function
-export default function select(element, cumulate) {
+export function select(element, cumulate) {
 	if (element && cumulate) {
 		if (!selected) { 
 			selected = [];
@@ -90,7 +96,7 @@ function dragSelectedItems(selection) {
 // eslint-disable-next-line max-lines-per-function
 export function initiateDragSelection() {
 	main.addEventListener("mousedown", event => {
-		if (document.getElementById("rename")) {
+		if (isEditing()) {
 			return false;
 		}
 
@@ -118,7 +124,7 @@ export function initiateDragSelection() {
 	window.addEventListener("mouseup", () => {
 		drag_selection_start_position = false;
 
-		if (document.getElementById("drag_selection")) {
+		if (isDragSelecting()) {
 			document.getElementById("drag_selection").parentNode.removeChild(document.getElementById("drag_selection"));
 		}
 	});
@@ -180,7 +186,7 @@ window.addEventListener("keydown", event => {
 		multi_select = true;
 	}
 
-	if (event.key === "a" && (event.metaKey || event.ctrlKey)) {
+	if (!isEditing() && event.key === "a" && (event.metaKey || event.ctrlKey)) {
 		select(main.children);
 		event.preventDefault();
 		event.stopPropagation();

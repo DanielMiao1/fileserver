@@ -1,4 +1,4 @@
-import select, { selected } from "./selection.js";
+import { select, selected } from "./selection.js";
 
 const main = document.getElementsByTagName("main")[0];
 
