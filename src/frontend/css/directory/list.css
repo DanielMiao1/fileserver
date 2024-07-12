@@ -9,12 +9,11 @@ main {
 
 main div {
 	display: grid;
-	grid-template-columns: 25px 1fr 1fr;
+	grid-template-columns: 36px 1fr 1fr;
 	height: 3em;
 	align-items: center;
-	gap: 8px;
+	gap: 16px;
 	border-radius: 5px;
-	padding-left: 12px;
 	font-size: 0.8em;
 }
 
@@ -29,6 +28,8 @@ main div.selected {
 
 main div img {
 	height: 28px;
+	justify-self: center;
+	padding-left: 18px;
 }
 
 main div * {
