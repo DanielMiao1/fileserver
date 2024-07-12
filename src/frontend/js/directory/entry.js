@@ -40,6 +40,10 @@ export function appendGridViewEntry(name, is_directory) {
 	button.addEventListener("mousedown", event => selectItem(event.button, button));
 	button.addEventListener("dblclick", () => navigateToRelative(name));
 
+	const file_icon = document.createElement("img");
+	file_icon.src = "/static/img/*.svg";
+	button.appendChild(file_icon);
+
 	const text_container = document.createElement("span");
 	text_container.innerText = name;
 	button.appendChild(text_container);
@@ -49,6 +53,7 @@ export function appendGridViewEntry(name, is_directory) {
 	return button;
 }
 
+// eslint-disable-next-line max-statements
 export function appendListViewEntry(name, is_directory) {
 	const row = document.createElement("div")
 	row.dataset.menu = "/static/js/directory/file_menu.js"
@@ -61,9 +66,11 @@ export function appendListViewEntry(name, is_directory) {
 
 	if (name.startsWith(".")) {
 		row.classList.add("hidden");
-	} else if (!is_directory && hasExtension(name)) {
-		row.classList.add(`file-${extension(name)}`)
 	}
+
+	const file_icon = document.createElement("img");
+	file_icon.src = "/static/img/*.svg";
+	row.appendChild(file_icon);
 	
 	const filename = document.createElement("p");
 	filename.innerText = name;

@@ -11,7 +11,6 @@ main div {
 	display: grid;
 	grid-template-columns: 25px 1fr 1fr;
 	padding: 2px;
-	padding-left: 15px;
 	border-radius: 5px;
 	font-size: 0.8em;
 }
@@ -25,16 +24,21 @@ main div.selected {
 	color: white;
 }
 
-main div::before {
+main div img {
+	height: 16px;
+	padding-left: 5px;
+}
+
+/* main div::before {
 	content: "";
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-image: url("/static/img/formats/Document.webp");
-}
+}fill="#EFEFEF"
 
 main div.directory::before {
 	background-image: url("/static/img/formats/Directory.webp");
-}
+} */
 
 main div input {
 	border: 0;

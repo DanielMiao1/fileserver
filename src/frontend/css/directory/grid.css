@@ -39,27 +39,16 @@ main button.selected span {
 	background-color: var(--select-color);
 }
 
-main button::before {
-	content: "";
+main button img {
 	width: 80%;
 	height: 90px;
 	position: absolute;
 	top: 5px;
 	left: 10%;
-	background-size: contain;
-	background-repeat: no-repeat;
 }
 
-main button.hidden::before {
+main button.hidden img {
 	filter: contrast(0.3) brightness(1.53);
-}
-
-main button::before {
-	background-image: url("/static/img/formats/Document.webp");
-}
-
-main button.directory::before {
-	background-image: url("/static/img/formats/Directory.webp");
 }
 
 main button::after {
