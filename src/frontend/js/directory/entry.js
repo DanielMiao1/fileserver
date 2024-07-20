@@ -34,6 +34,9 @@ export function appendGridViewEntry(name, is_directory) {
 	button.addEventListener("mousedown", event => selectItem(event.button, button));
 	button.addEventListener("dblclick", () => navigateToRelative(name));
 
+	const file_icon_container = document.createElement("div");
+	button.appendChild(file_icon_container)
+
 	const file_icon = document.createElement("img");
 
 	if (is_directory) {
@@ -42,7 +45,7 @@ export function appendGridViewEntry(name, is_directory) {
 		file_icon.src = "/static/img/extensions/*.svg";
 	}
 
-	button.appendChild(file_icon);
+	file_icon_container.appendChild(file_icon);
 
 	const text_container = document.createElement("span");
 	text_container.innerText = name;
