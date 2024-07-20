@@ -30,6 +30,7 @@ main button span {
 main button input {
 	text-align: center;
 	width: 89%;
+	margin-top: 6px;
 }
 
 main button.selected {

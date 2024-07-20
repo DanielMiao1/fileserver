@@ -40,12 +40,12 @@ function requestNewDirectory(name) {
 
 // eslint-disable-next-line max-lines-per-function
 function createInput(target, finished_callback, aborted_callback) {
-	const old_filename = target.children[0].innerText;
+	const old_filename = target.children[1].innerText;
 
 	const input_element = document.createElement("input");
 	input_element.value = old_filename;
 	input_element.id = "rename";
-	target.prepend(input_element);
+	target.children[1].after(input_element);
 	target.children[1].remove();
 
 	input_element.focus();
@@ -62,7 +62,7 @@ function createInput(target, finished_callback, aborted_callback) {
 
 				const span_element = document.createElement("span");
 				span_element.innerText = old_filename;
-				target.prepend(span_element);
+				target.children[1].after(span_element);
 				target.children[1].remove();
 
 				listener_signal.abort();
@@ -85,7 +85,7 @@ function createInput(target, finished_callback, aborted_callback) {
 
 				const span_element = document.createElement("span");
 				span_element.innerText = old_filename;
-				target.prepend(span_element);
+				target.children[1].after(span_element);
 				target.children[1].remove();
 			} else if (typeof finished_callback === "function") {
 				finished_callback(old_filename);
@@ -96,7 +96,7 @@ function createInput(target, finished_callback, aborted_callback) {
 
 			const span_element = document.createElement("span");
 			span_element.innerText = old_filename;
-			target.prepend(span_element);
+			target.children[1].after(span_element);
 			target.children[1].remove();
 
 			if (typeof aborted_callback === "function") {
