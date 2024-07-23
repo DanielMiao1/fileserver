@@ -22,6 +22,16 @@ function selectItem(button, element) {
 	select(element, multi_select);
 }
 
+function assignFileIcon(filename) {
+	for (const extension of ["png", "jpg", "jpeg"]) {
+		if (filename.endsWith(`.${extension}`)) {
+			return `/static/img/extensions/${extension}.svg`;
+		}
+	}
+
+	return "/static/img/extensions/*.svg";
+}
+
 export function appendGridViewEntry(name, is_directory) {
 	const button = document.createElement("button");
 	button.title = name;
@@ -42,7 +52,7 @@ export function appendGridViewEntry(name, is_directory) {
 	if (is_directory) {
 		file_icon.src = "/static/img/directory.svg";
 	} else {
-		file_icon.src = "/static/img/extensions/*.svg";
+		file_icon.src = assignFileIcon(name);
 	}
 
 	file_icon_container.appendChild(file_icon);
@@ -72,7 +82,7 @@ export function appendListViewEntry(name, is_directory) {
 	if (is_directory) {
 		file_icon.src = "/static/img/directory.svg";
 	} else {
-		file_icon.src = "/static/img/extensions/*.svg";
+		file_icon.src = assignFileIcon(name);
 	}
 
 	row.appendChild(file_icon);
