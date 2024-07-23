@@ -23,7 +23,7 @@ function selectItem(button, element) {
 }
 
 function assignFileIcon(filename) {
-	for (const extension of ["png", "jpg", "jpeg"]) {
+	for (const extension of ["jpeg", "jpg", "png", "svg"]) {
 		if (filename.endsWith(`.${extension}`)) {
 			return `/static/img/extensions/${extension}.svg`;
 		}
