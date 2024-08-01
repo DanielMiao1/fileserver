@@ -8,7 +8,7 @@
 	<path d="M57,145 l25,-25 l10,9 l35,-35 l28,27 v23 l-7,7 h-86" fill="#7C7"/>
 	<circle cx="75" cy="102" r="10" fill="#DD1"/>
 	<path d="M65,80 h80 a10,10 0 0 1 10,10 v50 a10,10 0 0 1 -10,10 h-80 a10,10 0 0 1 -10,-10 v-50 a10,10 0 0 1 10,-10" fill="none" stroke-width="3px" stroke="#CCC"/>
-	<path d="M122,20 l70 70 h-60  a10,10 0 0 1 -10,-10" fill="#EFEFEF" style="filter: drop-shadow(-4px 4px 12px rgba(0, 0, 0, 0.3));"/>
+	<path d="M122,20 l70 70 h-60 a10,10 0 0 1 -10,-10" fill="#EFEFEF" style="filter: drop-shadow(-4px 4px 12px rgba(0, 0, 0, 0.3));"/>
 	<path d="M20,198 h172 v40 a10,10 0 0 1 -10,10 h-152 a10,10 0 0 1 -10,-10" fill="#DDD"/>
 	<text x="106" y="232" text-anchor="middle">PNG</text>
 </svg>
