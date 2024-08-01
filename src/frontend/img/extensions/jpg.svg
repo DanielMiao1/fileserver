@@ -1,0 +1,14 @@
+<svg width="212" height="268" viewBox="0 0 212 268" version="1" xmlns="http://www.w3.org/2000/svg">
+	<style>
+		text {
+			font: 30px "SF Pro";
+		}
+	</style>
+	<path d="M30,20 h92 l70 70 v148 a10,10 0 0 1 -10,10 h-152 a10,10 0 0 1 -10,-10 v-208 a10,10 0 0 1 10,-10 z" fill="#F5F5F5" style="filter: drop-shadow(0px 4px 3px rgba(0, 0, 0, 0.3));"/>
+  <path d="M57,145 h15 v-15 h15 v-15 h15 v15 h15 v-15 h15 v-15 h15 v15 h8 v28 l-7,7 h-86 " fill="#7C7"/>
+  <path d="M65,92 h15 v15 h-15" fill="#DD1"/>
+	<path d="M65,80 h80 a10,10 0 0 1 10,10 v50 a10,10 0 0 1 -10,10 h-80 a10,10 0 0 1 -10,-10 v-50 a10,10 0 0 1 10,-10" fill="none" stroke-width="3px" stroke="#CCC"/>
+	<path d="M122,20 l70 70 h-60 a10,10 0 0 1 -10,-10" fill="#EFEFEF" style="filter: drop-shadow(-4px 4px 12px rgba(0, 0, 0, 0.3));"/>
+	<path d="M20,198 h172 v40 a10,10 0 0 1 -10,10 h-152 a10,10 0 0 1 -10,-10" fill="#DDD"/>
+	<text x="106" y="232" text-anchor="middle">JPG</text>
+</svg>

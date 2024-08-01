@@ -2,12 +2,12 @@
 @import url("./toolbars.css");
 
 @font-face {
-  font-family: "SF Pro";
-  font-display: swap;
-  font-weight: 400;
-  font-style: normal;
-  src: url("/static/fonts/sf.woff2") format("woff2");
-  unicode-range: U+0000-024F;
+	font-family: "SF Pro";
+	font-display: swap;
+	font-weight: 400;
+	font-style: normal;
+	src: url("/static/fonts/sf.woff2") format("woff2");
+	unicode-range: U+0000-024F;
 }
 
 :root {

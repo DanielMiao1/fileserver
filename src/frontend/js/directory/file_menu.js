@@ -14,7 +14,7 @@ function ensureSlashSuffix(path) {
 
 export function menuHandler(event) {
 	return {
-		[getButtonFromEventTarget(event.target).children[0].innerText]: [
+		[getButtonFromEventTarget(event.target).children[1].innerText]: [
 			false,
 			"text separator-bottom"
 		],

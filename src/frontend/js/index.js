@@ -9,6 +9,23 @@ window.loadStylesheets = paths => {
 	}
 }
 
+// TODO: Use exported function instead of window namespace
+
+window.loadScript = (path, sri) => {
+	const script = document.createElement("script");
+	script.src = path;
+	script.crossOrigin = "anonymous";
+	script.referrerPolicy = "no-referrer";
+
+	if (sri) {
+		script.integrity = sri;
+	}
+
+	document.body.appendChild(script);
+
+	return script;
+}
+
 fetch(`/data${window.path}`).then(async response => {
 	if (!response.ok) {
 		return import("./error.js").then(loader => loader.default(response.status));

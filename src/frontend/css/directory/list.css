@@ -9,15 +9,16 @@ main {
 
 main div {
 	display: grid;
-	grid-template-columns: 25px 1fr 1fr;
-	padding: 2px;
-	padding-left: 15px;
+	grid-template-columns: 36px 1fr 1fr;
+	height: 3em;
+	align-items: center;
+	gap: 16px;
 	border-radius: 5px;
 	font-size: 0.8em;
 }
 
 main div:nth-child(odd) {
-	background-color: #F5F5F5;
+	background-color: #F2F2F2;
 }
 
 main div.selected {
@@ -25,15 +26,14 @@ main div.selected {
 	color: white;
 }
 
-main div::before {
-	content: "";
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-image: url("/static/img/formats/Document.webp");
+main div img {
+	height: 28px;
+	justify-self: center;
+	padding-left: 18px;
 }
 
-main div.directory::before {
-	background-image: url("/static/img/formats/Directory.webp");
+main div * {
+	height: min-content;
 }
 
 main div input {
