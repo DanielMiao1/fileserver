@@ -65,6 +65,11 @@ async function regenerateContextMenu(event) {
 
 	let target = event.target;
 	while (target) {
+		if (target.nodeType >= 9) {
+			console.warn("Reached document root while searching for context menu handler");
+			return false;
+		}
+
 		if (target.dataset && target.dataset.menu) {
 			try {
 				const { menuHandler } = await import(target.dataset.menu);
@@ -79,9 +84,9 @@ async function regenerateContextMenu(event) {
 			} catch {
 				console.warn(`Importing context menu handler for ${target} failed`);
 			}
-		} else {
-			target = target.parentNode;
 		}
+
+		target = target.parentNode;
 	}
 
 	return false;
