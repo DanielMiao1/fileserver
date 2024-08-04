@@ -34,6 +34,7 @@ fetch(`/data${window.path}`).then(async response => {
 	const data = await response.json();
 
 	if (data.type === "directory") {
+		window.loadStylesheets(["/static/css/directory/popup.css"]);
 		return import("./directory/index.js").then(loader => loader.default(data));
 	}
 	
