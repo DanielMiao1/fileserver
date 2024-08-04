@@ -17,14 +17,15 @@ main button {
 main button span {
 	padding: 3px 5px 3px;
 	border-radius: 5px;
-	text-overflow: ellipsis;
 	overflow: hidden;
 	display: block;
 	width: fit-content;
 	max-width: 89%;
 	margin: auto;
 	margin-top: 6px;
-	white-space: nowrap;
+	word-break: break-all;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
 }
 
 main button input {
