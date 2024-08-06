@@ -2,7 +2,15 @@ import { fastify } from "fastify";
 import { fastifyCompress } from "@fastify/compress";
 import { fastifyStatic } from "@fastify/static";
 
-import * as fs from "fs"
+import {
+	existsSync,
+	readdirSync,
+	renameSync,
+	rmSync,
+	statSync,
+	unlinkSync
+} from "fs";
+
 import { join } from "path";
 import { spawnSync } from "child_process";
 
@@ -19,6 +27,11 @@ const server = fastify({
 	ignoreDuplicateSlashes: true,
 	logger: process.env["NODE_ENV"] !== "production"
 });
+
+if (!existsSync(serving_directory)) {
+	server.log.error("Invalid serving directory");
+	process.exit(1);
+}
 
 server.register(fastifyCompress, {
 	threshold: 512,
@@ -47,13 +60,13 @@ server.get("/data/*", (request, reply) => {
 	reply.header("Cache-Control", "no-store");
 	const path = getScopedPath(decodeURIComponent(request.url.slice(5)), true);
 
-	if (path && fs.existsSync(path)) {
-		const stat = fs.statSync(path)
+	if (path && existsSync(path)) {
+		const stat = statSync(path)
 
 		if (stat.isDirectory()) {
 			reply.send({
-				data: Object.assign({}, ...fs.readdirSync(path).map(item => ({
-					[item]: fs.statSync((path.endsWith("/") ? path : `${path}/`) + item).isDirectory()
+				data: Object.assign({}, ...readdirSync(path).map(item => ({
+					[item]: statSync((path.endsWith("/") ? path : `${path}/`) + item).isDirectory()
 				}))),
 				type: "directory"
 			});
@@ -76,17 +89,17 @@ server.delete("/*", (request, reply) => {
 		return reply.status(400).send();
 	}
 
-	if (!fs.existsSync(path)) {
+	if (!existsSync(path)) {
 		return reply.status(404).send();
 	}
 
-	if (fs.statSync(path).isDirectory()) {
-		fs.rmSync(path, {
+	if (statSync(path).isDirectory()) {
+		rmSync(path, {
 			force: true,
 			recursive: true
 		});
 	} else {
-		fs.unlinkSync(path);
+		unlinkSync(path);
 	}
 
 	return reply.send();
@@ -106,15 +119,15 @@ server.put("/*", (request, reply) => {
 		return reply.status(400).send()
 	}
 
-	if (!fs.existsSync(old_path)) {
+	if (!existsSync(old_path)) {
 		return reply.status(404).send();
 	}
 
-	if (fs.existsSync(new_path)) {
+	if (existsSync(new_path)) {
 		return reply.status(409).send();
 	}
 
-	fs.renameSync(old_path, new_path);
+	renameSync(old_path, new_path);
 
 	return reply.send();
 });

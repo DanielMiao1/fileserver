@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 
 import getScopedPath from "./path.js";
 
@@ -22,7 +22,7 @@ function fileNameAndExtension(path: string): [string, string] {
 function assignDeduplicateFilename(path: string) {
 	let deduplicated_path = path;
 
-	while (fs.existsSync(deduplicated_path)) {
+	while (existsSync(deduplicated_path)) {
 		const [filename, extension] = fileNameAndExtension(deduplicated_path);
 		if (filename.endsWith(" copy")) {
 			deduplicated_path = `${filename} 1${extension}`;
@@ -54,11 +54,11 @@ export default function registerUploadHooks(server: FastifyInstance) {
 		if (request.headers["type"] === "file") {
 			const file_contents = request.body as string;
 
-			fs.writeFileSync(path, file_contents, {
+			writeFileSync(path, file_contents, {
 				flag: "w"
 			});
 		} else if (request.headers["type"] === "directory") {
-			fs.mkdirSync(path);
+			mkdirSync(path);
 		} else {
 			return reply.status(415).send();
 		}

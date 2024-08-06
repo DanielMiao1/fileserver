@@ -1,5 +1,5 @@
-import { default as fs } from "fs"
 import { join } from "path";
+import { readFileSync } from "fs"
 
 import type { FastifyInstance } from "fastify";
 
@@ -14,7 +14,7 @@ export default function registerFrontendHooks(server: FastifyInstance) {
 
 	server.get("/path/*", (_, reply) => {
 		reply.type("text/html");
-		return fs.readFileSync(join(process.cwd(), "src/frontend/index.html"));
+		return readFileSync(join(process.cwd(), "src/frontend/index.html"));
 	});
 
 	server.get("/favicon.ico", (_, reply) => {

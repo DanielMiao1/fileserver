@@ -1,22 +1,21 @@
 import { execSync } from "child_process";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync } from "fs";
 import { join } from "path";
-
-import * as fs from "fs";
 
 import getScopedPath from "./path.js";
 
 import type { FastifyInstance } from "fastify";
 
 function getFileContents(path: string) {
-	if (fs.existsSync(path)) {
-		const stat = fs.statSync(path)
+	if (existsSync(path)) {
+		const stat = statSync(path)
 
 		if (stat.isDirectory()) {
 			return { isFile: false };
 		}
 
 		return {
-			contents: fs.readFileSync(path),
+			contents: readFileSync(path),
 			isFile: true
 		};
 	}
@@ -25,14 +24,14 @@ function getFileContents(path: string) {
 }
 
 export function initializeTmp() {
-	if (fs.existsSync("tmp")) {
-		fs.rmSync("tmp", {
+	if (existsSync("tmp")) {
+		rmSync("tmp", {
 			force: true,
 			recursive: true
 		});
 	}
 
-	fs.mkdirSync("tmp");
+	mkdirSync("tmp");
 }
 
 
@@ -69,6 +68,6 @@ export function registerDownloadHooks(server: FastifyInstance) {
 		
 		reply.status(299).send(getFileContents(zip_path).contents);
 
-		return fs.rmSync(zip_path);
+		return rmSync(zip_path);
 	});
 }
