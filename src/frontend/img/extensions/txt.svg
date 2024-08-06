@@ -1,7 +1,7 @@
 <svg width="212" height="268" viewBox="0 0 212 268" version="1" xmlns="http://www.w3.org/2000/svg">
 	<style>
 		text {
-			font: 30px "SF Pro";
+			font: 30px "Inter";
 		}
 
 		.small {
