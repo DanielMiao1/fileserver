@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		// "allowJs": true,
+		// "lib": ["ES2023"],
+		"moduleResolution": "NodeNext",
+		"target": "ESNext",
+		"module": "NodeNext",
+		// "esModuleInterop": true,
+    // "skipLibCheck": true,
+		// "isolatedModules": true,
+		"outDir": "../../build/backend"
+	},
+	"include": ["./**/*"],
+	"extends": "@tsconfig/strictest/tsconfig.json"
+}
