@@ -1,7 +1,9 @@
 import { default as fs } from "fs"
 import { join } from "path";
 
-export default function registerFrontendHooks(server) {
+import type { FastifyInstance } from "fastify";
+
+export default function registerFrontendHooks(server: FastifyInstance) {
 	server.get("/", (_, reply) => {
 		reply.redirect("/path/");
 	});

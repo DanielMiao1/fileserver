@@ -1,12 +1,12 @@
 import { resolve } from "path";
 
-const serving_directory = process.env.DIRECTORY ?? "/store";
+const serving_directory = process.env["DIRECTORY"] ?? "/store";
 
-function ensureSlashPrefix(path) {
+function ensureSlashPrefix(path: string) {
 	return path.startsWith("/") ? path : `/${path}`;
 }
 
-export default function getScopedPath(relative_path, allow_root=false) {
+export default function getScopedPath(relative_path: string, allow_root=false) {
 	const path = resolve(serving_directory + ensureSlashPrefix(relative_path));
 
 	if (!path.startsWith(serving_directory)) {

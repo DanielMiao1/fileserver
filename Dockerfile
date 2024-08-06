@@ -6,6 +6,7 @@ RUN apt install -y uchardet zip
 
 COPY package.json package-lock.json .
 RUN npm ci
+RUN npm run build
 COPY . .
 EXPOSE 8192
 ENV NODE_ENV production

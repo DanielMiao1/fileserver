@@ -2,7 +2,9 @@ import * as fs from "fs";
 
 import getScopedPath from "./path.js";
 
-function fileNameAndExtension(path) {
+import type { FastifyInstance } from "fastify";
+
+function fileNameAndExtension(path: string): [string, string] {
 	const dot_index = path.lastIndexOf(".");
 	const slash_index = path.lastIndexOf("/");
 
@@ -17,7 +19,7 @@ function fileNameAndExtension(path) {
 	return [path.slice(0, dot_index), path.slice(dot_index)];
 }
 
-function assignDeduplicateFilename(path) {
+function assignDeduplicateFilename(path: string) {
 	let deduplicated_path = path;
 
 	while (fs.existsSync(deduplicated_path)) {
@@ -36,23 +38,26 @@ function assignDeduplicateFilename(path) {
 	return deduplicated_path;
 }
 
-export default function registerUploadHooks(server) {
+export default function registerUploadHooks(server: FastifyInstance) {
 	server.post("/*", (request, reply) => {
-		const path = assignDeduplicateFilename(getScopedPath(decodeURIComponent(request.url)));
+		const scoped_path = getScopedPath(decodeURIComponent(request.url));
+		if (!scoped_path) {
+			return reply.status(400).send();
+		}
+
+		const path = assignDeduplicateFilename(scoped_path);
 
 		if (!path) {
 			return reply.status(400).send();
 		}
 
-		if (request.headers.type === "file") {
-			fs.writeFileSync(path, request.body, {
+		if (request.headers["type"] === "file") {
+			const file_contents = request.body as string;
+
+			fs.writeFileSync(path, file_contents, {
 				flag: "w"
-			}, error => {
-				if (error) {
-					server.log.error(error);
-				}
 			});
-		} else if (request.headers.type === "directory") {
+		} else if (request.headers["type"] === "directory") {
 			fs.mkdirSync(path);
 		} else {
 			return reply.status(415).send();

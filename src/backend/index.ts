@@ -13,11 +13,11 @@ import registerUploadHooks from "./upload.js";
 
 initializeTmp();
 
-const serving_directory = process.env.DIRECTORY ?? "/store";
+const serving_directory = process.env["DIRECTORY"] ?? "/store";
 
 const server = fastify({
 	ignoreDuplicateSlashes: true,
-	logger: process.env.NODE_ENV !== "production"
+	logger: process.env["NODE_ENV"] !== "production"
 });
 
 server.register(fastifyCompress, {
@@ -47,7 +47,7 @@ server.get("/data/*", (request, reply) => {
 	reply.header("Cache-Control", "no-store");
 	const path = getScopedPath(decodeURIComponent(request.url.slice(5)), true);
 
-	if (fs.existsSync(path)) {
+	if (path && fs.existsSync(path)) {
 		const stat = fs.statSync(path)
 
 		if (stat.isDirectory()) {
@@ -95,12 +95,12 @@ server.delete("/*", (request, reply) => {
 registerUploadHooks(server);
 
 server.put("/*", (request, reply) => {
-	if (!Object.keys(request.headers).includes("path")) {
+	if (typeof request.headers["path"] !== "string") {
 		return reply.status(400).send();
 	}
 
 	const new_path = getScopedPath(decodeURIComponent(request.url));
-	const old_path = getScopedPath(request.headers.path);
+	const old_path = getScopedPath(request.headers["path"]);
 
 	if (!new_path || !old_path) {
 		return reply.status(400).send()

@@ -3,14 +3,18 @@
 	"version": "0.0.1-alpha0",
 	"type": "module",
 	"scripts": {
-		"start": "node src/backend/index.js",
+		"build": "npx tsc",
+		"start": "node build/backend/index.js",
 		"lint": "npx eslint src"
 	},
 	"dependencies": {
 		"@fastify/compress": "^7.0.3",
 		"@fastify/multipart": "^8.3.0",
 		"@fastify/static": "^7.0.4",
-		"fastify": "^4.28.1"
+		"@tsconfig/strictest": "^2.0.5",
+		"@types/node": "^22.1.0",
+		"fastify": "^4.28.1",
+		"typescript": "^5.5.4"
 	},
 	"engines": {
 		"node": ">=20"

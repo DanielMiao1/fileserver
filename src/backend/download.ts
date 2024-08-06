@@ -5,7 +5,9 @@ import * as fs from "fs";
 
 import getScopedPath from "./path.js";
 
-function getFileContents(path) {
+import type { FastifyInstance } from "fastify";
+
+function getFileContents(path: string) {
 	if (fs.existsSync(path)) {
 		const stat = fs.statSync(path)
 
@@ -34,9 +36,14 @@ export function initializeTmp() {
 }
 
 
-export function registerDownloadHooks(server) {
+export function registerDownloadHooks(server: FastifyInstance) {
 	server.get("/download/*", (request, reply) => {
 		const path = getScopedPath(decodeURIComponent(request.url.slice(9)), true);
+
+		if (!path) {
+			return reply.status(400).send();
+		}
+
 		const filename = path.slice(path.lastIndexOf("/") + 1);
 
 		reply.header("Cache-Control", "no-store");
