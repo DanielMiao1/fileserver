@@ -1,4 +1,6 @@
-function createContextMenu() {
+import globalContextMenu from "./directory/global_menu.js";
+
+function initializeContextMenu() {
 	const menu = document.createElement("div");
 	menu.id = "menu";
 	menu.style.display = "none";
@@ -6,7 +8,7 @@ function createContextMenu() {
 }
 
 if (!document.getElementById("menu")) {
-	createContextMenu();
+	initializeContextMenu();
 }
 
 const menu = document.getElementById("menu");
@@ -60,50 +62,31 @@ function appendMenuEntries(entries) {
 	}
 }
 
-async function regenerateContextMenu(event: MouseEvent) {
+export default async function createContextMenu(event, entries) {
 	if (menu.style.display === "flex") {
-		return closeContextMenu().then(() => regenerateContextMenu(event));
+		return closeContextMenu().then(() => createContextMenu(event, entries));
 	}
 
 	while (menu.firstChild) {
 		menu.removeChild(menu.firstChild)
 	}
 
-	let target = event.target;
-// 	while (target) {
-// 		if (target.nodeType >= 9) {
-// 			console.warn("Reached document root while searching for context menu handler");
-// 			return false;
-// 		}
-
-// 		if (target.dataset && target.dataset.menu) {
-// 			try {
-// 				const { menuHandler } = await import(target.dataset.menu);
-
-// 				if (menuHandler) {
-// 					appendMenuEntries(menuHandler(event));
-// 					repositionContextMenu(event);
-// 					return openContextMenu();
-// 				}
-
-// 				console.warn(`Context menu handler does not exist in ${target.dataset.menu}`);
-// 			} catch {
-// 				console.warn(`Importing context menu handler for ${target} failed`);
-// 			}
-// 		}
-
-// 		target = target.parentNode;
-// 	}
-
-	return false;
+	appendMenuEntries(entries);
+	repositionContextMenu(event);
+	return openContextMenu();
 }
 
 document.addEventListener("contextmenu", async event => {
 	event.preventDefault();
 	event.stopPropagation();
-	await regenerateContextMenu(event);
 	return false;
 }, true);
+
+document.getElementsByTagName("main")[0].addEventListener("mousedown", event => {
+	if (event.button === 2) {
+		createContextMenu(event, globalContextMenu(event));
+	}
+});
 
 document.addEventListener("mousedown", event => {
 	if (event.button !== 2) {

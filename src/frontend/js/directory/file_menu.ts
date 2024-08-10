@@ -18,7 +18,7 @@ function truncate(text, length=10) {
 }
 
 function getButtonFromEventTarget(target) {
-	if (["P", "SPAN"].includes(target.nodeName)) {
+	if (["P", "SPAN", "FIGURE", "IMG"].includes(target.nodeName)) {
 		return target.parentNode;
 	}
 
@@ -35,7 +35,7 @@ function deleteFile(filename) {
 	});
 }
 
-export function menuHandler(event) {
+export default function fileContextMenu(event) {
 	return {
 		[getButtonFromEventTarget(event.target).children[1].innerText]: [
 			false,
@@ -64,7 +64,7 @@ export function menuHandler(event) {
 			document.getElementById("downloader").src = `/download${path}/${encodeURIComponent(event.target.title)}`
 		}],
 		// TODO: Properly open the file
-		Open: [() => event.target.dispatchEvent(new MouseEvent("dblclick"))],
+		Open: [() => getButtonFromEventTarget(event.target).dispatchEvent(new MouseEvent("dblclick"))],
 		Rename: [() => createRenameInput(getButtonFromEventTarget(event.target))]
 	}
 }

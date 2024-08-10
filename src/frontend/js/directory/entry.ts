@@ -1,4 +1,7 @@
 import { multi_select, select } from "./selection.js";
+
+import createContextMenu from "../menu.js";
+import fileContextMenu from "./file_menu.js";
 import filetype from "../filetype.js";
 import isEditing from "./edit.js";
 
@@ -35,19 +38,23 @@ function assignFileIcon(filename) {
 export function appendGridViewEntry(name, is_directory) {
 	const button = document.createElement("button");
 	button.title = name;
-	button.addEventListener("contextmenu", event => {
-		console.log("button context menu")
-	});
-	// button.dataset.menu = "/static/js/directory/file_menu.js";
 
 	if (name.startsWith(".")) {
 		button.classList.add("hidden");
 	}
 
-	button.addEventListener("mousedown", event => selectItem(event.button, button));
+	button.addEventListener("mousedown", event => {
+		selectItem(event.button, button);
+
+		if (event.button === 2) {
+			createContextMenu(event, fileContextMenu(event));
+			event.stopPropagation();
+		}
+	});
+
 	button.addEventListener("dblclick", () => navigateToRelative(name));
 
-	const file_icon_container = document.createElement("div");
+	const file_icon_container = document.createElement("figure");
 	button.appendChild(file_icon_container)
 
 	const file_icon = document.createElement("img");
@@ -73,7 +80,16 @@ export function appendGridViewEntry(name, is_directory) {
 export function appendListViewEntry(name, is_directory) {
 	const row = document.createElement("div")
 	row.dataset.menu = "/static/js/directory/file_menu.js"
-	row.addEventListener("mousedown", event => selectItem(event.button, row));
+
+	row.addEventListener("mousedown", event => {
+		selectItem(event.button, row);
+
+		if (event.button === 2) {
+			createContextMenu(event, fileContextMenu(event));
+			event.stopPropagation();
+		}
+	});
+
 	row.addEventListener("dblclick", () => navigateToRelative(name));
 
 	if (name.startsWith(".")) {
