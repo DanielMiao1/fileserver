@@ -42,7 +42,7 @@ server.register(fastifyCompress, {
 
 server.register(fastifyStatic, {
 	prefix: "/static",
-	root: join(process.cwd(), "src/frontend")
+	root: join(process.cwd(), "build/frontend")
 });
 
 server.register(fastifyStatic, {

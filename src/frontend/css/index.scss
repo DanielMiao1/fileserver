@@ -1,5 +1,5 @@
-@import url("./menu.css");
-@import url("./toolbars.css");
+@use "menu";
+@use "toolbars";
 
 :root {
 	--select-color: #0c79df;

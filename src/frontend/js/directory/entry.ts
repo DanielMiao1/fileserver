@@ -35,7 +35,10 @@ function assignFileIcon(filename) {
 export function appendGridViewEntry(name, is_directory) {
 	const button = document.createElement("button");
 	button.title = name;
-	button.dataset.menu = "/static/js/directory/file_menu.js"
+	button.addEventListener("contextmenu", event => {
+		console.log("button context menu")
+	});
+	// button.dataset.menu = "/static/js/directory/file_menu.js";
 
 	if (name.startsWith(".")) {
 		button.classList.add("hidden");

@@ -1,6 +1,8 @@
 import { closePopup, createPopup } from "./popup.js";
 import { createRenameInput } from "./edit.js";
 
+import path from "../path";
+
 function ensureSlashSuffix(path) {
 	return path.endsWith("/") ? path : `${path}/`;
 }
@@ -24,7 +26,7 @@ function getButtonFromEventTarget(target) {
 }
 
 function deleteFile(filename) {
-	fetch(ensureSlashSuffix(window.path) + encodeURIComponent(filename), {
+	fetch(ensureSlashSuffix(path) + encodeURIComponent(filename), {
 		method: "DELETE"
 	}).then(response => {
 		if (response.ok) {
@@ -59,7 +61,7 @@ export function menuHandler(event) {
 			);
 		}],
 		Download: [() => {
-			document.getElementById("downloader").src = `/download${window.path}/${encodeURIComponent(event.target.title)}`
+			document.getElementById("downloader").src = `/download${path}/${encodeURIComponent(event.target.title)}`
 		}],
 		// TODO: Properly open the file
 		Open: [() => event.target.dispatchEvent(new MouseEvent("dblclick"))],

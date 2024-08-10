@@ -1,15 +1,16 @@
 import createSidebar from "../sidebar.js";
 import createToolbar from "../toolbar.js";
+import path from "../path";
 
 import { extension } from "../filetype.js";
-import { initiateDownloader } from "../download.js"
+import { initiateDownloader } from "../download.js";
 
 import { default as loadImage } from "./loaders/image.js";
 import { default as loadPDF } from "./loaders/pdf.js";
 import { default as loadText } from "./loaders/text.js";
 
 const main = document.getElementsByTagName("main")[0];
-const source = `/raw${window.path}`;
+const source = `/raw${path}`;
 let download_iframe;
 
 function loadElement(element) {
@@ -19,14 +20,14 @@ function loadElement(element) {
 
 // eslint-disable-next-line complexity, max-statements, max-lines-per-function
 export default function loadFile() {
-	window.loadStylesheets(["/static/css/file/index.css"]);
+	import("../../css/file/index.scss");
 
 	document.getElementById("container").prepend(createSidebar());
 	document.body.appendChild(createToolbar());
 
 	window.toolbar.addStretch();
 	window.toolbar.addIcon("***REMOVED***", () => {
-		download_iframe.src = `/download${window.path}`;
+		download_iframe.src = `/download${path}`;
 	}, "40%");
 
 	const loading = document.createElement("p");
@@ -34,7 +35,7 @@ export default function loadFile() {
 	loading.innerText = "Loading...";
 	main.appendChild(loading);
 
-	const filename = window.path.split("/").slice(-1)[0].toLowerCase();
+	const filename = path.split("/").slice(-1)[0].toLowerCase();
 	
 	const format = extension(filename);
 

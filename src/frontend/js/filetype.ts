@@ -1,4 +1,4 @@
-const extensions = {
+const extensions: Record<string, string> = {
 	"aa": "Audible Audio Book",
 	"aac": "AAC Audio",
 	"ac3": "AC3 Audio",
@@ -130,13 +130,13 @@ const extensions = {
 	"zsh": "Zsh Shell Script",
 }
 
-export function hasExtension(filename) {
+export function hasExtension(filename: string) {
 	return filename.includes(".");
 }
 
-export function extension(filename) {
+export function extension(filename: string) {
 	if (!hasExtension(filename)) {
-		return false;
+		return "";
 	}
 	
 	return filename.slice(filename.lastIndexOf(".") + 1).toLowerCase();
@@ -144,7 +144,7 @@ export function extension(filename) {
 
 
 // eslint-disable-next-line complexity, max-statements, max-lines-per-function
-export default function filetype(filename) {
+export default function filetype(filename: string) {
 	const format = extension(filename);
 	
 	if (/^[0-9]{3}$/u.test(format)) {

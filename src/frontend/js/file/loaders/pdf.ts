@@ -1,5 +1,5 @@
 export default function load(source) {
-	window.loadStylesheets(["/static/css/file/loaders/pdf.css"]);
+	import("../../../css/file/loaders/pdf.scss");
 
 	const embed = document.createElement("embed");
 	embed.src = source;

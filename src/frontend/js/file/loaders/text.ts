@@ -1,5 +1,7 @@
+import { loadScript } from "../../lazy_load.js";
+
 async function createElements(source, language) {
-	window.loadStylesheets(["/static/css/file/loaders/text.css"]);
+	import("../../../css/file/loaders/text.scss");
 
 	const data = await (await fetch(source)).text();
 	const text = document.createElement("pre");
@@ -25,7 +27,7 @@ async function createElements(source, language) {
 
 export default async function load(source, language) {
 	if (language) {
-		const script = window.loadScript("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js", "sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==");
+		const script = loadScript("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js", "sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==");
 
 		return new Promise(resolve => {
 			script.addEventListener("load", async () => {

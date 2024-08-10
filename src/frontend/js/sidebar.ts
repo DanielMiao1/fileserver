@@ -1,3 +1,5 @@
+import path from "./path";
+
 class Sidebar {
 	constructor(element) {
 		this.element = element;
@@ -77,7 +79,7 @@ export default function createSidebar() {
 		}
 	]);
 	
-	const current_item = window.sidebar.containsPath(window.path);
+	const current_item = window.sidebar.containsPath(path);
 	if (current_item) {
 		current_item.classList.add("selected");
 	}

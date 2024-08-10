@@ -30,7 +30,7 @@ function populateToolbar() {
 }
 
 export default function loadDirectory(data) {
-	window.loadStylesheets(["/static/css/directory/index.css"]);
+	import("../../css/directory/index.scss");
 
 	createDirectoryView(data.data);
 

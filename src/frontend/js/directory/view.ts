@@ -1,4 +1,5 @@
 import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
+
 import isDragSelecting, { initiateDragSelection } from "./selection.js";
 import isGridView, { handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, handleArrowUpKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
 import isEditing from "./edit.js";
@@ -10,7 +11,7 @@ if (!localStorage.directory_view) {
 const container = document.getElementsByTagName("main")[0];
 
 function createGridView(items) {
-	window.loadStylesheets(["/static/css/directory/grid.css"]);
+	import("../../css/directory/grid.scss");
 	container.classList.add("grid");
 	container.dataset.menu = "/static/js/directory/global_menu.js";
 
@@ -22,7 +23,7 @@ function createGridView(items) {
 }
 
 function createListView(items) {
-	window.loadStylesheets(["/static/css/directory/list.css"]);
+	import("../../css/directory/list.scss");
 	container.classList.add("list");
 	container.dataset.menu = "/static/js/directory/global_menu.js";
 	

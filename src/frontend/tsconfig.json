@@ -1,9 +1,7 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "NodeNext",
 		"target": "ESNext",
-		"module": "NodeNext",
-		"outDir": "../../build/backend"
+		"module": "ESNext",
 	},
 	"include": ["./**/*.ts"],
 	"extends": "@tsconfig/strictest/tsconfig.json"

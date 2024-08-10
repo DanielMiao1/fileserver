@@ -1,3 +1,5 @@
+import path from "./path";
+
 class Toolbar {
 	constructor(element) {
 		this.element = element;
@@ -58,7 +60,7 @@ export default function createToolbar() {
 			document.location = current_path.slice(0, current_path.lastIndexOf("/"));
 		}
 	}, false, (document.location.pathname.length <= 6 ? ["disabled"] : []));
-	window.toolbar.addText(decodeURIComponent(window.path.slice(window.path.lastIndexOf("/") + 1)) || document.location.hostname);
+	window.toolbar.addText(decodeURIComponent(path.slice(path.lastIndexOf("/") + 1)) || document.location.hostname);
 
 	return toolbar;
 }

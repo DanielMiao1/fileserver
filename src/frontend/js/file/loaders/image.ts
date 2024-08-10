@@ -1,5 +1,5 @@
 export default function load(source) {
-	window.loadStylesheets(["/static/css/file/loaders/image.css"]);
+	import("../../../css/file/loaders/image.scss");
 
 	const image_element = document.createElement("div");
 	image_element.classList.add("image");
