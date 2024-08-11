@@ -1,4 +1,4 @@
-import path from "../path";
+import current_path from "../path";
 
 function affixSlash(path) {
 	return path.endsWith("/") ? path : `${path}/`;
@@ -9,7 +9,7 @@ async function uploadTransferItem(file, path) {
 
 	return await new Promise(resolve => {
 		reader.addEventListener("load", event => {
-			fetch(affixSlash(path) + encodeURI(path), {
+			fetch(affixSlash(current_path) + encodeURI(path), {
 				body: event.target.result,
 				headers: {
 					type: "file"
@@ -45,7 +45,7 @@ async function readAllDirectoryEntries(reader) {
 }
 
 async function uploadDirectory(entry) {
-	await fetch(affixSlash(path) + encodeURI(entry.fullPath.slice(1)), {
+	await fetch(affixSlash(current_path) + encodeURI(entry.fullPath.slice(1)), {
 		headers: {
 			type: "directory"
 		},

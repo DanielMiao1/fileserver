@@ -1,3 +1,3 @@
-const path = document.location.pathname.slice(5);
+const current_path = document.location.pathname.slice(5);
 
-export default path;
+export default current_path;

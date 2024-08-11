@@ -1,9 +1,9 @@
 import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
 
-import path from "../path";
+import current_path from "../path";
 
 function applyRename(old_filename) {
-	let enclosing_directory = path;
+	let enclosing_directory = current_path;
 	if (!enclosing_directory.endsWith("/")) {
 		enclosing_directory += "/";
 	}
@@ -28,7 +28,7 @@ function ensureSlashSuffix(path) {
 }
 
 function requestNewDirectory(name) {
-	fetch(ensureSlashSuffix(path) + name, {
+	fetch(ensureSlashSuffix(current_path) + name, {
 		headers: {
 			type: "directory"
 		},
