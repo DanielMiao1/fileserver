@@ -1,5 +1,5 @@
-export default function load(source) {
-	import("../../../css/file/loaders/image.scss");
+export default function load(source: string): HTMLImageElement {
+	void import("../../../css/file/loaders/image.scss");
 
 	const image_element = document.createElement("div");
 	image_element.classList.add("image");

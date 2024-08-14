@@ -1,3 +1,5 @@
+import toolbar from "../toolbar.js";
+
 import { select, selected } from "./selection.js";
 
 const main = document.getElementsByTagName("main")[0];
@@ -7,23 +9,18 @@ export default function isGridView() {
 }
 
 export function scrollSelectionIntoView() {
-	if (!selected) {
+	const header_height = toolbar.clientHeight;
+	const selected_element = selected[0];
+
+	if (!selected_element) {
 		return;
 	}
 
-	const header_height = document.getElementsByTagName("header")[0].clientHeight;
+	const y_position_relative_to_header = selected_element.offsetTop - header_height;
 
-	if (selected.offsetTop - header_height < window.scrollY || selected.offsetTop + selected.clientHeight > window.scrollY + window.innerHeight) {
-		window.scrollTo(window.scrollX, selected.offsetTop - header_height);
+	if (y_position_relative_to_header < window.scrollY || selected_element.offsetTop + selected_element.clientHeight > window.scrollY + window.innerHeight) {
+		window.scrollTo(window.scrollX, y_position_relative_to_header);
 	}
-}
-
-function getFirstSelectedItem() {
-	if (typeof selected[Symbol.iterator] === "function") {
-		return selected[0];
-	}
-
-	return selected;
 }
 
 function gridViewColumns() {
@@ -35,33 +32,33 @@ function itemIndex(item) {
 }
 
 function selectPreviousItem() {
-	const sibling = getFirstSelectedItem().previousElementSibling;
+	const sibling = selected[0].previousElementSibling;
 	if (sibling) {
-		return select(sibling);
+		return select([sibling]);
 	}
 
 	return false;
 }
 
 function selectNextItem() {
-	const sibling = getFirstSelectedItem().nextElementSibling;
+	const sibling = selected[0].nextElementSibling;
 	if (sibling) {
-		return select(sibling);
+		return select([sibling]);
 	}
 
 	return false;
 }
 
-export function handleArrowUpKey(event) {
+export function handleArrowUpKey(event: KeyboardEvent) {
 	event.preventDefault();
 	event.stopPropagation();
 
-	if (!selected) {
-		return select(main.children[0]);
+	if (selected.length === 0) {
+		return select([main.children[0]]);
 	}
 
 	if (isGridView()) {
-		let sibling = getFirstSelectedItem();
+		let sibling = selected[0];
 		for (let index = 0; index < gridViewColumns(); index++) {
 			sibling = sibling.previousElementSibling;
 
@@ -70,22 +67,27 @@ export function handleArrowUpKey(event) {
 			}
 		}
 
-		return select(sibling);
+		return select([sibling]);
 	}
 
 	return selectPreviousItem();
 }
 
-export function handleArrowDownKey(event) {
+export function handleArrowDownKey(event: KeyboardEvent) {
 	event.preventDefault();
 	event.stopPropagation();
 
-	if (!selected) {
-		return select(main.children[0]);
+	if (selected.length === 0) {
+		return select([main.children[0]]);
 	}
 
 	if (isGridView()) {
-		let sibling = getFirstSelectedItem();
+		let sibling = selected[0];
+
+		if (!sibling) {
+			return false;
+		}
+
 		for (let index = 0; index < gridViewColumns(); index++) {
 			sibling = sibling.nextElementSibling;
 
@@ -94,22 +96,22 @@ export function handleArrowDownKey(event) {
 			}
 		}
 
-		return select(sibling);
+		return select([sibling]);
 	}
 
 	return selectNextItem();
 }
 
-export function handleArrowLeftKey(event) {
+export function handleArrowLeftKey(event: KeyboardEvent) {
 	event.preventDefault();
 	event.stopPropagation();
 
 	if (isGridView()) {
-		if (!selected) {
-			return select(main.children[0]);
+		if (selected.length === 0) {
+			return select([main.children[0]]);
 		}
 
-		if (itemIndex(getFirstSelectedItem()) % gridViewColumns() > 0) {
+		if (itemIndex(selected[0]) % gridViewColumns() > 0) {
 			return selectPreviousItem();
 		}
 	}
@@ -117,18 +119,18 @@ export function handleArrowLeftKey(event) {
 	return false;
 }
 
-export function handleArrowRightKey(event) {
+export function handleArrowRightKey(event: KeyboardEvent) {
 	event.preventDefault();
 	event.stopPropagation();
 
 	if (isGridView()) {
-		if (!selected) {
-			return select(main.children[0]);
+		if (selected.length === 0) {
+			return select([main.children[0]]);
 		}
 
 		const columns = gridViewColumns();
 
-		if (itemIndex(getFirstSelectedItem()) % columns !== columns - 1) {
+		if (itemIndex(selected[0]) % columns !== columns - 1) {
 			return selectNextItem();
 		}
 	}

@@ -1,8 +1,12 @@
 import { createNewDirectoryInput } from "./edit.js";
 
-export default function globalContextMenu() {
+import { type MenuEntries } from "../menu.js";
+
+export default function globalContextMenu(): MenuEntries {
 	return {
 		"New Directory": [createNewDirectoryInput],
-		"Reload": [() => document.location.reload()]
+		"Reload": [() => {
+			document.location.reload();
+		}]
 	}
 }

@@ -1,32 +1,36 @@
-import createSidebar from "../sidebar.js";
-import createToolbar from "../toolbar.js";
-import current_path from "../path";
+import current_path from "../path.js";
 
+import { addToolbarIcon, addToolbarStretch, initiateToolbar } from "../toolbar.js";
 import { extension } from "../filetype.js";
 import { initiateDownloader } from "../download.js";
+import { initiateSidebar } from "../sidebar.js";
+import { main } from "../sectioning.js";
 
 import { default as loadImage } from "./loaders/image.js";
 import { default as loadPDF } from "./loaders/pdf.js";
 import { default as loadText } from "./loaders/text.js";
 
-const main = document.getElementsByTagName("main")[0];
 const source = `/raw${current_path}`;
-let download_iframe;
+let download_iframe: HTMLIFrameElement;
 
-function loadElement(element) {
-	document.getElementsByClassName("loading")[0].remove();
+function loadElement(element: HTMLElement) {
+	const loading_element = document.getElementsByClassName("loading")[0];
+
+	if (loading_element) {
+		loading_element.remove();
+	}
+
 	main.appendChild(element);
 }
 
-// eslint-disable-next-line complexity, max-statements, max-lines-per-function
 export default function loadFile() {
-	import("../../css/file/index.scss");
+	void import("../../css/file/index.scss");
 
-	document.getElementById("container").prepend(createSidebar());
-	document.body.appendChild(createToolbar());
+	initiateSidebar();
+	initiateToolbar();
 
-	window.toolbar.addStretch();
-	window.toolbar.addIcon("***REMOVED***", () => {
+	addToolbarStretch();
+	addToolbarIcon("***REMOVED***", () => {
 		download_iframe.src = `/download${current_path}`;
 	}, "40%");
 
@@ -35,7 +39,7 @@ export default function loadFile() {
 	loading.innerText = "Loading...";
 	main.appendChild(loading);
 
-	const filename = current_path.split("/").slice(-1)[0].toLowerCase();
+	const filename = current_path.slice(current_path.lastIndexOf("/") + 1).toLowerCase();
 	
 	const format = extension(filename);
 
@@ -123,7 +127,7 @@ export default function loadFile() {
 		loader = loadText(source);
 	}
 
-	Promise.resolve(loader).then(loadElement);
+	void Promise.resolve(loader).then(loadElement);
 
 	download_iframe = initiateDownloader();
 }

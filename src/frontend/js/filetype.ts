@@ -142,8 +142,6 @@ export function extension(filename: string) {
 	return filename.slice(filename.lastIndexOf(".") + 1).toLowerCase();
 }
 
-
-// eslint-disable-next-line complexity, max-statements, max-lines-per-function
 export default function filetype(filename: string) {
 	const format = extension(filename);
 	

@@ -1,5 +1,6 @@
-import createSidebar from "./sidebar";
-import createToolbar from "./toolbar";
+import { initiateSidebar } from "./sidebar.js";
+import { initiateToolbar } from "./toolbar.js";
+import { main } from "./sectioning.js";
 
 function getErrorDescription(code: number) {
 	switch (code) {
@@ -13,19 +14,16 @@ function getErrorDescription(code: number) {
 }
 
 export default function createErrorElement(code: number) {
-	import("../css/error.scss");
+	void import("../css/error.scss");
 
-	const container_element = document.getElementById("container")!;
-	const main_element = document.getElementsByTagName("main")[0]!;
-
-	container_element.prepend(createSidebar());
-	document.body.appendChild(createToolbar());
+	initiateSidebar();
+	initiateToolbar();
 
 	const error_text = document.createElement("h1");
 	error_text.innerText = code.toString();
-	main_element.appendChild(error_text);
+	main.appendChild(error_text);
 
 	const description = document.createElement("p");
 	description.innerText = getErrorDescription(code);
-	main_element.appendChild(description);
+	main.appendChild(description);
 }

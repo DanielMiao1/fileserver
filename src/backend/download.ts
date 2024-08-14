@@ -1,10 +1,10 @@
-import { execSync } from "child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync } from "fs";
+import { execSync } from "child_process";
 import { join } from "path";
 
-import getScopedPath from "./path.js";
-
 import type { FastifyInstance } from "fastify";
+
+import getScopedPath from "./path.js";
 
 function getFileContents(path: string) {
 	if (existsSync(path)) {
@@ -65,9 +65,10 @@ export function registerDownloadHooks(server: FastifyInstance) {
 		execSync(`zip ${zip_path} -r ${filename}`, {
 			cwd: join(path, "..")
 		});
-		
-		reply.status(299).send(getFileContents(zip_path).contents);
 
-		return rmSync(zip_path);
+		const zip_content = getFileContents(zip_path).contents;
+
+		rmSync(zip_path);
+		return reply.status(299).send(zip_content);
 	});
 }

@@ -1,15 +1,19 @@
 import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
+import { main } from "../sectioning.js";
 
-import current_path from "../path";
+import current_path from "../path.js";
 
-function applyRename(old_filename) {
+function applyRename(old_filename: string) {
 	let enclosing_directory = current_path;
 	if (!enclosing_directory.endsWith("/")) {
 		enclosing_directory += "/";
 	}
 
+	const rename_element = document.getElementById("rename") as HTMLInputElement;
+	const new_filename = rename_element.value;
+
 	const old_path = enclosing_directory + old_filename;
-	const new_path = enclosing_directory + document.getElementById("rename").value;
+	const new_path = enclosing_directory + new_filename;
 
 	fetch(new_path, {
 		headers: {
@@ -20,14 +24,16 @@ function applyRename(old_filename) {
 		if (response.ok) {
 			document.location.reload();
 		}
+	}).catch(() => {
+		document.location.reload();
 	});
 }
 
-function ensureSlashSuffix(path) {
+function ensureSlashSuffix(path: string) {
 	return path.endsWith("/") ? path : `${path}/`;
 }
 
-function requestNewDirectory(name) {
+function requestNewDirectory(name: string) {
 	fetch(ensureSlashSuffix(current_path) + name, {
 		headers: {
 			type: "directory"
@@ -37,25 +43,31 @@ function requestNewDirectory(name) {
 		if (response.ok) {
 			document.location.reload();
 		}
+	}).catch(() => {
+		document.location.reload();
 	});
 }
 
-// eslint-disable-next-line max-lines-per-function
-function createInput(target, finished_callback, aborted_callback) {
-	const old_filename = target.children[1].innerText;
+function createInput(
+	target: HTMLElement,
+	finished_callback?: CallableFunction,
+	aborted_callback?: CallableFunction
+) {
+	const filename_label = target.children[1] as HTMLElement;
+	const old_filename = filename_label.innerText;
 
 	const input_element = document.createElement("input");
 	input_element.value = old_filename;
 	input_element.id = "rename";
-	target.children[1].after(input_element);
-	target.children[1].remove();
+	filename_label.after(input_element);
+	filename_label.remove();
 
 	input_element.focus();
 	input_element.selectionStart = old_filename.length;
 
 	const listener_signal = new AbortController();
 
-	document.getElementsByTagName("main")[0].addEventListener("mousedown", event => {
+	main.addEventListener("mousedown", event => {
 		if (event.target !== target && event.target.parentNode !== target) {
 			if (old_filename === input_element.value) {
 				if (typeof aborted_callback === "function") {
@@ -105,14 +117,10 @@ function createInput(target, finished_callback, aborted_callback) {
 				aborted_callback(old_filename, true);
 			}
 		}
-
-		return false;
 	});
 }
 
 export function createNewDirectoryInput() {
-	const main = document.getElementsByTagName("main")[0];
-
 	let directory_element;
 
 	if (main.classList.contains("grid")) {
@@ -122,18 +130,20 @@ export function createNewDirectoryInput() {
 	}
 
 	createInput(directory_element, () => {
-		requestNewDirectory(document.getElementById("rename").value);
-	}, (_, is_escape) => {
+		const rename_element = document.getElementById("rename") as HTMLInputElement;
+		requestNewDirectory(rename_element.value);
+	}, (_, is_escape: boolean) => {
 		if (is_escape) {
-			return directory_element.remove();
+			directory_element.remove();
+		} else {
+			const rename_element = document.getElementById("rename") as HTMLInputElement;
+			requestNewDirectory(rename_element.value);
 		}
-		
-		return requestNewDirectory(document.getElementById("rename").value);
 	});
 }
 
-export function createRenameInput(target) {
-	return createInput(target, old_filename => {
+export function createRenameInput(target: HTMLElement) {
+	createInput(target, (old_filename: string) => {
 		applyRename(old_filename);
 	});
 }

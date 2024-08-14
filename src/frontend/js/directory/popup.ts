@@ -1,5 +1,14 @@
-// eslint-disable-next-line max-statements
-export function createPopup(title, description, buttons) {
+interface ButtonData {
+	callback: (this: HTMLButtonElement, event: MouseEvent) => void;
+	classList?: string[],
+	text: string
+}
+
+export function createPopup(
+	title: string,
+	description: string,
+	buttons?: ButtonData[]
+) {
 	const popup = document.createElement("div");
 	popup.classList.add("popup");
 	document.body.appendChild(popup);
@@ -40,9 +49,7 @@ export function createPopup(title, description, buttons) {
 export function closePopup() {
 	const popup = document.getElementsByClassName("popup")[0];
 
-	if (!popup) {
-		return false;
+	if (popup) {
+		popup.remove();
 	}
-
-	return popup.remove();
 }

@@ -1,80 +1,62 @@
 import isEditing from "./edit.js";
 
+import { main } from "../sectioning.js";
+
 export let multi_select = false;
-export let selected;
+export let selected: HTMLElement[] = [];
 
-let drag_selection_start_position = false;
-
-const main = document.getElementsByTagName("main")[0];
+let drag_selection_start_position: [number, number] | false = false;
 
 export default function isDragSelecting() {
 	return Boolean(document.getElementById("drag_selection"));
 }
 
-// eslint-disable-next-line max-statements, max-lines-per-function
-export function select(element, cumulate) {
-	if (element && cumulate) {
-		if (!selected) { 
-			selected = [];
-		}
-
-		if (!selected.push) {
-			selected = [selected];
-		}
-
-		if (typeof element[Symbol.iterator] === "function") {
-			for (const item of element) {
-				item.classList.add("selected");
-			}
-
-			return selected.push(...element);
-		}
-
-		element.classList.add("selected");
-		return selected.push(element);
+function deselectAll() {
+	for (const element of selected) {
+		element.classList.remove("selected");
 	}
 
-	if (selected) {
-		if (selected.push) {
-			for (const item of selected) {
-				item.classList.remove("selected");
-			}
-		} else {
-			selected.classList.remove("selected");
-		}
+	selected = [];
+}
+
+export function select(
+	elements?: HTMLElement[] | HTMLCollection,
+	cumulate?: boolean
+) {
+
+	if (!elements || elements.length === 0) {
+		deselectAll();
+		return selected;
 	}
 
-	if (!element) {
-		selected = null;
-		return false;
-	}
-
-	if (typeof element[Symbol.iterator] === "function") {
-		selected = [];
-
-		for (const item of element) {
+	if (cumulate) {
+		for (const item of elements) {
 			item.classList.add("selected");
-			selected.push(item);
+			selected.push(item as HTMLElement);
 		}
 
 		return selected;
 	}
 
-	selected = element;
-	selected.classList.add("selected");
+	deselectAll();
+
+	for (const item of elements) {
+		item.classList.add("selected");
+		selected.push(item as HTMLElement);
+	}
 
 	return selected;
 }
 
-function dragSelectedItems(selection) {
-	const selected_items = [];
+function dragSelectedItems(selection: HTMLElement) {
+	const selected_items: HTMLElement[] = [];
 
 	const width = parseFloat(selection.style.width.slice(0, -2));
 	const height = parseFloat(selection.style.height.slice(0, -2))
 
-	const minX = parseFloat(selection.style.left.slice(0, -2)) - (selection.dataset.negative_width ? width : 0);
+	const minX = parseFloat(selection.style.left.slice(0, -2)) - (selection.dataset["negative_width"] ? width : 0);
 	const maxX = minX + width;
-	const minY = parseFloat(selection.style.top.slice(0, -2)) - (selection.dataset.negative_height ? height : 0);
+	const minY = parseFloat(selection.style.top.slice(0, -2)) - (selection.dataset["negative_height"] ? height : 0);
 	const maxY = minY + height;
 
 
@@ -86,39 +68,38 @@ function dragSelectedItems(selection) {
 		const bottom = positions.bottom + window.scrollY;
 
 		if (bottom >= minY && maxY >= y && right >= minX && maxX >= x) {
-			selected_items.push(item);
+			selected_items.push(item as HTMLElement);
 		}
 	}
 
 	return selected_items;
 }
 
-// eslint-disable-next-line max-lines-per-function
 export function initiateDragSelection() {
 	main.addEventListener("mousedown", event => {
-		if (isEditing()) {
-			return false;
+		if (isEditing() || !event.target) {
+			return;
 		}
 
 		if (event.button === 0) {
 			drag_selection_start_position = [window.scrollX + event.clientX, window.scrollY + event.clientY];
 		}
 
-		let ancestor = event.target.parentNode;
+		const target_element = event.target as HTMLElement;
+
+		let ancestor = target_element.parentNode;
 
 		while (ancestor) {
 			if (ancestor.nodeName === "MAIN") {
-				return selected;
+				return;
 			}
 
 			ancestor = ancestor.parentNode;
 		}
 
 		if (!multi_select) {
-			select();
+			select([]);
 		}
-
-		return selected;
 	});
 
 	window.addEventListener("mouseup", () => {
@@ -129,7 +110,6 @@ export function initiateDragSelection() {
 		}
 	});
 
-	// eslint-disable-next-line max-statements
 	window.addEventListener("mousemove", event => {
 		if (!drag_selection_start_position) {
 			return;
@@ -140,8 +120,8 @@ export function initiateDragSelection() {
 		if (!selection) {
 			selection = document.createElement("div");
 			selection.id = "drag_selection";
-			selection.style.left = `${drag_selection_start_position[0]}px`;
-			selection.style.top = `${drag_selection_start_position[1]}px`;
+			selection.style.left = `${drag_selection_start_position[0].toString()}px`;
+			selection.style.top = `${drag_selection_start_position[1].toString()}px`;
 			document.body.appendChild(selection);
 		}
 
@@ -156,25 +136,25 @@ export function initiateDragSelection() {
 			height = document.body.clientHeight - 2 - drag_selection_start_position[1];
 		}
 
-		selection.style.width = `${Math.abs(width)}px`;
-		selection.style.height = `${Math.abs(height)}px`;
+		selection.style.width = `${Math.abs(width).toString()}px`;
+		selection.style.height = `${Math.abs(height).toString()}px`;
 
-		selection.style.transform = `${(width < 0 ? `translateX(${width}px)` : "translateX(0)")} ${(height < 0 ? `translateY(${height}px)` : "translateY(0)")}`;
+		selection.style.transform = `${(width < 0 ? `translateX(${width.toString()}px)` : "translateX(0)")} ${(height < 0 ? `translateY(${height.toString()}px)` : "translateY(0)")}`;
 
 		if (width < 0) {
-			if (!selection.dataset.negative_width) {
-				selection.dataset.negative_width = "1";
+			if (!selection.hasAttribute("data-negative_width")) {
+				selection.setAttribute("data-negative_width", "1")
 			}
-		} else if (selection.dataset.negative_width) {
-			delete selection.dataset.negative_width;
+		} else if (selection.dataset["negative_width"]) {
+			selection.removeAttribute("data-negative_width");
 		}
 
 		if (height < 0) {
-			if (!selection.dataset.negative_height) {
-				selection.dataset.negative_height = "1";
+			if (!selection.hasAttribute("data-negative_height")) {
+				selection.setAttribute("data-negative_height", "1");
 			}
-		} else if (selection.dataset.negative_height) {
-			delete selection.dataset.negative_height;
+		} else if (selection.dataset["negative_height"]) {
+			selection.removeAttribute("data-negative_height");
 		}
 
 		select(dragSelectedItems(selection), multi_select);

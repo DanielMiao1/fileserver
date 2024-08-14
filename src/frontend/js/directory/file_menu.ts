@@ -1,13 +1,15 @@
 import { closePopup, createPopup } from "./popup.js";
 import { createRenameInput } from "./edit.js";
 
-import current_path from "../path";
+import { type MenuEntries } from "../menu.js";
 
-function ensureSlashSuffix(path) {
+import current_path from "../path.js";
+
+function ensureSlashSuffix(path: string) {
 	return path.endsWith("/") ? path : `${path}/`;
 }
 
-function truncate(text, length=10) {
+function truncate(text: string, length=10) {
 	let result = text;
 
 	if (result.length >= length) {
@@ -17,35 +19,44 @@ function truncate(text, length=10) {
 	return result;
 }
 
-function getButtonFromEventTarget(target) {
+function getButtonFromEventTarget(target: HTMLElement) {
 	if (["P", "SPAN", "FIGURE", "IMG"].includes(target.nodeName)) {
-		return target.parentNode;
+		return target.parentNode as HTMLElement;
 	}
 
 	return target;
 }
 
-function deleteFile(filename) {
+function deleteFile(filename: string) {
 	fetch(ensureSlashSuffix(current_path) + encodeURIComponent(filename), {
 		method: "DELETE"
 	}).then(response => {
 		if (response.ok) {
 			document.location.reload();
 		}
+	}).catch(() => {
+		document.location.reload();
 	});
 }
 
-export default function fileContextMenu(event) {
+export default function fileContextMenu(event: MouseEvent): MenuEntries {
+	const menu = document.getElementById("menu");
+
+	if (!menu) {
+		return {};
+	}
+
 	return {
 		[getButtonFromEventTarget(event.target).children[1].innerText]: [
 			false,
 			"text separator-bottom"
 		],
 		Delete: [() => {
-			const filename = document.getElementById("menu").children[0].innerText;
+			const menu_title = menu.children[0] as HTMLElement;
+			const filename = menu_title.innerText;
 
 			createPopup(
-				false,
+				"",
 				`Are you sure you want to delete ${truncate(filename)}?`,
 				[
 					{
@@ -53,7 +64,9 @@ export default function fileContextMenu(event) {
 						text: "Cancel"
 					},
 					{
-						callback: () => deleteFile(filename),
+						callback: () => {
+							deleteFile(filename);
+						},
 						classList: ["continue"],
 						text: "Confirm"
 					}
@@ -61,12 +74,15 @@ export default function fileContextMenu(event) {
 			);
 		}],
 		Download: [() => {
-			const filename = document.getElementById("menu").children[0].innerText;
+			const menu_title = menu.children[0] as HTMLElement;
+			const filename = menu_title.innerText;
 
 			document.getElementById("downloader").src = `/download${current_path}/${encodeURIComponent(filename)}`;
 		}],
 		// TODO: Properly open the file
 		Open: [() => getButtonFromEventTarget(event.target).dispatchEvent(new MouseEvent("dblclick"))],
-		Rename: [() => createRenameInput(getButtonFromEventTarget(event.target))]
+		Rename: [() => {
+			createRenameInput(getButtonFromEventTarget(event.target));
+		}]
 	}
 }

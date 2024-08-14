@@ -64,10 +64,16 @@ server.get("/data/*", (request, reply) => {
 		const stat = statSync(path)
 
 		if (stat.isDirectory()) {
+			const contents: Record<string, boolean> = {};
+
+			for (const item of readdirSync(path)) {
+				const item_path = (path.endsWith("/") ? path : `${path}/`) + item;
+				const item_stat = statSync(item_path);
+				contents[item] = item_stat.isDirectory();
+			}
+
 			reply.send({
-				data: Object.assign({}, ...readdirSync(path).map(item => ({
-					[item]: statSync((path.endsWith("/") ? path : `${path}/`) + item).isDirectory()
-				}))),
+				data: contents,
 				type: "directory"
 			});
 		} else {
@@ -148,4 +154,4 @@ const start = async () => {
 	}
 };
 
-start();
+await start();

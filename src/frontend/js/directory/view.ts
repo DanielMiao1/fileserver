@@ -1,19 +1,17 @@
 import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
+import { main } from "../sectioning.js";
 
 import isDragSelecting, { initiateDragSelection } from "./selection.js";
 import isGridView, { handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, handleArrowUpKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
 import isEditing from "./edit.js";
 
-if (!localStorage.directory_view) {
-	localStorage.directory_view = "grid";
+if (!localStorage["directory_view"]) {
+	localStorage["directory_view"] = "grid";
 }
 
-const container = document.getElementsByTagName("main")[0];
-
-function createGridView(items) {
-	import("../../css/directory/grid.scss");
-	container.classList.add("grid");
-	container.dataset.menu = "/static/js/directory/global_menu.js";
+function createGridView(items: Record<string, boolean>) {
+	void import("../../css/directory/grid.scss");
+	main.classList.add("grid");
 
 	for (const [item, type] of Object.entries(items)) {
 		appendGridViewEntry(item, type);
@@ -22,17 +20,16 @@ function createGridView(items) {
 	initiateDragSelection();
 }
 
-function createListView(items) {
-	import("../../css/directory/list.scss");
-	container.classList.add("list");
-	container.dataset.menu = "/static/js/directory/global_menu.js";
+function createListView(items: Record<string, boolean>) {
+	void import("../../css/directory/list.scss");
+	main.classList.add("list");
 	
 	for (const [item, type] of Object.entries(items)) {
 		appendListViewEntry(item, type);
 	}
 }
 
-export default function createDirectoryView(items) {
+export default function createDirectoryView(items: Record<string, boolean>) {
 	if (isGridView()) {
 		createGridView(items);
 	} else {
@@ -41,7 +38,7 @@ export default function createDirectoryView(items) {
 
 	window.addEventListener("keydown", event => {
 		if (isEditing() || isDragSelecting()) {
-			return false;
+			return;
 		}
 
 		switch (event.key) {
@@ -62,7 +59,5 @@ export default function createDirectoryView(items) {
 				scrollSelectionIntoView();
 				break;
 		}
-
-		return true;
 	});
 }

@@ -1,13 +1,12 @@
 import { multi_select, select } from "./selection.js";
+import { main } from "../sectioning.js";
 
 import createContextMenu from "../menu.js";
 import fileContextMenu from "./file_menu.js";
 import filetype from "../filetype.js";
 import isEditing from "./edit.js";
 
-const container = document.getElementsByTagName("main")[0];
-
-function navigateToRelative(name) {
+function navigateToRelative(name: string) {
 	if (!isEditing()) {
 		document.location = `${(
 			document.location.pathname.endsWith("/") ?
@@ -17,15 +16,15 @@ function navigateToRelative(name) {
 	}
 }
 
-function selectItem(button, element) {
+function selectItem(button: number, element: HTMLElement) {
 	if (button === 1) {
 		return;
 	}
 
-	select(element, multi_select);
+	select([element], multi_select);
 }
 
-function assignFileIcon(filename) {
+function assignFileIcon(filename: string) {
 	for (const extension of ["jpeg", "jpg", "png", "rtf", "svg", "text", "txt"]) {
 		if (filename.endsWith(`.${extension}`)) {
 			return `/static/img/extensions/${extension}.svg`;
@@ -35,7 +34,7 @@ function assignFileIcon(filename) {
 	return "/static/img/extensions/*.svg";
 }
 
-export function appendGridViewEntry(name, is_directory) {
+export function appendGridViewEntry(name: string, is_directory: boolean) {
 	const button = document.createElement("button");
 	button.title = name;
 
@@ -52,7 +51,9 @@ export function appendGridViewEntry(name, is_directory) {
 		}
 	});
 
-	button.addEventListener("dblclick", () => navigateToRelative(name));
+	button.addEventListener("dblclick", () => {
+		navigateToRelative(name);
+	});
 
 	const file_icon_container = document.createElement("figure");
 	button.appendChild(file_icon_container)
@@ -71,15 +72,13 @@ export function appendGridViewEntry(name, is_directory) {
 	text_container.innerText = name;
 	button.appendChild(text_container);
 
-	container.appendChild(button);
+	main.appendChild(button);
 
 	return button;
 }
 
-// eslint-disable-next-line max-statements
-export function appendListViewEntry(name, is_directory) {
+export function appendListViewEntry(name: string, is_directory: boolean) {
 	const row = document.createElement("div")
-	row.dataset.menu = "/static/js/directory/file_menu.js"
 
 	row.addEventListener("mousedown", event => {
 		selectItem(event.button, row);
@@ -90,7 +89,9 @@ export function appendListViewEntry(name, is_directory) {
 		}
 	});
 
-	row.addEventListener("dblclick", () => navigateToRelative(name));
+	row.addEventListener("dblclick", () => {
+		navigateToRelative(name);
+	});
 
 	if (name.startsWith(".")) {
 		row.classList.add("hidden");
@@ -121,7 +122,7 @@ export function appendListViewEntry(name, is_directory) {
 
 	row.appendChild(format);
 	
-	container.appendChild(row);
+	main.appendChild(row);
 
 	return row;
 }

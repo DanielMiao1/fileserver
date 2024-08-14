@@ -3,8 +3,15 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	build: {
 		emptyOutDir: true,
-		sourcemap: process.env["NODE_ENV"] !== "production",
-		outDir: "../../build/frontend"
+		outDir: "../../build/frontend",
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					hljs: ["highlight.js"]
+				}
+			}
+		},
+		sourcemap: process.env["NODE_ENV"] !== "production"
 		// minify:
 	},
 	base: "/static/",

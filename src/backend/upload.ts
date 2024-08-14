@@ -29,7 +29,7 @@ function assignDeduplicateFilename(path: string) {
 		} else if (/ copy \d+$/u.test(filename)) {
 			const copy_index = filename.lastIndexOf(" ") + 1;
 			const new_digit = parseInt(filename.slice(copy_index), 10) + 1;
-			deduplicated_path = filename.slice(0, copy_index) + new_digit + extension;
+			deduplicated_path = `${filename.slice(0, copy_index)}${new_digit.toString()}${extension}`;
 		} else {
 			deduplicated_path = `${filename} copy${extension}`;
 		}

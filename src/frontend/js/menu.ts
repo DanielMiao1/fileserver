@@ -1,25 +1,32 @@
 import globalContextMenu from "./directory/global_menu.js";
 
+import { main } from "./sectioning.js";
+
+type EntryData = [(() => void) | false, string?];
+export type MenuEntries = Record<string, EntryData>;
+
 function initializeContextMenu() {
 	const menu = document.createElement("div");
 	menu.id = "menu";
 	menu.style.display = "none";
 	document.body.appendChild(menu);
+
+	return menu;
 }
 
-if (!document.getElementById("menu")) {
-	initializeContextMenu();
-}
+let menu = document.getElementById("menu");
 
-const menu = document.getElementById("menu");
+if (!menu) {
+	menu = initializeContextMenu();
+}
 
 function repositionContextMenu(event: MouseEvent) {
 	if (!menu) {
 		return false;
 	}
 
-	menu.style.left = `${event.clientX}px`;
-	menu.style.top = `${window.scrollY + event.clientY}px`;
+	menu.style.left = `${event.clientX.toString()}px`;
+	menu.style.top = `${(window.scrollY + event.clientY).toString()}px`;
 
 	return true;
 }
@@ -40,7 +47,7 @@ function closeContextMenu() {
 	});
 }
 
-function appendMenuEntries(entries) {
+function appendMenuEntries(entries: MenuEntries) {
 	for (const [name, options] of Object.entries(entries)) {
 		const menu_entry = document.createElement("button");
 		menu_entry.innerText = name;
@@ -54,7 +61,7 @@ function appendMenuEntries(entries) {
 		if (options[0] instanceof Function) {
 			menu_entry.addEventListener("click", () => {
 				options[0]();
-				closeContextMenu();
+				void closeContextMenu();
 			});
 		}
 
@@ -62,9 +69,16 @@ function appendMenuEntries(entries) {
 	}
 }
 
-export default async function createContextMenu(event, entries) {
+export default function createContextMenu(
+	event: MouseEvent,
+	entries: MenuEntries
+) {
 	if (menu.style.display === "flex") {
-		return closeContextMenu().then(() => createContextMenu(event, entries));
+		void closeContextMenu().then(() => {
+			createContextMenu(event, entries)
+		});
+
+		return;
 	}
 
 	while (menu.firstChild) {
@@ -73,31 +87,30 @@ export default async function createContextMenu(event, entries) {
 
 	appendMenuEntries(entries);
 	repositionContextMenu(event);
-	return openContextMenu();
+	openContextMenu();
 }
 
-document.addEventListener("contextmenu", async event => {
+document.addEventListener("contextmenu", event => {
 	event.preventDefault();
 	event.stopPropagation();
-	return false;
 }, true);
 
-document.getElementsByTagName("main")[0].addEventListener("mousedown", event => {
+main.addEventListener("mousedown", (event: MouseEvent) => {
 	if (event.button === 2) {
-		createContextMenu(event, globalContextMenu(event));
+		createContextMenu(event, globalContextMenu());
 	}
 });
 
 document.addEventListener("mousedown", event => {
 	if (event.button !== 2) {
-		let ancestor = event.target;
+		let ancestor = event.target as HTMLElement | null;
 		while (ancestor) {
 			if (ancestor.id === "menu") {
 				return;
 			}
-			ancestor = ancestor.parentNode;
+			ancestor = ancestor.parentNode as HTMLElement | null;
 		}
 
-		closeContextMenu();
+		void closeContextMenu();
 	}
 });

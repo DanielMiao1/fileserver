@@ -1,21 +1,26 @@
 import createDirectoryView from "./view.js";
-import createSidebar from "../sidebar.js";
-import createToolbar from "../toolbar.js";
 
+import { addToolbarIcon, addToolbarStretch, initiateToolbar } from "../toolbar.js";
 import { initiateDownloader } from "../download.js"
+import { initiateSidebar } from "../sidebar.js";
 import { prepareUploadElement } from "./upload.js";
 
-function populateToolbar() {
-	window.toolbar.addStretch();
+interface DirectoryData {
+	data: Record<string, boolean>
+	type: "directory"
+};
 
-	const grid_view = window.toolbar.addIcon("***REMOVED***", () => {
+function populateToolbar() {
+	addToolbarStretch();
+
+	const grid_view = addToolbarIcon("***REMOVED***", () => {
 		if (localStorage.directory_view !== "grid") {
 			localStorage.directory_view = "grid";
 			document.location.reload();
 		}
 	}, "40%");
 
-	const list_view = window.toolbar.addIcon("***REMOVED***", () => {
+	const list_view = addToolbarIcon("***REMOVED***", () => {
 		if (localStorage.directory_view !== "list") {
 			localStorage.directory_view = "list";
 			document.location.reload();
@@ -29,13 +34,13 @@ function populateToolbar() {
 	}
 }
 
-export default function loadDirectory(data) {
-	import("../../css/directory/index.scss");
+export default function loadDirectory(data: DirectoryData) {
+	void import("../../css/directory/index.scss");
 
 	createDirectoryView(data.data);
 
-	document.getElementById("container").prepend(createSidebar());
-	document.body.appendChild(createToolbar());
+	initiateSidebar();
+	initiateToolbar();
 	populateToolbar();
 	
 	initiateDownloader();
