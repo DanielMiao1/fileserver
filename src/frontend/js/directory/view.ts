@@ -1,8 +1,15 @@
 import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
 import { main } from "../sectioning.js";
 
+import isGridView, {
+	handleArrowDownKey,
+	handleArrowLeftKey,
+	handleArrowRightKey,
+	handleArrowUpKey,
+	scrollSelectionIntoView
+} from "./keyboard_navigation.js";
+
 import isDragSelecting, { initiateDragSelection } from "./selection.js";
-import isGridView, { handleArrowDownKey, handleArrowLeftKey, handleArrowRightKey, handleArrowUpKey, scrollSelectionIntoView } from "./keyboard_navigation.js";
 import isEditing from "./edit.js";
 
 if (!localStorage["directory_view"]) {
@@ -23,7 +30,7 @@ function createGridView(items: Record<string, boolean>) {
 function createListView(items: Record<string, boolean>) {
 	void import("../../css/directory/list.scss");
 	main.classList.add("list");
-	
+
 	for (const [item, type] of Object.entries(items)) {
 		appendListViewEntry(item, type);
 	}

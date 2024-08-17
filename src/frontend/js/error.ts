@@ -7,7 +7,7 @@ function getErrorDescription(code: number) {
 		case 404:
 			return "The requested path could not be found.";
 		case 500:
-			return "An error occured while transferring the content."
+			return "An error occured while transferring the content.";
 	}
 
 	return "";

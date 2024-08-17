@@ -6,14 +6,14 @@ import loadFile from "./file/index.js";
 import "./menu";
 
 interface DirectoryData {
-	data: Record<string, boolean>,
-	type: "directory"
+	data: Record<string, boolean>;
+	type: "directory";
 }
 
 interface FileData {
-	encoding: string | false,
-	size: number,
-	type: "file"
+	encoding: string | false;
+	size: number;
+	type: "file";
 }
 
 const title_element = document.getElementsByTagName("title")[0];

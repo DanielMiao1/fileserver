@@ -8,7 +8,7 @@ import getScopedPath from "./path.js";
 
 function getFileContents(path: string) {
 	if (existsSync(path)) {
-		const stat = statSync(path)
+		const stat = statSync(path);
 
 		if (stat.isDirectory()) {
 			return { isFile: false };

@@ -23,7 +23,6 @@ export function select(
 	elements?: HTMLElement[] | HTMLCollection,
 	cumulate?: boolean
 ) {
-
 	if (!elements || elements.length === 0) {
 		deselectAll();
 		return selected;
@@ -48,17 +47,34 @@ export function select(
 	return selected;
 }
 
+function removePxSuffix(px_number: string) {
+	return parseFloat(px_number.slice(0, -2));
+}
+
 function dragSelectedItems(selection: HTMLElement) {
 	const selected_items: HTMLElement[] = [];
 
-	const width = parseFloat(selection.style.width.slice(0, -2));
-	const height = parseFloat(selection.style.height.slice(0, -2))
+	const styles = selection.style;
 
-	const minX = parseFloat(selection.style.left.slice(0, -2)) - (selection.dataset["negative_width"] ? width : 0);
+	const width = removePxSuffix(styles.width);
+	const height = removePxSuffix(styles.height);
+	const left = removePxSuffix(styles.left);
+	const top = removePxSuffix(styles.top);
+
+	let minX = left;
+
+	if (selection.dataset["negative_width"]) {
+		minX -= width;
+	}
+
+	let minY = top;
+
+	if (selection.dataset["negative_height"]) {
+		minY -= height;
+	}
+
 	const maxX = minX + width;
-	const minY = parseFloat(selection.style.top.slice(0, -2)) - (selection.dataset["negative_height"] ? height : 0);
 	const maxY = minY + height;
-
 
 	for (const item of main.children) {
 		const positions = item.getBoundingClientRect();
@@ -82,7 +98,9 @@ export function initiateDragSelection() {
 		}
 
 		if (event.button === 0) {
-			drag_selection_start_position = [window.scrollX + event.clientX, window.scrollY + event.clientY];
+			const x_pos = window.scrollX + event.clientX;
+			const y_pos = window.scrollY + event.clientY;
+			drag_selection_start_position = [x_pos, y_pos];
 		}
 
 		const target_element = event.target as HTMLElement;
@@ -106,7 +124,7 @@ export function initiateDragSelection() {
 		drag_selection_start_position = false;
 
 		if (isDragSelecting()) {
-			document.getElementById("drag_selection").parentNode.removeChild(document.getElementById("drag_selection"));
+			document.getElementById("drag_selection").remove();
 		}
 	});
 
@@ -117,33 +135,55 @@ export function initiateDragSelection() {
 
 		let selection = document.getElementById("drag_selection");
 
+		const drag_x_pos = drag_selection_start_position[0];
+		const drag_y_pos = drag_selection_start_position[1];
+
 		if (!selection) {
 			selection = document.createElement("div");
 			selection.id = "drag_selection";
-			selection.style.left = `${drag_selection_start_position[0].toString()}px`;
-			selection.style.top = `${drag_selection_start_position[1].toString()}px`;
+			selection.style.left = `${drag_x_pos.toString()}px`;
+			selection.style.top = `${drag_y_pos.toString()}px`;
 			document.body.appendChild(selection);
 		}
 
-		let width = window.scrollX + event.clientX - drag_selection_start_position[0];
-		let height = window.scrollY + event.clientY - drag_selection_start_position[1];
+		const x_pos = window.scrollX + event.clientX;
+		const y_pos = window.scrollY + event.clientY;
 
-		if (drag_selection_start_position[0] + width >= document.body.clientWidth - 2) {
-			width = document.body.clientWidth - 2 - drag_selection_start_position[0];
+		let width = x_pos - drag_x_pos;
+		let height = y_pos - drag_y_pos;
+
+		if (drag_x_pos + width >= document.body.clientWidth - 2) {
+			width = document.body.clientWidth - 2 - drag_x_pos;
 		}
-			
-		if (drag_selection_start_position[1] + height >= document.body.clientHeight - 2) {
-			height = document.body.clientHeight - 2 - drag_selection_start_position[1];
+
+		if (drag_y_pos + height >= document.body.clientHeight - 2) {
+			height = document.body.clientHeight - 2 - drag_y_pos;
 		}
 
 		selection.style.width = `${Math.abs(width).toString()}px`;
 		selection.style.height = `${Math.abs(height).toString()}px`;
 
-		selection.style.transform = `${(width < 0 ? `translateX(${width.toString()}px)` : "translateX(0)")} ${(height < 0 ? `translateY(${height.toString()}px)` : "translateY(0)")}`;
+		let transforms = "";
+
+		if (width < 0) {
+			transforms += `translateX(${width.toString()}px)`;
+		} else {
+			transforms += "translateX(0)";
+		}
+
+		transforms += " ";
+
+		if (height < 0) {
+			transforms += `translateY(${height.toString()}px)`;
+		} else {
+			transforms += "translateY(0)";
+		}
+
+		selection.style.transform = transforms;
 
 		if (width < 0) {
 			if (!selection.hasAttribute("data-negative_width")) {
-				selection.setAttribute("data-negative_width", "1")
+				selection.setAttribute("data-negative_width", "1");
 			}
 		} else if (selection.dataset["negative_width"]) {
 			selection.removeAttribute("data-negative_width");
@@ -159,7 +199,7 @@ export function initiateDragSelection() {
 
 		select(dragSelectedItems(selection), multi_select);
 	});
-};
+}
 
 window.addEventListener("keydown", event => {
 	if (["Control", "Meta", "Shift"].includes(event.key)) {

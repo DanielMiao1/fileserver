@@ -17,19 +17,19 @@ if (document.getElementsByTagName("aside")[0]) {
 }
 
 interface SectionItemData {
-	icon?: string,
-	icon_offset?: string,
-	icon_size?: string,
-	name: string,
-	path: string
-};
+	icon?: string;
+	icon_offset?: string;
+	icon_size?: string;
+	name: string;
+	path: string;
+}
 
 interface SectionMap {
-	element: HTMLElement,
+	element: HTMLElement;
 	items: {
-		element: HTMLElement,
-		data: SectionItemData
-	}[]
+		element: HTMLElement;
+		data: SectionItemData;
+	}[];
 }
 
 const sections: Record<string, SectionMap> = {};
@@ -45,7 +45,7 @@ export function addSidebarSection(name: string) {
 	sections[name] = {
 		element: section,
 		items: []
-	}
+	};
 
 	return section;
 }
@@ -53,7 +53,7 @@ export function addSidebarSection(name: string) {
 export function addSidebarItem(item: SectionItemData, section: HTMLElement) {
 	const link = document.createElement("a");
 	link.href = `/path${item.path}`;
-	link.innerText = item.name;			
+	link.innerText = item.name;
 	section.appendChild(link);
 
 	if (item.icon) {
@@ -95,20 +95,21 @@ export function sidebarItemWithPath(path: string) {
 export function initiateSidebar() {
 	const locations_section = addSidebarSection("Locations");
 
+	// TODO: Create /static/img/sidebar_icons/
 	addSidebarItem({
-		icon: `***REMOVED***"${getComputedStyle(document.documentElement).getPropertyValue("--select-color").replace("#", "%23")}"/></svg>`,
+		icon: "/static/img/home.svg",
 		name: "Home",
 		path: "/"
 	}, locations_section);
 
 	addSidebarItem({
-		icon: `***REMOVED***"${getComputedStyle(document.documentElement).getPropertyValue("--select-color").replace("#", "%23")}"/></svg>`,
+		icon: "/static/img/documents.svg",
 		icon_offset: "12px",
 		icon_size: "12.5px",
 		name: "Documents",
 		path: "/Documents"
 	}, locations_section);
-	
+
 	const current_item = sidebarItemWithPath(current_path);
 	if (current_item) {
 		current_item.classList.add("selected");

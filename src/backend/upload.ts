@@ -26,10 +26,13 @@ function assignDeduplicateFilename(path: string) {
 		const [filename, extension] = fileNameAndExtension(deduplicated_path);
 		if (filename.endsWith(" copy")) {
 			deduplicated_path = `${filename} 1${extension}`;
-		} else if (/ copy \d+$/u.test(filename)) {
+		} else if ((/ copy \d+$/u).test(filename)) {
 			const copy_index = filename.lastIndexOf(" ") + 1;
 			const new_digit = parseInt(filename.slice(copy_index), 10) + 1;
-			deduplicated_path = `${filename.slice(0, copy_index)}${new_digit.toString()}${extension}`;
+
+			const original_filename = filename.slice(0, copy_index);
+			const new_filename = original_filename + new_digit.toString();
+			deduplicated_path = new_filename + extension;
 		} else {
 			deduplicated_path = `${filename} copy${extension}`;
 		}
@@ -62,7 +65,7 @@ export default function registerUploadHooks(server: FastifyInstance) {
 		} else {
 			return reply.status(415).send();
 		}
-	
+
 		return reply.type("text/html").send();
 	});
 }

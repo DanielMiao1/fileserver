@@ -1,135 +1,3 @@
-const extensions: Record<string, string> = {
-	"aa": "Audible Audio Book",
-	"aac": "AAC Audio",
-	"ac3": "AC3 Audio",
-	"ai": "Adobe Illustrator Artwork",
-	"app": "macOS Application Bundle",
-	"asm": "Assembly Source File",
-	"au": "Audacity Audio",
-	"avchd": "AVCHD Video",
-	"avif": "AV1 Image",
-	"awk": "AWK Source File",
-	"band": "Apple GarageBand Project",
-	"bash": "Bash Shell Script",
-	"bat": "DOS Batch File",
-	"bin": "Binary File",
-	"blend": "Blender 3D File",
-	"bmp": "Microsoft Bitmap Image",
-	"bundle": "macOS Plugin Bundle",
-	"c": "C Source File",
-	"class": "Java Class",
-	"coffee": "CoffeeScript Source File",
-	"component": "macOS System Component",
-	"cpgz": "CPGZ Archive",
-	"css": "CSS Source File",
-	"csv": "Comma-Separated Values",
-	"dat": "Application Data",
-	"dll": "Dynamic Link Library",
-	"ds_store": "Apple Desktop Services Store",
-	"dv": "DV Video",
-	"dylib": "Apple Dynamic Library",
-	"erl": "Erlang Source File",
-	"exr": "OpenEXR Image",
-	"fileloc": "Internet File Location",
-	"framework": "macOS Application Framework",
-	"gcx": "Apple Graph File",
-	"gif": "GIF Image",
-	"go": "Go Source File",
-	"inetloc": "Internet Location",
-	"ino": "Arduino Source File",
-	"jar": "Java Archive",
-	"jxr": "JPEG-XR Image",
-	"less": "CSS/LESS Source File",
-	"log": "Log File",
-	"m": "Objective-C Source File",
-	"m2t": "HDV Video",
-	"m3u": "MPEG-3 Playlist",
-	"m4a": "MPEG-4 Audio",
-	"m4b": "MPEG-4 Audiobook",
-	"m4v": "Apple MPEG-4 Video",
-	"mm": "Objective-C++ Source File",
-	"mp2": "MPEG Layer 2 Audio",
-	"mp3": "MPEG Layer 3 Audio",
-	"mpo": "Multi Picture Object Image",
-	"mscx": "MuseScore Score",
-	"mscz": "MuseScore Compressed Score",
-	"musicxml": "MusicXML Score",
-	"mxl": "Compressed MusicXML Score",
-	"o": "Compiled C Object File",
-	"odc": "OpenDocument Chart",
-	"odf": "OpenDocument Math Formula",
-	"odg": "OpenDocument Graphics",
-	"odi": "OpenDocument Image",
-	"odm": "OpenDocument Master Document",
-	"odt": "OpenDocument Text",
-	"ogg": "OGG Audio",
-	"otf": "OpenType Font",
-	"pax": "PAX Archive",
-	"pbm": "Portable Bitmap Image",
-	"pdf": "PDF Document",
-	"pgn": "Portable Game Notation File",
-	"pictclipping": "Picture Clipping",
-	"pkg": "Apple Software Package",
-	"plist": "Property List",
-	"plugin": "Plugin",
-	"png": "PNG Image",
-	"ppm": "Portable Pixmap Image",
-	"ps": "PostScript Document",
-	"ps1": "PowerShell Cmdlet",
-	"psd": "Adobe Photoshop Document",
-	"pub": "Public Key",
-	"pug": "HTML/PUG Source File",
-	"py": "Python Source File",
-	"pyc": "Python Compiled File",
-	"pyd": "Python Dynamic Module",
-	"pyi": "Python Type Definitions",
-	"pyo": "Optimized Python Compiled File",
-	"pyw": "Pythonw GUI Source File",
-	"qlgenerator": "Apple Quick Look Generator",
-	"qtz": "Apple Quartz Composer Animation",
-	"r": "R Source File",
-	"rb": "Ruby Source File",
-	"rdp": "Remote Desktop Configuration",
-	"sass": "CSS/SASS Source File",
-	"saver": "Apple Screen Saver",
-	"scss": "CSS/SCSS Source File",
-	"sea": "Self-Extracting Archive",
-	"sh": "Shell Script",
-	"smf": "Standard MIDI File",
-	"smi": "Self-Mounting Disk Image",
-	"sparseimage": "Apple Sparse Disk Image",
-	"sql": "SQL Source File",
-	"strings": "Text Strings",
-	"svg": "Scalable Vector Graphics",
-	"swift": "Swift Source File",
-	"t": "Turing Source File",
-	"tar": "TAR Archive",
-	"tcl": "TCL Source File",
-	"textclipping": "Text Clipping",
-	"tsv": "Tab-Separated Values",
-	"ttf": "TrueType Font",
-	"ui": "User Interface Document",
-	"url": "Internet Shortcut",
-	"vb": "Visual Basic Source File",
-	"vst": "VST Audio",
-	"vst3": "VST3 Audio",
-	"wacz": "Compressed Web Archive",
-	"war": "Java Web Archive",
-	"warc": "Web Archive",
-	"wav": "Wave Audio",
-	"webloc": "Apple Website Location",
-	"webm": "WebM Video",
-	"webp": "WebP Image",
-	"wma": "Windows Media Audio",
-	"xcode": "Xcode Project",
-	"xml": "XML Document",
-	"xsl": "XML Style Document",
-	"z": "Z Archive",
-	"zip": "Zip Archive",
-	"zipx": "Extended Zip Archive",
-	"zsh": "Zsh Shell Script",
-}
-
 export function hasExtension(filename: string) {
 	return filename.includes(".");
 }
@@ -138,22 +6,59 @@ export function extension(filename: string) {
 	if (!hasExtension(filename)) {
 		return "";
 	}
-	
+
 	return filename.slice(filename.lastIndexOf(".") + 1).toLowerCase();
 }
 
-export default function filetype(filename: string) {
+export default async function filetype(filename: string) {
 	const format = extension(filename);
-	
-	if (/^[0-9]{3}$/u.test(format)) {
+
+	if ((/^[0-9]{3}$/u).test(format)) {
 		return "Split Archive";
 	}
 
-	if (["3fr", "arw", "cr2", "cr3", "dng", "fff", "j6i", "mrw", "nef", "nrw", "raw", "orf", "srf", "sr2"].includes(format)) {
+	if ([
+		"3fr",
+		"arw",
+		"cr2",
+		"cr3",
+		"dng",
+		"fff",
+		"j6i",
+		"mrw",
+		"nef",
+		"nrw",
+		"raw",
+		"orf",
+		"srf",
+		"sr2"
+	].includes(format)) {
 		return "Raw Image";
 	}
-	
-	if (["123", "dif", "ods", "wk1", "wk2", "wk3", "wk4", "wk5", "wks", "xla", "xlam", "xlc", "xls", "xlsb", "xlsm", "xlsx", "xlt", "xlthtml", "xltm", "xltx", "xlw"].includes(format)) {
+
+	if ([
+		"123",
+		"dif",
+		"ods",
+		"wk1",
+		"wk2",
+		"wk3",
+		"wk4",
+		"wk5",
+		"wks",
+		"xla",
+		"xlam",
+		"xlc",
+		"xls",
+		"xlsb",
+		"xlsm",
+		"xlsx",
+		"xlt",
+		"xlthtml",
+		"xltm",
+		"xltx",
+		"xlw"
+	].includes(format)) {
 		return "Spreadsheet";
 	}
 
@@ -193,10 +98,18 @@ export default function filetype(filename: string) {
 		return "Cursor Image";
 	}
 
-	if (["db", "dbf", "sqlite", "sqlite3", "sqlitedb", "odb", "xld"].includes(format)) {
+	if ([
+		"db",
+		"dbf",
+		"sqlite",
+		"sqlite3",
+		"sqlitedb",
+		"odb",
+		"xld"
+	].includes(format)) {
 		return "Database File";
 	}
-	
+
 	if (["dic", "dict", "dictionary"].includes(format)) {
 		return "Dictionary File";
 	}
@@ -205,7 +118,16 @@ export default function filetype(filename: string) {
 		return "Patch File";
 	}
 
-	if (["doc", "dochtml", "docm", "docx", "dot", "dothtml", "dotm", "dotx"].includes(format)) {
+	if ([
+		"doc",
+		"dochtml",
+		"docm",
+		"docx",
+		"dot",
+		"dothtml",
+		"dotm",
+		"dotx"
+	].includes(format)) {
 		return "Microsoft Word Document";
 	}
 
@@ -241,11 +163,16 @@ export default function filetype(filename: string) {
 		return "Fortran Source File";
 	}
 
-	if (["hdd", "qcow", "qcow2", "qed", "vdi", "vhd", "vhdx", "vmdk"].includes(format)) {
-		return "Virtual Hard Disk File";
-	}
-
-	if (["hdd", "qcow", "qcow2", "qed", "vdi", "vhd", "vhdx", "vmdk"].includes(format)) {
+	if ([
+		"hdd",
+		"qcow",
+		"qcow2",
+		"qed",
+		"vdi",
+		"vhd",
+		"vhdx",
+		"vmdk"
+	].includes(format)) {
 		return "Virtual Hard Disk File";
 	}
 
@@ -268,7 +195,7 @@ export default function filetype(filename: string) {
 	if (["j", "jav", "java"].includes(format)) {
 		return "Java Source File";
 	}
-	
+
 	if (["j2c", "j2k", "jp2", "jpf"].includes(format)) {
 		return "JPEG-2000 Image";
 	}
@@ -325,7 +252,22 @@ export default function filetype(filename: string) {
 		return "MPEG Video";
 	}
 
-	if (["odp", "pot", "potm", "potx", "ppa", "ppam", "pps", "ppsm", "ppsx", "ppt", "ppthtml", "pptm", "pptmhtml", "pptx"].includes(format)) {
+	if ([
+		"odp",
+		"pot",
+		"potm",
+		"potx",
+		"ppa",
+		"ppam",
+		"pps",
+		"ppsm",
+		"ppsx",
+		"ppt",
+		"ppthtml",
+		"pptm",
+		"pptmhtml",
+		"pptx"
+	].includes(format)) {
 		return "Presentation";
 	}
 
@@ -373,7 +315,16 @@ export default function filetype(filename: string) {
 		return "XZ Archive";
 	}
 
-	if (["vsd", "vsdm", "vsdx", "vss", "vssm", "vssx", "vstm", "vstx"].includes(format)) {
+	if ([
+		"vsd",
+		"vsdm",
+		"vsdx",
+		"vss",
+		"vssm",
+		"vssx",
+		"vstm",
+		"vstx"
+	].includes(format)) {
 		return "Microsoft Visio Drawing";
 	}
 
@@ -381,9 +332,12 @@ export default function filetype(filename: string) {
 		return "Extensible HTML Document";
 	}
 
-	if (/^z[0-9]{2}$/u.test(format)) {
-		return "Split Zip Archive"
+	if ((/^z[0-9]{2}$/u).test(format)) {
+		return "Split Zip Archive";
 	}
-	
+
+	const extensions_file = await fetch("/static/file_extensions.json");
+	const extensions = await extensions_file.json() as Record<string, string>;
+
 	return extensions[extension(filename)] ?? "Document";
 }

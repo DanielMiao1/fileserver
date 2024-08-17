@@ -1,5 +1,5 @@
 import { join } from "path";
-import { readFileSync } from "fs"
+import { readFileSync } from "fs";
 
 import type { FastifyInstance } from "fastify";
 

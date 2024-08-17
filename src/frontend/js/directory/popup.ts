@@ -1,7 +1,7 @@
 interface ButtonData {
 	callback: (this: HTMLButtonElement, event: MouseEvent) => void;
-	classList?: string[],
-	text: string
+	classList?: string[];
+	text: string;
 }
 
 export function createPopup(

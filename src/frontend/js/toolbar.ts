@@ -33,7 +33,7 @@ export function addToolbarButton(
 	button.innerText = text;
 	button.addEventListener("click", action);
 	for (const classItem of classList) {
-		button.classList.add(classItem)
+		button.classList.add(classItem);
 	}
 
 	toolbar.appendChild(button);
@@ -58,29 +58,31 @@ export function addToolbarIcon(
 export function addToolbarStretch() {
 	const stretch = document.createElement("div");
 	stretch.classList.add("stretch");
-	
+
 	toolbar.appendChild(stretch);
 	return stretch;
 }
 
 export function initiateToolbar() {
 	addToolbarIcon(
-		"***REMOVED***",
+		"/static/img/back_arrow.svg",
 		() => {
 			let path = document.location.pathname.toString();
 			if (path.endsWith("/")) {
 				path = path.slice(0, -1);
 			}
-			
+
 			if (document.location.pathname.length > 6) {
 				document.location = path.slice(0, path.lastIndexOf("/"));
 			}
 		},
 		"",
-		(document.location.pathname.length <= 6 ? ["disabled"] : [])
+		document.location.pathname.length <= 6 ? ["disabled"] : []
 	);
 
-	addToolbarText(decodeURIComponent(current_path.slice(current_path.lastIndexOf("/") + 1)) || document.location.hostname);
+	let current_name = current_path.slice(current_path.lastIndexOf("/") + 1);
+	current_name = decodeURIComponent(current_name);
+	addToolbarText(current_name || document.location.hostname);
 
 	return toolbar;
 }

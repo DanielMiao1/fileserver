@@ -1,6 +1,11 @@
 import current_path from "../path.js";
 
-import { addToolbarIcon, addToolbarStretch, initiateToolbar } from "../toolbar.js";
+import {
+	addToolbarIcon,
+	addToolbarStretch,
+	initiateToolbar
+} from "../toolbar.js";
+
 import { extension } from "../filetype.js";
 import { initiateDownloader } from "../download.js";
 import { initiateSidebar } from "../sidebar.js";
@@ -30,7 +35,7 @@ export default function loadFile() {
 	initiateToolbar();
 
 	addToolbarStretch();
-	addToolbarIcon("***REMOVED***", () => {
+	addToolbarIcon("/static/img/download.svg", () => {
 		download_iframe.src = `/download${current_path}`;
 	}, "40%");
 
@@ -39,15 +44,49 @@ export default function loadFile() {
 	loading.innerText = "Loading...";
 	main.appendChild(loading);
 
-	const filename = current_path.slice(current_path.lastIndexOf("/") + 1).toLowerCase();
-	
-	const format = extension(filename);
+	const filename = current_path.slice(current_path.lastIndexOf("/") + 1);
+
+	const format = extension(filename.toLowerCase());
 
 	let loader;
 
 	if (!format) {
 		loader = loadText(source);
-	} else if (["apng", "avif", "bmp", "cur", "gif", "ico", "heic", "heif", "j2k", "jp2", "jpc", "jpe", "jpeg", "jpf", "jpg", "jpg2", "jpm", "jpx", "jfi", "jif", "jfif", "jxl", "jxr", "pjp", "pjpeg", "pjpg", "png", "svg", "svgz", "tif", "tiff", "webp", "xbm"].includes(format)) {
+	} else if ([
+		"apng",
+		"avif",
+		"bmp",
+		"cur",
+		"gif",
+		"ico",
+		"heic",
+		"heif",
+		"j2k",
+		"jp2",
+		"jpc",
+		"jpe",
+		"jpeg",
+		"jpf",
+		"jpg",
+		"jpg2",
+		"jpm",
+		"jpx",
+		"jfi",
+		"jif",
+		"jfif",
+		"jxl",
+		"jxr",
+		"pjp",
+		"pjpeg",
+		"pjpg",
+		"png",
+		"svg",
+		"svgz",
+		"tif",
+		"tiff",
+		"webp",
+		"xbm"
+	].includes(format)) {
 		loader = loadImage(source);
 	} else if (["pdf", "lpdf"].includes(format)) {
 		loader = loadPDF(source);
@@ -55,7 +94,19 @@ export default function loadFile() {
 		loader = loadText(source, "actionscript");
 	} else if (["applescript", "scpt"].includes(format)) {
 		loader = loadText(source, "applescript");
-	} else if (["atom", "htm", "html", "plist", "rss", "svg", "xhtm", "xhtml", "xml", "xsd", "xsl"].includes(format)) {
+	} else if ([
+		"atom",
+		"htm",
+		"html",
+		"plist",
+		"rss",
+		"svg",
+		"xhtm",
+		"xhtml",
+		"xml",
+		"xsd",
+		"xsl"
+	].includes(format)) {
 		loader = loadText(source, "xml");
 	} else if (["bash", "sh", "zsh"].includes(format)) {
 		loader = loadText(source, "bash");
@@ -63,15 +114,24 @@ export default function loadFile() {
 		loader = loadText(source, "c");
 	} else if (["c#", "cs", "csx"].includes(format)) {
 		loader = loadText(source, "csharp");
-	} else if (["c++", "cc", "cpp", "cxx", "h++", "hh", "hpp", "hxx"].includes(format)) {
+	} else if ([
+		"c++",
+		"cc",
+		"cpp",
+		"cxx",
+		"h++",
+		"hh",
+		"hpp",
+		"hxx"
+	].includes(format)) {
 		loader = loadText(source, "c");
 	} else if (["cjs", "js", "jsx", "mjs"].includes(format)) {
 		loader = loadText(source, "javascript");
-	} else if (format === "cmake" || filename === "cmakelists.txt") {
+	} else if (format === "cmake" || filename === "CMakeLists.txt") {
 		loader = loadText(source, "cmake");
 	} else if (format === "css") {
 		loader = loadText(source, "css");
-	} else if (filename === "dockerfile") {
+	} else if (filename === "Dockerfile") {
 		loader = loadText(source, "docker");
 	} else if (["f", "f77", "f90", "f95", "for"].includes(format)) {
 		loader = loadText(source, "fortran");
@@ -91,7 +151,7 @@ export default function loadFile() {
 		loader = loadText(source, "java");
 	} else if (format === "lua") {
 		loader = loadText(source, "lua");
-	} else if (filename === "makefile") {
+	} else if (filename === "Makefile") {
 		loader = loadText(source, "makefile");
 	} else if (["md", "mdx", "mkd", "markdn", "markdown"].includes(format)) {
 		loader = loadText(source, "markdown");
@@ -99,21 +159,21 @@ export default function loadFile() {
 		loader = loadText(source, "objectivec");
 	} else if (["php", "php2", "php3", "php4", "php5"].includes(format)) {
 		loader = loadText(source, "php");
-	}	else if (format === "py") {
+	} else if (format === "py") {
 		loader = loadText(source, "python");
-	}	else if (format === "qml") {
+	} else if (format === "qml") {
 		loader = loadText(source, "qml");
-	}	else if (format === "rb") {
+	} else if (format === "rb") {
 		loader = loadText(source, "ruby");
-	}	else if (format === "rs") {
+	} else if (format === "rs") {
 		loader = loadText(source, "rust");
-	}	else if (format === "scss") {
+	} else if (format === "scss") {
 		loader = loadText(source, "scss");
-	}	else if (format === "sql") {
+	} else if (format === "sql") {
 		loader = loadText(source, "sql");
-	}	else if (format === "scala") {
+	} else if (format === "scala") {
 		loader = loadText(source, "scala");
-	}	else if (format === "swift") {
+	} else if (format === "swift") {
 		loader = loadText(source, "swift");
 	} else if (["tcl", "tk"].includes(format)) {
 		loader = loadText(source, "tcl");

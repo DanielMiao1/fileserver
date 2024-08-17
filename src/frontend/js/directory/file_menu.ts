@@ -9,7 +9,7 @@ function ensureSlashSuffix(path: string) {
 	return path.endsWith("/") ? path : `${path}/`;
 }
 
-function truncate(text: string, length=10) {
+function truncate(text: string, length = 10) {
 	let result = text;
 
 	if (result.length >= length) {
@@ -75,14 +75,19 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 		}],
 		Download: [() => {
 			const menu_title = menu.children[0] as HTMLElement;
-			const filename = menu_title.innerText;
+			const filename = encodeURIComponent(menu_title.innerText);
 
-			document.getElementById("downloader").src = `/download${current_path}/${encodeURIComponent(filename)}`;
+			const downloader = document.getElementById("downloader");
+			downloader.src = `/download${current_path}/${filename}`;
 		}],
 		// TODO: Properly open the file
-		Open: [() => getButtonFromEventTarget(event.target).dispatchEvent(new MouseEvent("dblclick"))],
+		Open: [() => {
+			const button = getButtonFromEventTarget(event.target);
+
+			button.dispatchEvent(new MouseEvent("dblclick"));
+		}],
 		Rename: [() => {
 			createRenameInput(getButtonFromEventTarget(event.target));
 		}]
-	}
+	};
 }

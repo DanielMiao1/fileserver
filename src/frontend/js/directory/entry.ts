@@ -8,11 +8,13 @@ import isEditing from "./edit.js";
 
 function navigateToRelative(name: string) {
 	if (!isEditing()) {
-		document.location = `${(
-			document.location.pathname.endsWith("/") ?
-			document.location.pathname :
-			`${document.location.pathname}/`
-		)}${name}`;
+		let pathname = document.location.pathname;
+
+		if (!pathname.endsWith("/")) {
+			pathname = `${pathname}/`;
+		}
+
+		document.location = pathname + name;
 	}
 }
 
@@ -56,7 +58,7 @@ export function appendGridViewEntry(name: string, is_directory: boolean) {
 	});
 
 	const file_icon_container = document.createElement("figure");
-	button.appendChild(file_icon_container)
+	button.appendChild(file_icon_container);
 
 	const file_icon = document.createElement("img");
 
@@ -78,7 +80,7 @@ export function appendGridViewEntry(name: string, is_directory: boolean) {
 }
 
 export function appendListViewEntry(name: string, is_directory: boolean) {
-	const row = document.createElement("div")
+	const row = document.createElement("div");
 
 	row.addEventListener("mousedown", event => {
 		selectItem(event.button, row);
@@ -106,22 +108,26 @@ export function appendListViewEntry(name: string, is_directory: boolean) {
 	}
 
 	row.appendChild(file_icon);
-	
+
 	const filename = document.createElement("p");
 	filename.innerText = name;
 	filename.title = name;
 	row.appendChild(filename);
-	
+
 	const format = document.createElement("p");
-	
+
 	if (is_directory) {
 		format.innerText = "Directory";
 	} else {
-		format.innerText = filetype(name);
+		filetype(name).then(result => {
+			format.innerText = result;
+		}).catch(() => {
+			format.innerText = "Unknown";
+		});
 	}
 
 	row.appendChild(format);
-	
+
 	main.appendChild(row);
 
 	return row;

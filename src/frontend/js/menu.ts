@@ -43,7 +43,7 @@ function closeContextMenu() {
 		duration: 200,
 		easing: "ease-out"
 	}).finished.then(() => {
-		menu.style.display = "none"
+		menu.style.display = "none";
 	});
 }
 
@@ -75,14 +75,14 @@ export default function createContextMenu(
 ) {
 	if (menu.style.display === "flex") {
 		void closeContextMenu().then(() => {
-			createContextMenu(event, entries)
+			createContextMenu(event, entries);
 		});
 
 		return;
 	}
 
 	while (menu.firstChild) {
-		menu.removeChild(menu.firstChild)
+		menu.removeChild(menu.firstChild);
 	}
 
 	appendMenuEntries(entries);

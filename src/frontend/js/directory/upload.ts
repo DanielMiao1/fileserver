@@ -1,5 +1,8 @@
 import current_path from "../path.js";
 
+type FSDirReader = FileSystemDirectoryReader;
+type FSEntriesPromise = Promise<FileSystemEntry[]>;
+
 function affixSlash(path: string) {
 	return path.endsWith("/") ? path : `${path}/`;
 }
@@ -19,7 +22,7 @@ async function uploadTransferItem(file: File, path: string) {
 				}).then(resolve);
 			}
 		});
-	
+
 		reader.readAsText(file);
 	});
 }
@@ -30,13 +33,13 @@ async function createFileFromEntry(entry: FileSystemFileEntry): Promise<File> {
 	});
 }
 
-async function readDirectoryEntries(reader: FileSystemDirectoryReader): Promise<FileSystemEntry[]> {
+async function readDirectoryEntries(reader: FSDirReader): FSEntriesPromise {
 	return await new Promise(resolve => {
 		reader.readEntries(resolve);
 	});
 }
 
-async function readAllDirectoryEntries(reader: FileSystemDirectoryReader) {
+async function readAllDirectoryEntries(reader: FSDirReader): FSEntriesPromise {
 	const entries = [];
 	let current_entries = await readDirectoryEntries(reader);
 
@@ -57,7 +60,7 @@ async function uploadDirectory(entry: FileSystemDirectoryEntry) {
 	});
 
 	const entries = await readAllDirectoryEntries(entry.createReader());
-	
+
 	for (const subentry of entries) {
 		if (subentry.isDirectory) {
 			await uploadDirectory(subentry as FileSystemDirectoryEntry);
@@ -97,12 +100,12 @@ export function prepareUploadElement() {
 		event.preventDefault();
 		event.stopPropagation();
 	}, true);
-	
+
 	document.addEventListener("dragover", event => {
 		event.preventDefault();
 		event.stopPropagation();
 	}, true);
-	
+
 	document.addEventListener("dragleave", event => {
 		event.preventDefault();
 		event.stopPropagation();

@@ -49,19 +49,27 @@ server.register(fastifyStatic, {
 	decorateReply: false,
 	prefix: "/raw",
 	root: serving_directory,
-	setHeaders: (response) => {
+	setHeaders: response => {
 		response.setHeader("Cache-Control", "no-store");
 	}
 });
 
 registerDownloadHooks(server);
 
+function getEncoding(path: string, size: number) {
+	if (size > 2000000) {
+		return "";
+	}
+
+	return spawnSync("uchardet", [path]).stdout.toString().slice(0, -1);
+}
+
 server.get("/data/*", (request, reply) => {
 	reply.header("Cache-Control", "no-store");
 	const path = getScopedPath(decodeURIComponent(request.url.slice(5)), true);
 
 	if (path && existsSync(path)) {
-		const stat = statSync(path)
+		const stat = statSync(path);
 
 		if (stat.isDirectory()) {
 			const contents: Record<string, boolean> = {};
@@ -78,11 +86,11 @@ server.get("/data/*", (request, reply) => {
 			});
 		} else {
 			reply.send({
-				encoding: stat.size <= 2000000 && spawnSync("uchardet", [path]).stdout.toString().slice(0, -1),
+				encoding: getEncoding(path, stat.size),
 				size: stat.size,
 				type: "file"
 			});
-		};
+		}
 	} else {
 		reply.status(404).send();
 	}
@@ -122,7 +130,7 @@ server.put("/*", (request, reply) => {
 	const old_path = getScopedPath(request.headers["path"]);
 
 	if (!new_path || !old_path) {
-		return reply.status(400).send()
+		return reply.status(400).send();
 	}
 
 	if (!existsSync(old_path)) {

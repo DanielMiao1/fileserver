@@ -1,11 +1,14 @@
 import hljs from "highlight.js";
 
-export default async function load(source: string, language?: string): Promise<HTMLPreElement> {
+export default async function load(
+	source: string,
+	language?: string
+): Promise<HTMLPreElement> {
 	void import("../../../css/file/loaders/text.scss");
 
 	const data = await (await fetch(source)).text();
 	const text = document.createElement("pre");
-	
+
 	const numbers = document.createElement("div");
 	for (let index = 0; index < data.split("\n").length; index++) {
 		const number = document.createElement("p");
