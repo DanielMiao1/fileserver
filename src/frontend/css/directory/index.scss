@@ -1,9 +1,5 @@
 * {
 	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
@@ -12,8 +8,8 @@ form {
 }
 
 form input {
-	position: fixed;
-	inset: 0;
 	height: 100vh;
+	inset: 0;
+	position: fixed;
 	width: 100vw;
 }

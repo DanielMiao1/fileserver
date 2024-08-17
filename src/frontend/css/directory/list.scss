@@ -1,20 +1,20 @@
 main {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
 	margin: 0;
 	padding: 10px;
 	width: 100%;
-	display: flex;
-	flex-direction: column;
-	box-sizing: border-box;
 }
 
 main div {
+	align-items: center;
+	border-radius: 5px;
 	display: grid;
+	font-size: 0.8em;
+	gap: 16px;
 	grid-template-columns: 36px 1fr 1fr;
 	height: 3em;
-	align-items: center;
-	gap: 16px;
-	border-radius: 5px;
-	font-size: 0.8em;
 }
 
 main div:nth-child(odd) {

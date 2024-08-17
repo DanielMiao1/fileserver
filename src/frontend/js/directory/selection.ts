@@ -8,7 +8,7 @@ export let selected: HTMLElement[] = [];
 let drag_selection_start_position: [number, number] | false = false;
 
 export default function isDragSelecting() {
-	return Boolean(document.getElementById("drag_selection"));
+	return Boolean(document.getElementById("drag-selection"));
 }
 
 function deselectAll() {
@@ -124,7 +124,7 @@ export function initiateDragSelection() {
 		drag_selection_start_position = false;
 
 		if (isDragSelecting()) {
-			document.getElementById("drag_selection").remove();
+			document.getElementById("drag-selection").remove();
 		}
 	});
 
@@ -133,14 +133,14 @@ export function initiateDragSelection() {
 			return;
 		}
 
-		let selection = document.getElementById("drag_selection");
+		let selection = document.getElementById("drag-selection");
 
 		const drag_x_pos = drag_selection_start_position[0];
 		const drag_y_pos = drag_selection_start_position[1];
 
 		if (!selection) {
 			selection = document.createElement("div");
-			selection.id = "drag_selection";
+			selection.id = "drag-selection";
 			selection.style.left = `${drag_x_pos.toString()}px`;
 			selection.style.top = `${drag_y_pos.toString()}px`;
 			document.body.appendChild(selection);

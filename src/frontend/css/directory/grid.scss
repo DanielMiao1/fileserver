@@ -1,37 +1,37 @@
 main {
 	align-content: baseline;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, 100px);
 	gap: 20px;
+	grid-template-columns: repeat(auto-fill, 100px);
 	padding: 20px;
 }
 
 main button {
-	position: relative;
-	padding: 5px;
-	border: none;
 	background: none;
+	border: none;
 	height: fit-content;
+	padding: 5px;
+	position: relative;
 }
 
 main button span {
-	padding: 3px 5px 3px;
 	border-radius: 5px;
-	overflow: hidden;
 	display: block;
-	width: fit-content;
-	max-width: 89%;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
 	margin: auto;
 	margin-top: 6px;
+	max-width: 89%;
+	overflow: hidden;
+	padding: 3px 5px;
+	width: fit-content;
 	word-break: break-all;
-	line-clamp: 2;
-	-webkit-line-clamp: 2;
 }
 
 main button input {
+	margin-top: 6px;
 	text-align: center;
 	width: 89%;
-	margin-top: 6px;
 }
 
 main button.selected {
@@ -43,17 +43,17 @@ main button.selected span {
 }
 
 main button figure {
-	width: 100%;
-	height: 83px;
+	align-items: center;
 	display: flex;
 	flex-direction: column;
+	height: 83px;
 	justify-content: center;
-	align-items: center;
+	width: 100%;
 }
 
 main button img {
-	max-width: 90%;
 	max-height: 100%;
+	max-width: 90%;
 }
 
 main button.hidden img {
@@ -61,21 +61,21 @@ main button.hidden img {
 }
 
 main button::before {
-	content: "";
-	width: 85%;
-	height: 83px;
-	position: absolute;
-	left: 7.5%;
 	border-radius: 2px;
+	content: "";
+	height: 83px;
+	left: 7.5%;
+	position: absolute;
+	width: 85%;
 }
 
 main button.selected::before {
-	background-color: rgba(0, 0, 0, 0.04);
+	background-color: rgba(0 0 0 / 4%);
 	outline: 2px solid #EEE;
 }
 
-#drag_selection {
-	position: absolute;
+#drag-selection {
+	background-color: rgba(0 0 0 / 10%);
 	border: 1px solid #CCC;
-	background-color: rgba(0, 0, 0, 0.1);
+	position: absolute;
 }

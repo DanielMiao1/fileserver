@@ -7,7 +7,9 @@
 		"build-backend": "tsc -b",
 		"build-frontend": "vite build",
 		"start": "node build/backend/index.js",
-		"lint": "eslint src"
+		"lint": "npm run lint-scss; npm run lint-ts",
+		"lint-scss": "stylelint src/frontend/css/**/*.scss",
+		"lint-ts": "eslint src"
 	},
 	"dependencies": {
 		"@fastify/compress": "^7.0.3",
@@ -30,6 +32,9 @@
 		"@types/eslint__js": "^8.42.3",
 		"eslint": "^9.9.0",
 		"globals": "^15.9.0",
+		"stylelint": "^16.8.2",
+		"stylelint-config-standard-scss": "^13.1.0",
+		"stylelint-order": "^6.0.4",
 		"typescript-eslint": "^8.0.1"
 	}
 }
