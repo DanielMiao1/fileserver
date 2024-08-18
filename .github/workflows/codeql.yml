@@ -1,0 +1,40 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "src/backend/**"
+      - "src/frontend/js/**"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "src/backend/**"
+      - "src/frontend/js/**"
+  schedule:
+    - cron: "18 11 * * 4"
+
+jobs:
+  analyze:
+    name: CodeQL Analysis
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 360
+    permissions:
+      security-events: write
+      packages: read
+    strategy:
+      fail-fast: false
+      matrix:
+        directory: [ "src/backend/codeql.yml", "src/frontend/codeql.yml" ]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        config-file: ${{ matrix.directory }}
+        languages: javscript-typescript
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:javascript-typescript"

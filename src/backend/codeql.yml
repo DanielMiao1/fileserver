@@ -1,0 +1,4 @@
+name: "Backend CodeQL Analysis"
+
+paths:
+  - src/backend

@@ -1,0 +1,4 @@
+name: "Frontend CodeQL Analysis"
+
+paths:
+  - src/frontend/js
