@@ -1,6 +1,6 @@
 {
-	"name": "nas",
 	"version": "0.0.1-alpha0",
+	"name": "fileserver",
 	"type": "module",
 	"scripts": {
 		"build": "npm run build-backend && npm run build-frontend",
