@@ -33,7 +33,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         config-file: ${{ matrix.directory }}
-        languages: javscript-typescript
+        languages: javascript-typescript
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
