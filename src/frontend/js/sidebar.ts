@@ -95,15 +95,14 @@ export function sidebarItemWithPath(path: string) {
 export function initiateSidebar() {
 	const locations_section = addSidebarSection("Locations");
 
-	// TODO: Create /static/img/sidebar_icons/
 	addSidebarItem({
-		icon: "/static/img/home.svg",
+		icon: "/static/img/icons/sidebar/home.svg",
 		name: "Home",
 		path: "/"
 	}, locations_section);
 
 	addSidebarItem({
-		icon: "/static/img/documents.svg",
+		icon: "/static/img/icons/sidebar/documents.svg",
 		icon_offset: "12px",
 		icon_size: "12.5px",
 		name: "Documents",

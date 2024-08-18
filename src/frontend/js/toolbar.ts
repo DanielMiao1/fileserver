@@ -65,7 +65,7 @@ export function addToolbarStretch() {
 
 export function initiateToolbar() {
 	addToolbarIcon(
-		"/static/img/back_arrow.svg",
+		"/static/img/icons/toolbar/back_arrow.svg",
 		() => {
 			let path = document.location.pathname.toString();
 			if (path.endsWith("/")) {

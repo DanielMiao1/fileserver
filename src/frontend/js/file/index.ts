@@ -35,7 +35,7 @@ export default function loadFile() {
 	initiateToolbar();
 
 	addToolbarStretch();
-	addToolbarIcon("/static/img/download.svg", () => {
+	addToolbarIcon("/static/img/icons/toolbar/download.svg", () => {
 		download_iframe.src = `/download${current_path}`;
 	}, "40%");
 

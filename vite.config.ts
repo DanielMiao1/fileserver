@@ -12,7 +12,6 @@ export default defineConfig({
 			}
 		},
 		sourcemap: process.env["NODE_ENV"] !== "production"
-		// minify:
 	},
 	base: "/static/",
 	root: "./src/frontend"
