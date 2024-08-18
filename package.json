@@ -3,21 +3,38 @@
 	"version": "0.0.1-alpha0",
 	"type": "module",
 	"scripts": {
-		"start": "node src/backend/index.js",
-		"lint": "npx eslint src"
+		"build": "npm run build-backend && npm run build-frontend",
+		"build-backend": "tsc -b",
+		"build-frontend": "vite build",
+		"start": "node build/backend/index.js",
+		"lint": "npm run lint-scss; npm run lint-ts",
+		"lint-scss": "stylelint src/frontend/css/**/*.scss",
+		"lint-ts": "eslint src"
 	},
 	"dependencies": {
 		"@fastify/compress": "^7.0.3",
 		"@fastify/multipart": "^8.3.0",
 		"@fastify/static": "^7.0.4",
-		"fastify": "^4.28.1"
+		"@tsconfig/strictest": "^2.0.5",
+		"@types/node": "^22.2.0",
+		"fastify": "^4.28.1",
+		"highlight.js": "^11.10.0",
+		"sass": "^1.77.8",
+		"typescript": "^5.5.4",
+		"vite": "^5.4.0"
 	},
 	"engines": {
 		"node": ">=20"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.6.0",
-		"eslint": "^9.6.0",
-		"globals": "^15.8.0"
+		"@eslint/js": "^9.9.0",
+		"@stylistic/eslint-plugin": "^2.6.2",
+		"@types/eslint__js": "^8.42.3",
+		"eslint": "^9.9.0",
+		"globals": "^15.9.0",
+		"stylelint": "^16.8.2",
+		"stylelint-config-standard-scss": "^13.1.0",
+		"stylelint-order": "^6.0.4",
+		"typescript-eslint": "^8.0.1"
 	}
 }
