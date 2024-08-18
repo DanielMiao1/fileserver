@@ -103,8 +103,6 @@ export function initiateSidebar() {
 
 	addSidebarItem({
 		icon: "/static/img/icons/sidebar/documents.svg",
-		icon_offset: "12px",
-		icon_size: "12.5px",
 		name: "Documents",
 		path: "/Documents"
 	}, locations_section);

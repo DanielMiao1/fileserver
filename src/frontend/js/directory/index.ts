@@ -24,7 +24,7 @@ function populateToolbar() {
 			localStorage["directory_view"] = "grid";
 			document.location.reload();
 		}
-	}, "40%");
+	}, "45%");
 
 	const list_view_icon_path = "/static/img/icons/toolbar/list_view.svg";
 	const list_view = addToolbarIcon(list_view_icon_path, () => {
@@ -32,7 +32,7 @@ function populateToolbar() {
 			localStorage["directory_view"] = "list";
 			document.location.reload();
 		}
-	}, "40%");
+	}, "45%");
 
 	if (localStorage["directory_view"] === "grid") {
 		grid_view.classList.add("selected");

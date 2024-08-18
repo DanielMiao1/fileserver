@@ -43,7 +43,7 @@ export function addToolbarButton(
 export function addToolbarIcon(
 	icon: string,
 	action: event_callback,
-	icon_size: string,
+	icon_size = "",
 	classList: string[] = []
 ): HTMLButtonElement {
 	const button = addToolbarButton("", action, [...classList, "icon"]);
@@ -76,7 +76,7 @@ export function initiateToolbar() {
 				document.location = path.slice(0, path.lastIndexOf("/"));
 			}
 		},
-		"",
+		"19px",
 		document.location.pathname.length <= 6 ? ["disabled"] : []
 	);
 
