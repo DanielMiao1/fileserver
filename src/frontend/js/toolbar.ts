@@ -2,14 +2,24 @@ import current_path from "./path.js";
 
 type event_callback = (this: HTMLButtonElement, event: MouseEvent) => void;
 
-let toolbar: HTMLElement;
-
-if (document.getElementsByTagName("header")[0]) {
-	toolbar = document.getElementsByTagName("header")[0]!;
-} else {
-	toolbar = document.createElement("header");
+function createToolbar() {
+	const toolbar = document.createElement("header");
 	document.body.appendChild(toolbar);
+
+	return toolbar;
 }
+
+function getToolbar() {
+	const toolbar = document.getElementsByTagName("header")[0];
+
+	if (toolbar) {
+		return toolbar;
+	}
+
+	return createToolbar();
+}
+
+const toolbar = getToolbar();
 
 export default toolbar;
 

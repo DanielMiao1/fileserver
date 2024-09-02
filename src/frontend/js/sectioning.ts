@@ -1,32 +1,44 @@
-function initializeMainElement(container: HTMLElement) {
+function createMainElement(container: HTMLElement) {
 	const main = document.createElement("main");
 	container.appendChild(main);
+
 	return main;
 }
 
-function initializeContainer() {
+function createContainer() {
 	const container = document.createElement("div");
 	container.id = "container";
+
+	createMainElement(container);
+
 	document.body.appendChild(container);
-	initializeMainElement(container);
+
 	return container;
 }
 
-let container: HTMLElement;
+function getContainer() {
+	const container = document.getElementById("container");
 
-if (document.getElementById("container")) {
-	container = document.getElementById("container")!;
-} else {
-	container = initializeContainer();
+	if (container) {
+		return container;
+	}
+
+	return createContainer();
 }
 
-let main: HTMLElement;
+const container = getContainer();
 
-if (document.getElementsByTagName("main")[0]) {
-	main = document.getElementsByTagName("main")[0]!;
-} else {
-	main = initializeMainElement(container);
+function getMainElement() {
+	const main = document.getElementsByTagName("main")[0];
+
+	if (main) {
+		return main;
+	}
+
+	return createMainElement(container);
 }
+
+const main = getMainElement();
 
 export {
 	container,

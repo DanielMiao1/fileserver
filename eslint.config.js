@@ -118,7 +118,6 @@ export default tseslint.config(
 				allowNumber: true,
 				allowBoolean: true,
 			}],
-			"@typescript-eslint/no-non-null-assertion": "off",
 			"camelcase": "off",
 			"complexity": ["error", {
 				max: 100

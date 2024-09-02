@@ -1,20 +1,25 @@
 import current_path from "./path.js";
 
-import { container } from "./sectioning.js";
+import { main } from "./sectioning.js";
 
-let sidebar: HTMLElement;
+function createSidebar() {
+	const sidebar = document.createElement("aside");
+	main.before(sidebar);
 
-if (document.getElementsByTagName("aside")[0]) {
-	sidebar = document.getElementsByTagName("aside")[0]!;
-} else {
-	sidebar = document.createElement("aside");
-
-	if (document.getElementsByTagName("main")[0]) {
-		document.getElementsByTagName("main")[0]?.before(sidebar);
-	} else {
-		container.appendChild(sidebar);
-	}
+	return sidebar;
 }
+
+function getSidebar() {
+	const sidebar = document.getElementsByTagName("aside")[0];
+
+	if (sidebar) {
+		return sidebar;
+	}
+
+	return createSidebar();
+}
+
+const sidebar = getSidebar();
 
 interface SectionItemData {
 	icon?: string;
