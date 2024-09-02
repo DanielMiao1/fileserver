@@ -48,23 +48,20 @@ export default function createDirectoryView(items: Record<string, boolean>) {
 			return;
 		}
 
-		switch (event.key) {
-			case "ArrowUp":
-				handleArrowUpKey(event);
-				scrollSelectionIntoView();
-				break;
-			case "ArrowDown":
-				handleArrowDownKey(event);
-				scrollSelectionIntoView();
-				break;
-			case "ArrowLeft":
-				handleArrowLeftKey(event);
-				scrollSelectionIntoView();
-				break;
-			case "ArrowRight":
-				handleArrowRightKey(event);
-				scrollSelectionIntoView();
-				break;
+		const key = event.key;
+
+		if (key === "ArrowUp") {
+			handleArrowUpKey(event);
+			scrollSelectionIntoView();
+		} else if (key === "ArrowDown") {
+			handleArrowDownKey(event);
+			scrollSelectionIntoView();
+		} else if (key === "ArrowLeft") {
+			handleArrowLeftKey(event);
+			scrollSelectionIntoView();
+		} else if (key === "ArrowRight") {
+			handleArrowRightKey(event);
+			scrollSelectionIntoView();
 		}
 	});
 }

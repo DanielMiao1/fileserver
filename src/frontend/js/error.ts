@@ -3,14 +3,15 @@ import { initiateToolbar } from "./toolbar.js";
 import { main } from "./sectioning.js";
 
 function getErrorDescription(code: number) {
-	switch (code) {
-		case 404:
-			return "The requested path could not be found.";
-		case 500:
-			return "An error occured while transferring the content.";
+	if (code === 404) {
+		return "The requested path could not be found.";
 	}
 
-	return "";
+	if (code === 500) {
+		return "An error occured while transferring the content.";
+	}
+
+	return "An unknown error occured.";
 }
 
 export default function createErrorElement(code: number) {
