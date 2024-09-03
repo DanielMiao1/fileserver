@@ -41,7 +41,7 @@ main pre div p {
 	color: #888;
 }
 
-.hljs-built_in,
+.hljs-built_in, // stylelint-disable-line selector-class-pattern
 .hljs-selector-tag,
 .hljs-name,
 .hljs-literal,
