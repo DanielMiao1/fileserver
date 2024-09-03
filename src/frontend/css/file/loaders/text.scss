@@ -1,8 +1,8 @@
 main pre {
-	padding: 2em;
 	display: grid;
-	grid-template-columns: min-content auto;
 	gap: 2px 15px;
+	grid-template-columns: min-content auto;
+	padding: 2em;
 }
 
 main pre code {
@@ -10,8 +10,8 @@ main pre code {
 }
 
 main pre div p {
-	text-align: right;
 	color: #AAA;
+	text-align: right;
 }
 
 .hljs-comment,

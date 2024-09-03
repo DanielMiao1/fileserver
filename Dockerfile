@@ -2,7 +2,7 @@ FROM node:22-alpine
 WORKDIR /usr/src/app
 
 RUN apk update
-RUN apk add uchardet zip
+RUN apk --no-cache add uchardet zip
 
 COPY package.json package-lock.json ./
 RUN npm ci

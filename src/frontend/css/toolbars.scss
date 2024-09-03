@@ -1,17 +1,17 @@
 #container {
-	padding-top: var(--toolbar-height);
 	display: grid;
 	grid-template-columns: var(--sidebar-width) auto;
+	padding-top: var(--toolbar-height);
 }
 
 aside {
 	background-color: #E5E5E5;
+	box-sizing: border-box;
+	color: #3C3C3C;
+	height: calc(100vh - var(--toolbar-height));
+	padding: 5px;
 	position: sticky;
 	top: var(--toolbar-height);
-	height: calc(100vh - var(--toolbar-height));
-	box-sizing: border-box;
-	padding: 5px;
-	color: #3C3C3C;
 	z-index: 1;
 }
 
@@ -31,18 +31,18 @@ aside span {
 }
 
 aside a {
-	color: inherit;
-	text-decoration: none;
-	cursor: default;
 	border-radius: 6px;
+	color: inherit;
+	cursor: default;
+	text-decoration: none;
 }
 
 aside a.icon {
 	background-image: var(--icon);
+	background-position-x: var(--icon-offset, 10px);
+	background-position-y: center;
 	background-repeat: no-repeat;
 	background-size: var(--icon-size, 17px) auto;
-	background-position-y: center;
-	background-position-x: var(--icon-offset, 10px);
 	text-indent: 27px;
 }
 
@@ -51,41 +51,41 @@ aside a.selected {
 }
 
 header {
-	position: fixed;
-	top: 0;
-	height: var(--toolbar-height);
-	width: 100%;
-	box-sizing: border-box;
+	align-items: center;
 	background-color: #F0F0F0;
+	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
-	padding: 0 15px;
 	gap: 10px;
+	height: var(--toolbar-height);
+	padding: 0 15px;
+	position: fixed;
+	top: 0;
+	width: 100%;
 	z-index: 1;
 }
 
 header button {
-	position: relative;
-	padding: 5px 10px;
+	background-color: transparent;
+	border: none;
+	border-radius: 5px;
 	min-height: 30px;
 	min-width: 35px;
-	background-color: transparent;
-	border-radius: 5px;
-	border: none;
+	padding: 5px 10px;
+	position: relative;
 }
 
 header button.icon::before {
+	background-image: var(--icon);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: var(--icon-size, 23%);
 	content: "";
+	height: 100%;
+	left: 0;
 	position: absolute;
 	top: 0;
-	left: 0;
 	width: 100%;
-	height: 100%;
-	background-image: var(--icon);
-	background-size: var(--icon-size, 23%);
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
 header button.disabled,
