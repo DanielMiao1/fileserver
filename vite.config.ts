@@ -13,6 +13,13 @@ export default defineConfig({
 		},
 		sourcemap: process.env["NODE_ENV"] !== "production"
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				api: "modern"
+			}
+		}
+	},
 	base: "/static/",
 	root: "./src/frontend"
 });	

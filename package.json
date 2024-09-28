@@ -3,6 +3,8 @@
 	"name": "fileserver",
 	"type": "module",
 	"scripts": {
+		"dev": "tsc-watch -p src/backend --onSuccess 'npm run dev-frontend && npm start'",
+		"dev-frontend": "npx nodemon -e '*' -w 'src/frontend' -x 'vite build'",
 		"build": "npm run build-backend && npm run build-frontend",
 		"build-backend": "tsc -b",
 		"build-frontend": "vite build",
@@ -32,9 +34,11 @@
 		"@types/eslint__js": "^8.42.3",
 		"eslint": "^9.11.0",
 		"globals": "^15.9.0",
+		"nodemon": "^3.1.7",
 		"stylelint": "^16.9.0",
 		"stylelint-config-standard-scss": "^13.1.0",
 		"stylelint-order": "^6.0.4",
+		"tsc-watch": "^6.2.0",
 		"typescript-eslint": "^8.5.0"
 	}
 }
