@@ -68,21 +68,33 @@ function createInput(
 	const listener_signal = new AbortController();
 
 	main.addEventListener("mousedown", event => {
-		if (event.target !== target && event.target.parentNode !== target) {
-			if (old_filename === input_element.value) {
-				if (aborted_callback) {
-					aborted_callback(old_filename, false);
-				}
+		if (!event.target) {
+			return;
+		}
 
-				const span_element = document.createElement("span");
-				span_element.innerText = old_filename;
-				target.children[1].after(span_element);
-				target.children[1].remove();
+		if (event.target === target) {
+			return;
+		}
 
-				listener_signal.abort();
-			} else if (finished_callback) {
-				finished_callback(old_filename);
+		if ("parentNode" in event.target && event.target.parentNode === target) {
+			return;
+		}
+
+		if (old_filename === input_element.value) {
+			if (aborted_callback) {
+				aborted_callback(old_filename, false);
 			}
+
+			const filename_input = target.children[1] as HTMLElement;
+
+			const span_element = document.createElement("span");
+			span_element.innerText = old_filename;
+			filename_input.after(span_element);
+			filename_input.remove();
+
+			listener_signal.abort();
+		} else if (finished_callback) {
+			finished_callback(old_filename);
 		}
 	}, {
 		signal: listener_signal.signal
@@ -97,21 +109,28 @@ function createInput(
 
 				listener_signal.abort();
 
+				const filename_input = target.children[1] as HTMLElement;
+
 				const span_element = document.createElement("span");
 				span_element.innerText = old_filename;
-				target.children[1].after(span_element);
-				target.children[1].remove();
-			} else if (finished_callback) {
+				filename_input.after(span_element);
+				filename_input.remove();
+				return;
+			}
+
+			if (finished_callback) {
 				finished_callback(old_filename);
 			}
 		} else if (event.key === "Escape") {
 			event.preventDefault();
 			listener_signal.abort();
 
+			const filename_input = target.children[1] as HTMLElement;
+
 			const span_element = document.createElement("span");
 			span_element.innerText = old_filename;
-			target.children[1].after(span_element);
-			target.children[1].remove();
+			filename_input.after(span_element);
+			filename_input.remove();
 
 			if (aborted_callback) {
 				aborted_callback(old_filename, true);
