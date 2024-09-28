@@ -50,8 +50,8 @@ function requestNewDirectory(name: string) {
 
 function createInput(
 	target: HTMLElement,
-	finished_callback?: CallableFunction,
-	aborted_callback?: CallableFunction
+	finished_callback?: (old_filename: string) => void,
+	aborted_callback?: (old_filename: string, is_escape: boolean) => void
 ) {
 	const filename_label = target.children[1] as HTMLElement;
 	const old_filename = filename_label.innerText;
@@ -70,7 +70,7 @@ function createInput(
 	main.addEventListener("mousedown", event => {
 		if (event.target !== target && event.target.parentNode !== target) {
 			if (old_filename === input_element.value) {
-				if (typeof aborted_callback === "function") {
+				if (aborted_callback) {
 					aborted_callback(old_filename, false);
 				}
 
@@ -80,7 +80,7 @@ function createInput(
 				target.children[1].remove();
 
 				listener_signal.abort();
-			} else if (typeof finished_callback === "function") {
+			} else if (finished_callback) {
 				finished_callback(old_filename);
 			}
 		}
@@ -91,7 +91,7 @@ function createInput(
 	input_element.addEventListener("keydown", event => {
 		if (event.key === "Enter") {
 			if (old_filename === input_element.value) {
-				if (typeof aborted_callback === "function") {
+				if (aborted_callback) {
 					aborted_callback(old_filename, false);
 				}
 
@@ -101,7 +101,7 @@ function createInput(
 				span_element.innerText = old_filename;
 				target.children[1].after(span_element);
 				target.children[1].remove();
-			} else if (typeof finished_callback === "function") {
+			} else if (finished_callback) {
 				finished_callback(old_filename);
 			}
 		} else if (event.key === "Escape") {
@@ -113,7 +113,7 @@ function createInput(
 			target.children[1].after(span_element);
 			target.children[1].remove();
 
-			if (typeof aborted_callback === "function") {
+			if (aborted_callback) {
 				aborted_callback(old_filename, true);
 			}
 		}

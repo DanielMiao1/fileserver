@@ -7,7 +7,7 @@ function getServingDirectory() {
 	) {
 		return process.env["DIRECTORY"];
 	}
-	
+
 	if (process.env["NODE_ENV"] !== "production") {
 		return `${process.cwd()}/store`;
 	}

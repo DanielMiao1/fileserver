@@ -14,8 +14,8 @@ import {
 import { join } from "path";
 import { spawnSync } from "child_process";
 
-import { initializeTmp, registerDownloadHooks } from "./download.js";
 import { getScopedPath, serving_directory } from "./path.js";
+import { initializeTmp, registerDownloadHooks } from "./download.js";
 import registerFrontendHooks from "./frontend.js";
 import registerUploadHooks from "./upload.js";
 
