@@ -15,13 +15,11 @@ import { join } from "path";
 import { spawnSync } from "child_process";
 
 import { initializeTmp, registerDownloadHooks } from "./download.js";
-import getScopedPath from "./path.js";
+import { getScopedPath, serving_directory } from "./path.js";
 import registerFrontendHooks from "./frontend.js";
 import registerUploadHooks from "./upload.js";
 
 initializeTmp();
-
-const serving_directory = process.env["DIRECTORY"] ?? "/store";
 
 const server = fastify({
 	ignoreDuplicateSlashes: true,
@@ -154,8 +152,6 @@ const start = async () => {
 			host: "0.0.0.0",
 			port: 8192
 		});
-
-		server.log.info("Started listening on port 8192");
 	} catch (error) {
 		server.log.error(error);
 		process.exit(1);

@@ -2,9 +2,9 @@ import { existsSync, mkdirSync, readFileSync, rmSync, statSync } from "fs";
 import { execSync } from "child_process";
 import { join } from "path";
 
-import type { FastifyInstance } from "fastify";
+import { getScopedPath } from "./path.js";
 
-import getScopedPath from "./path.js";
+import type { FastifyInstance } from "fastify";
 
 function getFileContents(path: string) {
 	if (existsSync(path)) {

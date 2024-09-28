@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 
-import getScopedPath from "./path.js";
+import { getScopedPath } from "./path.js";
 
 import type { FastifyInstance } from "fastify";
 
