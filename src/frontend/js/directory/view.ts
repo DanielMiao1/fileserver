@@ -1,15 +1,15 @@
 import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
 import { main } from "../sectioning.js";
 
-import isGridView, {
+import {
 	handleArrowDownKey,
 	handleArrowLeftKey,
 	handleArrowRightKey,
 	handleArrowUpKey,
 	scrollSelectionIntoView
-} from "./keyboard_navigation.js";
+} from "./selection/keyboard.js";
 
-import isDragSelecting, { initiateDragSelection } from "./selection.js";
+import isDragSelecting, { initiateDragSelection } from "./selection/drag.js";
 import isEditing from "./edit.js";
 
 if (!localStorage["directory_view"]) {
@@ -34,6 +34,17 @@ function createListView(items: Record<string, boolean>) {
 	for (const [item, type] of Object.entries(items)) {
 		appendListViewEntry(item, type);
 	}
+}
+
+export function isGridView() {
+	return localStorage.directory_view === "grid";
+}
+
+export function gridViewColumns() {
+	const main_styles = getComputedStyle(main);
+	const grid_columns = main_styles.getPropertyValue("grid-template-columns");
+
+	return grid_columns.split(" ").length;
 }
 
 export default function createDirectoryView(items: Record<string, boolean>) {

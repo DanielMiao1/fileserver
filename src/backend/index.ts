@@ -27,8 +27,7 @@ const server = fastify({
 });
 
 if (!existsSync(serving_directory)) {
-	server.log.error("Invalid serving directory");
-	process.exit(1);
+	throw new Error("Invalid serving directory");
 }
 
 server.register(fastifyCompress, {
@@ -154,7 +153,7 @@ const start = async () => {
 		});
 	} catch (error) {
 		server.log.error(error);
-		process.exit(1);
+		throw new Error("Failed to start server");
 	}
 };
 

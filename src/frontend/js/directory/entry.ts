@@ -1,4 +1,4 @@
-import { multi_select, select } from "./selection.js";
+import { isMultiSelecting, select } from "./selection/modify.js";
 import { main } from "../sectioning.js";
 
 import createContextMenu from "../menu.js";
@@ -23,7 +23,7 @@ function selectItem(button: number, element: HTMLElement) {
 		return;
 	}
 
-	select([element], multi_select);
+	select([element], isMultiSelecting());
 }
 
 function assignFileIcon(filename: string) {

@@ -1,54 +1,17 @@
-import isEditing from "./edit.js";
+import isEditing from "../edit.js";
 
-import { main } from "../sectioning.js";
+import {
+	isMultiSelecting,
+	select
+} from "./modify.js";
 
-export let multi_select = false;
-export let selected: HTMLElement[] = [];
+import { main } from "../../sectioning.js";
+import { removePxSuffix } from "../../util/format.js";
 
 let drag_selection_start_position: [number, number] | false = false;
 
 export default function isDragSelecting() {
 	return Boolean(document.getElementById("drag-selection"));
-}
-
-function deselectAll() {
-	for (const element of selected) {
-		element.classList.remove("selected");
-	}
-
-	selected = [];
-}
-
-export function select(
-	elements?: HTMLElement[] | HTMLCollection,
-	cumulate?: boolean
-) {
-	if (!elements || elements.length === 0) {
-		deselectAll();
-		return selected;
-	}
-
-	if (cumulate) {
-		for (const item of elements) {
-			item.classList.add("selected");
-			selected.push(item as HTMLElement);
-		}
-
-		return selected;
-	}
-
-	deselectAll();
-
-	for (const item of elements) {
-		item.classList.add("selected");
-		selected.push(item as HTMLElement);
-	}
-
-	return selected;
-}
-
-function removePxSuffix(px_number: string) {
-	return parseFloat(px_number.slice(0, -2));
 }
 
 function dragSelectedItems(selection: HTMLElement) {
@@ -115,7 +78,7 @@ export function initiateDragSelection() {
 			ancestor = ancestor.parentNode;
 		}
 
-		if (!multi_select) {
+		if (!isMultiSelecting()) {
 			select([]);
 		}
 	});
@@ -197,24 +160,6 @@ export function initiateDragSelection() {
 			selection.removeAttribute("data-negative_height");
 		}
 
-		select(dragSelectedItems(selection), multi_select);
+		select(dragSelectedItems(selection), isMultiSelecting());
 	});
 }
-
-window.addEventListener("keydown", event => {
-	if (["Control", "Meta", "Shift"].includes(event.key)) {
-		multi_select = true;
-	}
-
-	if (!isEditing() && event.key === "a" && (event.metaKey || event.ctrlKey)) {
-		select(main.children);
-		event.preventDefault();
-		event.stopPropagation();
-	}
-}, true);
-
-window.addEventListener("keyup", event => {
-	if (["Control", "Meta", "Shift"].includes(event.key)) {
-		multi_select = false;
-	}
-});
