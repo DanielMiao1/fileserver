@@ -13,13 +13,16 @@ async function uploadTransferItem(file: File, path: string) {
 	return await new Promise(resolve => {
 		reader.addEventListener("load", event => {
 			if (event.target) {
-				void fetch(affixSlash(current_path) + encodeURI(path), {
+				fetch(affixSlash(current_path) + encodeURI(path), {
 					body: event.target.result,
 					headers: {
 						type: "file"
 					},
 					method: "POST"
-				}).then(resolve);
+				}).then(resolve).catch((error: unknown) => {
+					console.error(error);
+					throw new Error(error);
+				});
 			}
 		});
 
@@ -116,7 +119,10 @@ export function prepareUploadElement() {
 		event.stopPropagation();
 
 		if (event.dataTransfer) {
-			void parseDroppedItems(event.dataTransfer.items);
+			parseDroppedItems(event.dataTransfer.items).catch((error: unknown) => {
+				console.error(error);
+				throw new Error("Failed to parse dropped items");
+			});
 		}
 	}, true);
 }

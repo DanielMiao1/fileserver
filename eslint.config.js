@@ -146,7 +146,6 @@ export default tseslint.config(
 			}],
 			"no-ternary": "off",
 			"no-warning-comments": "off",
-			"no-void": "off",
 			"one-var": "off",
 			"prefer-destructuring": "off",
 			"sort-imports": ["error", {
