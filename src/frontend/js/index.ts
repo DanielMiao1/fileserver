@@ -22,7 +22,7 @@ if (title_element) {
 	title_element.innerText = `${current_path} on ${document.location.hostname}`;
 }
 
-void fetch(`/data${current_path}`).then(async response => {
+fetch(`/data${current_path}`).then(async response => {
 	if (!response.ok) {
 		createErrorElement(response.status);
 		return;
@@ -39,4 +39,7 @@ void fetch(`/data${current_path}`).then(async response => {
 	} else {
 		loadFile();
 	}
+}).catch((error: unknown) => {
+	console.error(error);
+	throw new Error("Failed to retrieve data for current path");
 });

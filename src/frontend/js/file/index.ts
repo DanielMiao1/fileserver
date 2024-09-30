@@ -190,7 +190,10 @@ export default function loadFile() {
 		loader = loadText(source);
 	}
 
-	void Promise.resolve(loader).then(loadElement);
+	Promise.resolve(loader).then(loadElement).catch((error: unknown) => {
+		console.error(error);
+		throw new Error(`Loader failed for filetype ${format}`);
+	});
 
 	download_iframe = initiateDownloader();
 }

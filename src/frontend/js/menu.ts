@@ -36,15 +36,22 @@ function openContextMenu() {
 }
 
 function closeContextMenu() {
-	return menu.animate([
+	const animation = menu.animate([
 		{ opacity: 1 },
 		{ opacity: 0 }
 	], {
 		duration: 200,
 		easing: "ease-out"
-	}).finished.then(() => {
-		menu.style.display = "none";
 	});
+
+	animation.finished.then(() => {
+		menu.style.display = "none";
+	}).catch((error: unknown) => {
+		console.error(error);
+		throw new Error("Failed to play closing animation for context menu");
+	});
+
+	return animation.finished;
 }
 
 function appendMenuEntries(entries: MenuEntries) {
@@ -61,7 +68,10 @@ function appendMenuEntries(entries: MenuEntries) {
 		if (options[0] instanceof Function) {
 			menu_entry.addEventListener("click", () => {
 				options[0]();
-				void closeContextMenu();
+				closeContextMenu().catch((error: unknown) => {
+					console.error(error);
+					throw new Error("Failed to play closing animation for context menu");
+				});
 			});
 		}
 
@@ -74,8 +84,11 @@ export default function createContextMenu(
 	entries: MenuEntries
 ) {
 	if (menu.style.display === "flex") {
-		void closeContextMenu().then(() => {
+		closeContextMenu().then(() => {
 			createContextMenu(event, entries);
+		}).catch((error: unknown) => {
+			console.error(error);
+			throw new Error("Failed to play closing animation for context menu");
 		});
 
 		return;
@@ -111,6 +124,9 @@ document.addEventListener("mousedown", event => {
 			ancestor = ancestor.parentNode as HTMLElement | null;
 		}
 
-		void closeContextMenu();
+		closeContextMenu().catch((error: unknown) => {
+			console.error(error);
+			throw new Error("Failed to play closing animation for context menu");
+		});
 	}
 });
