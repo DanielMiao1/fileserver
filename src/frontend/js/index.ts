@@ -31,7 +31,10 @@ void fetch(`/data${current_path}`).then(async response => {
 	const data = await response.json() as DirectoryData | FileData;
 
 	if (data.type === "directory") {
-		void import("../css/directory/popup.scss");
+		import("../css/directory/popup.scss").catch((error: unknown) => {
+			console.error(error);
+			throw new Error("Failed to load css file");
+		});
 		loadDirectory(data);
 	} else {
 		loadFile();

@@ -17,7 +17,10 @@ if (!localStorage["directory_view"]) {
 }
 
 function createGridView(items: Record<string, boolean>) {
-	void import("../../css/directory/grid.scss");
+	import("../../css/directory/grid.scss").catch((error: unknown) => {
+		console.error(error);
+		throw new Error("Failed to load css file");
+	});
 	main.classList.add("grid");
 
 	for (const [item, type] of Object.entries(items)) {
@@ -28,7 +31,10 @@ function createGridView(items: Record<string, boolean>) {
 }
 
 function createListView(items: Record<string, boolean>) {
-	void import("../../css/directory/list.scss");
+	import("../../css/directory/list.scss").catch((error: unknown) => {
+		console.error(error);
+		throw new Error("Failed to load css file");
+	});
 	main.classList.add("list");
 
 	for (const [item, type] of Object.entries(items)) {

@@ -42,7 +42,10 @@ function populateToolbar() {
 }
 
 export default function loadDirectory(data: DirectoryData) {
-	void import("../../css/directory/index.scss");
+	import("../../css/directory/index.scss").catch((error: unknown) => {
+		console.error(error);
+		throw new Error("Failed to load css file");
+	});
 
 	createDirectoryView(data.data);
 

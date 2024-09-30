@@ -29,7 +29,10 @@ function loadElement(element: HTMLElement) {
 }
 
 export default function loadFile() {
-	void import("../../css/file/index.scss");
+	import("../../css/file/index.scss").catch((error: unknown) => {
+		console.error(error);
+		throw new Error("Failed to load css file");
+	});
 
 	initiateSidebar();
 	initiateToolbar();

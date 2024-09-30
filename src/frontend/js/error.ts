@@ -15,7 +15,10 @@ function getErrorDescription(code: number) {
 }
 
 export default function createErrorElement(code: number) {
-	void import("../css/error.scss");
+	import("../css/error.scss").catch((error: unknown) => {
+		console.error(error);
+		throw new Error("Failed to load css file");
+	});
 
 	initiateSidebar();
 	initiateToolbar();

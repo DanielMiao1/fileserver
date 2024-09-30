@@ -1,5 +1,8 @@
 export default function load(source: string): HTMLImageElement {
-	void import("../../../css/file/loaders/image.scss");
+	import("../../../css/file/loaders/image.scss").catch((error: unknown) => {
+		console.error(error);
+		throw new Error("Failed to load css file");
+	});
 
 	const image_element = document.createElement("div");
 	image_element.classList.add("image");
