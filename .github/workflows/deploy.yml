@@ -19,4 +19,4 @@ jobs:
       - name: Build Docker image
         run: docker build -t nas .
       - name: Run Docker container
-        run: docker run -v store:/store -p 80:8192 --name nas -d nas
+        run: docker run --mount type=bind,source=/mnt/sdb1/store,target=/store -p 80:8192 --name nas -d nas
