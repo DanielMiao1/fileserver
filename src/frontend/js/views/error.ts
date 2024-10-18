@@ -1,6 +1,6 @@
-import { initiateSidebar } from "./sidebar.js";
-import { initiateToolbar } from "./toolbar.js";
-import { main } from "./sectioning.js";
+import { initiateSidebar } from "../components/sidebar";
+import { initiateToolbar } from "../components/toolbar";
+import { main } from "../util/dom/sectioning";
 
 function getErrorDescription(code: number) {
 	if (code === 404) {
@@ -15,7 +15,7 @@ function getErrorDescription(code: number) {
 }
 
 export default function createErrorElement(code: number) {
-	import("../css/error.scss").catch((error: unknown) => {
+	import("../../css/error.scss").catch((error: unknown) => {
 		console.error(error);
 		throw new Error("Failed to load css file");
 	});

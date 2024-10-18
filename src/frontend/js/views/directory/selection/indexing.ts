@@ -1,5 +1,5 @@
-import { gridViewColumns, isGridView } from "../view.js";
-import { main } from "../../sectioning.js";
+import { gridViewColumns, isGridView } from "../view";
+import { main } from "../../../util/dom/sectioning";
 
 export function nthSiblingOf(element: Element, offset: number) {
 	let current_element: Element | null = element;

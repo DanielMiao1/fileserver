@@ -1,4 +1,4 @@
-import current_path from "./path.js";
+import current_path from "../util/path";
 
 type event_callback = (this: HTMLButtonElement, event: MouseEvent) => void;
 

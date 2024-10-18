@@ -1,10 +1,10 @@
-import { isMultiSelecting, select } from "./selection/modify.js";
-import { main } from "../sectioning.js";
+import { isMultiSelecting, select } from "./selection/modify";
+import { main } from "../../util/dom/sectioning";
 
-import createContextMenu from "../menu.js";
-import fileContextMenu from "./file_menu.js";
-import filetype from "../filetype.js";
-import isEditing from "./edit.js";
+import createContextMenu from "../../components/menu";
+import fileContextMenu from "./file_menu";
+import filetype from "../../util/filetype";
+import isEditing from "./edit";
 
 function navigateToRelative(name: string) {
 	if (!isEditing()) {

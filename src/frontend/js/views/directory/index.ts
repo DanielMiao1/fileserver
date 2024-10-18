@@ -1,14 +1,14 @@
-import createDirectoryView from "./view.js";
+import createDirectoryView from "./view";
 
 import {
 	addToolbarIcon,
 	addToolbarStretch,
 	initiateToolbar
-} from "../toolbar.js";
+} from "../../components/toolbar";
 
-import { initiateDownloader } from "../download.js";
-import { initiateSidebar } from "../sidebar.js";
-import { prepareUploadElement } from "./upload.js";
+import { initiateDownloader } from "../../util/dom/downloader";
+import { initiateSidebar } from "../../components/sidebar";
+import { prepareUploadElement } from "./upload";
 
 interface DirectoryData {
 	data: Record<string, boolean>;
@@ -42,7 +42,7 @@ function populateToolbar() {
 }
 
 export default function loadDirectory(data: DirectoryData) {
-	import("../../css/directory/index.scss").catch((error: unknown) => {
+	import("../../../css/directory/index.scss").catch((error: unknown) => {
 		console.error(error);
 		throw new Error("Failed to load css file");
 	});

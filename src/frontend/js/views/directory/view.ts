@@ -1,5 +1,5 @@
-import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
-import { main } from "../sectioning.js";
+import { appendGridViewEntry, appendListViewEntry } from "./entry";
+import { main } from "../../util/dom/sectioning";
 
 import {
 	handleArrowDownKey,
@@ -7,17 +7,17 @@ import {
 	handleArrowRightKey,
 	handleArrowUpKey,
 	scrollSelectionIntoView
-} from "./selection/keyboard.js";
+} from "./selection/keyboard";
 
-import isDragSelecting, { initiateDragSelection } from "./selection/drag.js";
-import isEditing from "./edit.js";
+import isDragSelecting, { initiateDragSelection } from "./selection/drag";
+import isEditing from "./edit";
 
 if (!localStorage["directory_view"]) {
 	localStorage["directory_view"] = "grid";
 }
 
 function createGridView(items: Record<string, boolean>) {
-	import("../../css/directory/grid.scss").catch((error: unknown) => {
+	import("../../../css/directory/grid.scss").catch((error: unknown) => {
 		console.error(error);
 		throw new Error("Failed to load css file");
 	});
@@ -31,7 +31,7 @@ function createGridView(items: Record<string, boolean>) {
 }
 
 function createListView(items: Record<string, boolean>) {
-	import("../../css/directory/list.scss").catch((error: unknown) => {
+	import("../../../css/directory/list.scss").catch((error: unknown) => {
 		console.error(error);
 		throw new Error("Failed to load css file");
 	});

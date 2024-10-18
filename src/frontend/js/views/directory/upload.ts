@@ -1,4 +1,4 @@
-import current_path from "../path.js";
+import current_path from "../../util/path";
 
 type FSDirReader = FileSystemDirectoryReader;
 type FSEntriesPromise = Promise<FileSystemEntry[]>;

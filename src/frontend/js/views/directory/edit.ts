@@ -1,7 +1,7 @@
-import { appendGridViewEntry, appendListViewEntry } from "./entry.js";
-import { main } from "../sectioning.js";
+import { appendGridViewEntry, appendListViewEntry } from "./entry";
+import { main } from "../../util/dom/sectioning";
 
-import current_path from "../path.js";
+import current_path from "../../util/path";
 
 function applyRename(old_filename: string) {
 	let enclosing_directory = current_path;

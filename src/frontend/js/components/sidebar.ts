@@ -1,6 +1,6 @@
-import current_path from "./path.js";
+import current_path from "../util/path";
 
-import { main } from "./sectioning.js";
+import { main } from "../util/dom/sectioning";
 
 function createSidebar() {
 	const sidebar = document.createElement("aside");

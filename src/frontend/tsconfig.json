@@ -1,8 +1,15 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "NodeNext",
-		"target": "ESNext",
-		"module": "NodeNext",
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"module": "ESNext",
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"skipLibCheck": true,
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": true,
 	},
 	"include": ["./**/*.ts"],
 	"extends": "@tsconfig/strictest/tsconfig.json"

@@ -1,7 +1,7 @@
-import isEditing from "../edit.js";
+import isEditing from "../edit";
 
-import { main } from "../../sectioning.js";
-import { nthSiblingOf } from "./indexing.js";
+import { main } from "../../../util/dom/sectioning";
+import { nthSiblingOf } from "./indexing";
 
 let multi_select = false;
 let selected: HTMLElement[] = [];

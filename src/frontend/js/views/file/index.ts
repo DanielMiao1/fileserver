@@ -1,19 +1,19 @@
-import current_path from "../path.js";
+import current_path from "../../util/path";
 
 import {
 	addToolbarIcon,
 	addToolbarStretch,
 	initiateToolbar
-} from "../toolbar.js";
+} from "../../components/toolbar";
 
-import { extension } from "../filetype.js";
-import { initiateDownloader } from "../download.js";
-import { initiateSidebar } from "../sidebar.js";
-import { main } from "../sectioning.js";
+import { extension } from "../../util/filetype";
+import { initiateDownloader } from "../../util/dom/downloader";
+import { initiateSidebar } from "../../components/sidebar";
+import { main } from "../../util/dom/sectioning";
 
-import { default as loadImage } from "./loaders/image.js";
-import { default as loadPDF } from "./loaders/pdf.js";
-import { default as loadText } from "./loaders/text.js";
+import { default as loadImage } from "./loaders/image";
+import { default as loadPDF } from "./loaders/pdf";
+import { default as loadText } from "./loaders/text";
 
 const source = `/raw${current_path}`;
 let download_iframe: HTMLIFrameElement;
@@ -29,7 +29,7 @@ function loadElement(element: HTMLElement) {
 }
 
 export default function loadFile() {
-	import("../../css/file/index.scss").catch((error: unknown) => {
+	import("../../../css/file/index.scss").catch((error: unknown) => {
 		console.error(error);
 		throw new Error("Failed to load css file");
 	});

@@ -1,18 +1,18 @@
-import toolbar from "../../toolbar.js";
+import toolbar from "../../../components/toolbar";
 
 import {
 	getFirstSelectedItem,
 	getSelectedElements,
 	selectByOffset,
 	selectFirstItem
-} from "./modify.js";
+} from "./modify";
 
 import {
 	elementIsFirstColumn,
 	elementIsLastColumn
-} from "./indexing.js";
+} from "./indexing";
 
-import { gridViewColumns, isGridView } from "../view.js";
+import { gridViewColumns, isGridView } from "../view";
 
 export function scrollSelectionIntoView() {
 	const header_height = toolbar.clientHeight;

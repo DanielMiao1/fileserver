@@ -1,6 +1,8 @@
-import globalContextMenu from "./directory/global_menu.js";
+import globalContextMenu from "../views/directory/global_menu";
 
-import { main } from "./sectioning.js";
+// TODO: Create interface for setting default context menu for each page
+
+import { main } from "../util/dom/sectioning";
 
 type EntryData = [(() => void) | false, string?];
 export type MenuEntries = Record<string, EntryData>;
@@ -16,6 +18,7 @@ function initializeContextMenu() {
 
 let menu = document.getElementById("menu");
 
+// TODO: Export initialization function instead of execution on import
 if (!menu) {
 	menu = initializeContextMenu();
 }

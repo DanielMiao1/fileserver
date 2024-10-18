@@ -1,12 +1,12 @@
-import isEditing from "../edit.js";
+import isEditing from "../edit";
 
 import {
 	isMultiSelecting,
 	select
-} from "./modify.js";
+} from "./modify";
 
-import { main } from "../../sectioning.js";
-import { removePxSuffix } from "../../util/format.js";
+import { main } from "../../../util/dom/sectioning";
+import { removePxSuffix } from "../../../util/format";
 
 let drag_selection_start_position: [number, number] | false = false;
 
@@ -87,7 +87,7 @@ export function initiateDragSelection() {
 		drag_selection_start_position = false;
 
 		if (isDragSelecting()) {
-			document.getElementById("drag-selection").remove();
+			document.getElementById("drag-selection")?.remove();
 		}
 	});
 

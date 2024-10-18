@@ -1,6 +1,6 @@
-import { createNewDirectoryInput } from "./edit.js";
+import { createNewDirectoryInput } from "./edit";
 
-import { type MenuEntries } from "../menu.js";
+import { type MenuEntries } from "../../components/menu";
 
 export default function globalContextMenu(): MenuEntries {
 	return {

@@ -1,9 +1,9 @@
-import { closePopup, createPopup } from "./popup.js";
-import { createRenameInput } from "./edit.js";
+import { closePopup, createPopup } from "./popup";
+import { createRenameInput } from "./edit";
 
-import { type MenuEntries } from "../menu.js";
+import { type MenuEntries } from "../../components/menu";
 
-import current_path from "../path.js";
+import current_path from "../../util/path";
 
 function ensureSlashSuffix(path: string) {
 	return path.endsWith("/") ? path : `${path}/`;
@@ -46,6 +46,7 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 		return {};
 	}
 
+	// TODO: Define actually comprehensible data structure for menu items
 	return {
 		[getButtonFromEventTarget(event.target).children[1].innerText]: [
 			false,

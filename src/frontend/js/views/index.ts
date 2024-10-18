@@ -1,9 +1,9 @@
-import createErrorElement from "./error.js";
-import current_path from "./path.js";
-import loadDirectory from "./directory/index.js";
-import loadFile from "./file/index.js";
+import createErrorElement from "./error";
+import current_path from "../util/path";
+import loadDirectory from "./directory/index";
+import loadFile from "./file/index";
 
-import "./menu";
+import "../components/menu";
 
 interface DirectoryData {
 	data: Record<string, boolean>;
@@ -31,7 +31,7 @@ fetch(`/data${current_path}`).then(async response => {
 	const data = await response.json() as DirectoryData | FileData;
 
 	if (data.type === "directory") {
-		import("../css/directory/popup.scss").catch((error: unknown) => {
+		import("../../css/directory/popup.scss").catch((error: unknown) => {
 			console.error(error);
 			throw new Error("Failed to load css file");
 		});
