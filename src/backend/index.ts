@@ -14,10 +14,14 @@ import {
 import { join } from "path";
 import { spawnSync } from "child_process";
 
-import { getScopedPath, serving_directory } from "./path.js";
-import { initializeTmp, registerDownloadHooks } from "./download.js";
 import registerFrontendHooks from "./frontend.js";
 import registerUploadHooks from "./upload.js";
+
+import { getScopedPath, serving_directory } from "./path.js";
+import { initializeTmp, registerDownloadHooks } from "./download.js";
+import { uchardetAvailable } from "./check_dependencies.js";
+
+const uchardet_available = uchardetAvailable();
 
 initializeTmp();
 
@@ -25,6 +29,10 @@ const server = fastify({
 	ignoreDuplicateSlashes: true,
 	logger: process.env["NODE_ENV"] !== "production"
 });
+
+if (!uchardet_available) {
+	server.log.error("The `uchardet' command was not found on this system.");
+}
 
 if (!existsSync(serving_directory)) {
 	throw new Error("Invalid serving directory");
@@ -56,6 +64,10 @@ registerDownloadHooks(server);
 function getEncoding(path: string, size: number) {
 	if (size > 2000000) {
 		return "";
+	}
+
+	if (!uchardet_available) {
+		return "Unknown";
 	}
 
 	return spawnSync("uchardet", [path]).stdout.toString().slice(0, -1);

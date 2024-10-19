@@ -11,7 +11,7 @@ interface DirectoryData {
 }
 
 interface FileData {
-	encoding: string | false;
+	encoding: string;
 	size: number;
 	type: "file";
 }
