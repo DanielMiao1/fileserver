@@ -1,3 +1,4 @@
+import { existsSync, mkdirSync } from "fs";
 import { resolve } from "path";
 
 function getServingDirectory() {
@@ -9,7 +10,18 @@ function getServingDirectory() {
 	}
 
 	if (process.env["NODE_ENV"] !== "production") {
-		return `${process.cwd()}/store`;
+		const default_path = `${process.cwd()}/store`;
+
+		if (!existsSync(default_path)) {
+			try {
+				mkdirSync(default_path);
+			} catch (error: unknown) {
+				console.error("Error in creating store directory:");
+				throw error;
+			}
+		}
+
+		return default_path;
 	}
 
 	return "/store";
