@@ -37,7 +37,7 @@ fetch(`/data${current_path}`).then(async response => {
 		});
 		loadDirectory(data);
 	} else {
-		loadFile();
+		await loadFile();
 	}
 }).catch((error: unknown) => {
 	console.error(error);
