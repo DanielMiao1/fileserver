@@ -50,6 +50,17 @@ aside a.selected {
 	background-color: #C8C8C8;
 }
 
+.breadcrumbs {
+	align-items: center;
+	display: flex;
+	gap: 3px;
+
+	button {
+		color: inherit;
+		font-size: 1em;
+	}
+}
+
 header {
 	align-items: center;
 	background-color: #F0F0F0;
@@ -63,41 +74,37 @@ header {
 	top: 0;
 	width: 100%;
 	z-index: 1;
-}
 
-header button {
-	background-color: transparent;
-	border: none;
-	border-radius: 5px;
-	min-height: 30px;
-	min-width: 35px;
-	padding: 5px 10px;
-	position: relative;
-}
+	button {
+		background-color: transparent;
+		border: none;
+		border-radius: 5px;
+		min-height: 30px;
+		min-width: 35px;
+		padding: 5px 10px;
+		position: relative;
+		transition: 100ms background-color;
+	}
+	
+	button.icon::before {
+		background-image: var(--icon);
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: var(--icon-size, 23%);
+		content: "";
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
 
-header button.icon::before {
-	background-image: var(--icon);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: var(--icon-size, 23%);
-	content: "";
-	height: 100%;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-}
+	button:hover,
+	button.selected {
+		background-color: rgba(0 0 0 / 7%);
+	}
 
-header button.disabled,
-header button.disabled::before {
-	filter: contrast(0.4);
-}
-
-header button:not(.disabled):hover,
-header button.selected {
-	background-color: rgba(0 0 0 / 7%);
-}
-
-header div.stretch {
-	flex: 1;
+	div.stretch {
+		flex: 1;
+	}
 }

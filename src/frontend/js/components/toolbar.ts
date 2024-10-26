@@ -23,13 +23,7 @@ const toolbar = getToolbar();
 
 export default toolbar;
 
-export function addToolbarText(text: string, classList = []) {
-	const element = document.createElement("p");
-	element.innerText = text;
-	for (const classItem of classList) {
-		element.classList.add(classItem);
-	}
-
+export function addToolbarElement(element: HTMLElement): HTMLElement {
 	toolbar.appendChild(element);
 	return element;
 }
@@ -46,8 +40,7 @@ export function addToolbarButton(
 		button.classList.add(classItem);
 	}
 
-	toolbar.appendChild(button);
-	return button;
+	return addToolbarElement(button);
 }
 
 export function addToolbarIcon(
@@ -55,7 +48,7 @@ export function addToolbarIcon(
 	action: event_callback,
 	icon_size = "",
 	classList: string[] = []
-): HTMLButtonElement {
+): HTMLElement {
 	const button = addToolbarButton("", action, [...classList, "icon"]);
 	button.style.setProperty("--icon", `url('${icon}')`);
 	if (icon_size) {
@@ -69,30 +62,48 @@ export function addToolbarStretch() {
 	const stretch = document.createElement("div");
 	stretch.classList.add("stretch");
 
-	toolbar.appendChild(stretch);
-	return stretch;
+	return addToolbarElement(stretch);
+}
+
+function createBreadcrumbs() {
+	const breadcrumbs = document.createElement("div");
+	breadcrumbs.classList.add("breadcrumbs");
+
+	const root = document.createElement("button");
+	root.innerText = document.location.hostname;
+	root.addEventListener("click", () => {
+		document.location = "/path/";
+	});
+
+	breadcrumbs.appendChild(root);
+
+	let path = "";
+
+	for (const directory of current_path.slice(1).split("/")) {
+		if (directory) {
+			path += `/${directory}`;
+
+			const separator = document.createElement("p");
+			separator.innerText = "/";
+			breadcrumbs.appendChild(separator);
+
+			const name = document.createElement("button");
+			name.innerText = directory;
+			name.title = path;
+
+			name.addEventListener("click", () => {
+				document.location = `/path${name.title}`;
+			});
+
+			breadcrumbs.appendChild(name);
+		}
+	}
+
+	return breadcrumbs;
 }
 
 export function initiateToolbar() {
-	addToolbarIcon(
-		"/static/img/icons/toolbar/back_arrow.svg",
-		() => {
-			let path = document.location.pathname.toString();
-			if (path.endsWith("/")) {
-				path = path.slice(0, -1);
-			}
-
-			if (document.location.pathname.length > 6) {
-				document.location = path.slice(0, path.lastIndexOf("/"));
-			}
-		},
-		"19px",
-		document.location.pathname.length <= 6 ? ["disabled"] : []
-	);
-
-	let current_name = current_path.slice(current_path.lastIndexOf("/") + 1);
-	current_name = decodeURIComponent(current_name);
-	addToolbarText(current_name || document.location.hostname);
+	addToolbarElement(createBreadcrumbs());
 
 	return toolbar;
 }

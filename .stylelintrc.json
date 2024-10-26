@@ -12,6 +12,7 @@
 			"rules"
 		],
 		"order/properties-alphabetical-order": true,
+		"no-descending-specificity": null,
 		"rule-empty-line-before": ["always", {
 			"ignore": [
 				"inside-block"
