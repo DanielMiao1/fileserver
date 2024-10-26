@@ -1,35 +1,35 @@
 main {
 	overflow: hidden;
 	position: relative;
-}
+	
+	& > * {
+		margin: 0;
+	}
 
-main > * {
-	margin: 0;
-}
+	.loading {
+		background-color: #DDD;
+		border-radius: 8px;
+		color: black;
+		font-size: 0.9em;
+		left: 50%;
+		padding: 10px;
+		padding-left: 35px;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: fit-content;
+	}
 
-main .loading {
-	background-color: #DDD;
-	border-radius: 8px;
-	color: black;
-	font-size: 0.9em;
-	left: 50%;
-	padding: 10px;
-	padding-left: 35px;
-	position: absolute;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	width: fit-content;
-}
-
-main .loading::before {
-	animation: 800ms linear infinite loading;
-	aspect-ratio: 1 / 1;
-	background-image: url("../../public/img/loading.svg");
-	background-repeat: no-repeat;
-	content: "";
-	height: 50%;
-	left: 10px;
-	position: absolute;
+	.loading::before {
+		animation: 800ms linear infinite loading;
+		aspect-ratio: 1 / 1;
+		background-image: url("../../public/img/loading.svg");
+		background-repeat: no-repeat;
+		content: "";
+		height: 50%;
+		left: 10px;
+		position: absolute;
+	}
 }
 
 @keyframes loading {

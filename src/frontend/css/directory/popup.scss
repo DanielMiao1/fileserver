@@ -14,25 +14,25 @@
 		padding-top: 20px;
 		text-align: right;
 	}
-}
 
-.popup button {
-	background-color: white;
-	border: 1px solid #AAA;
-	border-radius: 8px;
-	margin-left: 10px;
-	padding: 5px 10px;
-}
+	button {
+		background-color: white;
+		border: 1px solid #AAA;
+		border-radius: 8px;
+		margin-left: 10px;
+		padding: 5px 10px;
+	}
 
-.popup button:active {
-	background-color: #EEE;
-}
+	button:active {
+		background-color: #EEE;
+	}
 
-.popup button.continue {
-	background-color: #0c79df;
-	color: white;
-}
+	button.continue {
+		background-color: #0c79df;
+		color: white;
+	}
 
-.popup button.continue:active {
-	background-color: #0e6ac1;
+	button.continue:active {
+		background-color: #0e6ac1;
+	}
 }

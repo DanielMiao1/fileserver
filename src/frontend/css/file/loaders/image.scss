@@ -9,11 +9,11 @@ main .image {
 	height: 100%;
 	justify-content: center;
 	width: 100%;
-}
 
-main .image p {
-	background-color: #DDD;
-	border-radius: 8px;
-	font-size: 0.9em;
-	padding: 12px;
+	p {
+		background-color: #DDD;
+		border-radius: 8px;
+		font-size: 0.9em;
+		padding: 12px;
+	}
 }

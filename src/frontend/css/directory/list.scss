@@ -5,42 +5,42 @@ main {
 	margin: 0;
 	padding: 10px;
 	width: 100%;
-}
 
-main div {
-	align-items: center;
-	border-radius: 5px;
-	display: grid;
-	font-size: 0.8em;
-	gap: 16px;
-	grid-template-columns: 36px 1fr 1fr;
-	height: 3em;
-}
+	div {
+		align-items: center;
+		border-radius: 5px;
+		display: grid;
+		font-size: 0.8em;
+		gap: 16px;
+		grid-template-columns: 36px 1fr 1fr;
+		height: 3em;
 
-main div:nth-child(odd) {
-	background-color: #F2F2F2;
-}
+		* {
+			height: min-content;
+		}
 
-main div.selected {
-	background-color: var(--select-color);
-	color: white;
-}
+		img {
+			height: 28px;
+			justify-self: center;
+			padding-left: 18px;
+		}
+	}
 
-main div img {
-	height: 28px;
-	justify-self: center;
-	padding-left: 18px;
-}
+	div:nth-child(odd) {
+		background-color: #F2F2F2;
+	}
 
-main div * {
-	height: min-content;
-}
+	div.selected {
+		background-color: var(--select-color);
+		color: white;
+	}
 
-main div input {
-	border: 0;
-	padding: 0 0 0 5px;
-}
+	div input {
+		border: 0;
+		padding: 0 0 0 5px;
+	}
 
-main p {
-	margin: 0;
+	p {
+		margin: 0;
+	}
 }

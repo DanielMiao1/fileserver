@@ -13,51 +13,40 @@ aside {
 	position: sticky;
 	top: var(--toolbar-height);
 	z-index: 1;
-}
+	
+	* {
+		display: block;
+		padding: 10px;
+	}
 
-aside * {
-	display: block;
-	padding: 10px;
-}
+	section {
+		font-size: 0.8em;
+	}
 
-aside section {
-	font-size: 0.8em;
-}
+	span {
+		color: #888;
+		font-size: 0.9em;
+		font-weight: normal;
+	}
 
-aside span {
-	color: #888;
-	font-size: 0.9em;
-	font-weight: normal;
-}
-
-aside a {
-	border-radius: 6px;
-	color: inherit;
-	cursor: default;
-	text-decoration: none;
-}
-
-aside a.icon {
-	background-image: var(--icon);
-	background-position-x: var(--icon-offset, 10px);
-	background-position-y: center;
-	background-repeat: no-repeat;
-	background-size: var(--icon-size, 17px) auto;
-	text-indent: 27px;
-}
-
-aside a.selected {
-	background-color: #C8C8C8;
-}
-
-.breadcrumbs {
-	align-items: center;
-	display: flex;
-	gap: 3px;
-
-	button {
+	a {
+		border-radius: 6px;
 		color: inherit;
-		font-size: 1em;
+		cursor: default;
+		text-decoration: none;
+	}
+
+	a.icon {
+		background-image: var(--icon);
+		background-position-x: var(--icon-offset, 10px);
+		background-position-y: center;
+		background-repeat: no-repeat;
+		background-size: var(--icon-size, 17px) auto;
+		text-indent: 27px;
+	}
+
+	a.selected {
+		background-color: #C8C8C8;
 	}
 }
 
@@ -106,5 +95,16 @@ header {
 
 	div.stretch {
 		flex: 1;
+	}
+}
+
+.breadcrumbs {
+	align-items: center;
+	display: flex;
+	gap: 3px;
+
+	button {
+		color: inherit;
+		font-size: 1em;
 	}
 }

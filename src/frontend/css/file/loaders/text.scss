@@ -3,15 +3,15 @@ main pre {
 	gap: 2px 15px;
 	grid-template-columns: min-content auto;
 	padding: 2em;
-}
 
-main pre code {
-	overflow-x: auto;
-}
+	code {
+		overflow-x: auto;
+	}
 
-main pre div p {
-	color: #AAA;
-	text-align: right;
+	div p {
+		color: #AAA;
+		text-align: right;
+	}
 }
 
 .hljs-comment,

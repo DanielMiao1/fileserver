@@ -12,54 +12,50 @@
 	position: absolute;
 	width: fit-content;
 	z-index: 1;
-}
 
-#menu button {
-	background: none;
-	border: none;
-	border-radius: 4px;
-	padding: 5px 10px;
-	text-align: left;
-}
+	button {
+		background: none;
+		border: none;
+		border-radius: 4px;
+		padding: 5px 10px;
+		text-align: left;
+	}
 
-#menu button:not(.text):hover {
-	background-color: var(--select-color);
-	color: white;
-}
+	button:not(.text):hover {
+		background-color: var(--select-color);
+		color: white;
+	}
 
-#menu .text {
-	color: #888;
-}
+	.text {
+		color: #888;
+	}
 
-#menu .separator-top {
-	margin-top: 10px;
-}
+	.separator-top {
+		margin-top: 10px;
+	}
 
-#menu .separator-top::before {
-	background-color: #B8B8B8;
-	content: "";
-	display: block;
-	height: 1px;
-	left: 17px;
-	margin-top: -10px;
-	pointer-events: none;
-	position: absolute;
-	width: calc(100% - 34px);
-}
+	.separator-top::before {
+		margin-top: -10px;
+	}
 
-#menu .separator-bottom {
-	margin-bottom: 10px;
-}
+	.separator-bottom {
+		margin-bottom: 10px;
+	}
 
-#menu .separator-bottom::after {
-	background-clip: content-box;
-	background-color: #B8B8B8;
-	content: "";
-	display: block;
-	height: 1px;
-	left: 17px;
-	padding-top: 10px;
-	pointer-events: none;
-	position: absolute;
-	width: calc(100% - 34px);
+	.separator-bottom::after {
+		background-clip: content-box;
+		padding-top: 10px;
+	}
+
+	.separator-top::before,
+	.separator-bottom::after {
+		background-color: #B8B8B8;
+		content: "";
+		display: block;
+		height: 1px;
+		left: 17px;
+		pointer-events: none;
+		position: absolute;
+		width: calc(100% - 34px);
+	}
 }
