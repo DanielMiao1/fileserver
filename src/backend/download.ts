@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync } from "fs";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { join } from "path";
 
 import { getScopedPath } from "./path.js";
@@ -62,7 +62,7 @@ export function registerDownloadHooks(server: FastifyInstance) {
 
 		const zip_path = `${process.cwd()}/tmp/${filename}.zip`;
 
-		execSync(`zip ${zip_path} -r ${filename}`, {
+		execFileSync("zip", [zip_path, "-r", filename], {
 			cwd: join(path, "..")
 		});
 
