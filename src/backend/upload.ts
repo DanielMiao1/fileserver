@@ -54,13 +54,13 @@ export default function registerUploadHooks(server: FastifyInstance) {
 			return reply.status(400).send();
 		}
 
-		if (request.headers["type"] === "file") {
+		if (request.headers.type === "file") {
 			const file_contents = request.body as string;
 
 			writeFileSync(path, file_contents, {
 				flag: "w"
 			});
-		} else if (request.headers["type"] === "directory") {
+		} else if (request.headers.type === "directory") {
 			mkdirSync(path);
 		} else {
 			return reply.status(415).send();

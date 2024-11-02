@@ -20,21 +20,21 @@ function populateToolbar() {
 
 	const grid_view_icon_path = "/static/img/icons/toolbar/grid_view.svg";
 	const grid_view = addToolbarIcon(grid_view_icon_path, () => {
-		if (localStorage["directory_view"] !== "grid") {
-			localStorage["directory_view"] = "grid";
+		if (localStorage.directory_view !== "grid") {
+			localStorage.directory_view = "grid";
 			document.location.reload();
 		}
 	}, "45%");
 
 	const list_view_icon_path = "/static/img/icons/toolbar/list_view.svg";
 	const list_view = addToolbarIcon(list_view_icon_path, () => {
-		if (localStorage["directory_view"] !== "list") {
-			localStorage["directory_view"] = "list";
+		if (localStorage.directory_view !== "list") {
+			localStorage.directory_view = "list";
 			document.location.reload();
 		}
 	}, "45%");
 
-	if (localStorage["directory_view"] === "grid") {
+	if (localStorage.directory_view === "grid") {
 		grid_view.classList.add("selected");
 	} else {
 		list_view.classList.add("selected");

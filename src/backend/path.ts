@@ -4,12 +4,12 @@ import { resolve } from "path";
 function getServingDirectory() {
 	if (
 		"DIRECTORY" in process.env &&
-		typeof process.env["DIRECTORY"] === "string"
+		typeof process.env.DIRECTORY === "string"
 	) {
-		return process.env["DIRECTORY"];
+		return process.env.DIRECTORY;
 	}
 
-	if (process.env["NODE_ENV"] !== "production") {
+	if (process.env.NODE_ENV !== "production") {
 		const default_path = `${process.cwd()}/store`;
 
 		if (!existsSync(default_path)) {

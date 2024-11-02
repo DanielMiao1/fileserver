@@ -26,13 +26,13 @@ function dragSelectedItems(selection: HTMLElement) {
 
 	let minX = left;
 
-	if (selection.dataset["negative_width"]) {
+	if (selection.dataset.negative_width) {
 		minX -= width;
 	}
 
 	let minY = top;
 
-	if (selection.dataset["negative_height"]) {
+	if (selection.dataset.negative_height) {
 		minY -= height;
 	}
 
@@ -148,7 +148,7 @@ export function initiateDragSelection() {
 			if (!selection.hasAttribute("data-negative_width")) {
 				selection.setAttribute("data-negative_width", "1");
 			}
-		} else if (selection.dataset["negative_width"]) {
+		} else if (selection.dataset.negative_width) {
 			selection.removeAttribute("data-negative_width");
 		}
 
@@ -156,7 +156,7 @@ export function initiateDragSelection() {
 			if (!selection.hasAttribute("data-negative_height")) {
 				selection.setAttribute("data-negative_height", "1");
 			}
-		} else if (selection.dataset["negative_height"]) {
+		} else if (selection.dataset.negative_height) {
 			selection.removeAttribute("data-negative_height");
 		}
 

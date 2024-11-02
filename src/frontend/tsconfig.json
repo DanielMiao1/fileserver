@@ -10,6 +10,7 @@
 		"isolatedModules": true,
 		"moduleDetection": "force",
 		"noEmit": true,
+		"noPropertyAccessFromIndexSignature": false
 	},
 	"include": ["./**/*.ts"],
 	"extends": "@tsconfig/strictest/tsconfig.json"

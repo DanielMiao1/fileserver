@@ -3,7 +3,8 @@
 		"moduleResolution": "NodeNext",
 		"target": "ESNext",
 		"module": "NodeNext",
-		"outDir": "../../build/backend"
+		"outDir": "../../build/backend",
+		"noPropertyAccessFromIndexSignature": false
 	},
 	"include": ["./**/*.ts"],
 	"extends": "@tsconfig/strictest/tsconfig.json"

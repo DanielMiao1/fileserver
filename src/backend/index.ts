@@ -27,7 +27,7 @@ initializeTmp();
 
 const server = fastify({
 	ignoreDuplicateSlashes: true,
-	logger: process.env["NODE_ENV"] !== "production"
+	logger: process.env.NODE_ENV !== "production"
 });
 
 if (!uchardet_available) {
@@ -131,12 +131,12 @@ server.delete("/*", (request, reply) => {
 registerUploadHooks(server);
 
 server.put("/*", (request, reply) => {
-	if (typeof request.headers["path"] !== "string") {
+	if (typeof request.headers.path !== "string") {
 		return reply.status(400).send();
 	}
 
 	const new_path = getScopedPath(decodeURIComponent(request.url));
-	const old_path = getScopedPath(request.headers["path"]);
+	const old_path = getScopedPath(request.headers.path);
 
 	if (!new_path || !old_path) {
 		return reply.status(400).send();
