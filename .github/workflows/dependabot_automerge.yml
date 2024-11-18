@@ -18,7 +18,7 @@ jobs:
           compat-lookup: true
       - name: Enable auto-merge for pull request
         if: ${{ fromJSON(steps.metadata.outputs.compatibility-score) >= 80 }}
-        run: gh pr merge --auto --merge "$URL"
+        run: gh pr merge --auto -s "$URL"
         env:
           URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
