@@ -3,9 +3,6 @@ name: "CodeQL"
 on:
   push:
     branches: "**"
-    paths:
-      - "src/backend/**"
-      - "src/frontend/js/**"
   pull_request:
     branches: "**"
   schedule:
