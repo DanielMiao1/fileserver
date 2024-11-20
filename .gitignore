@@ -6,3 +6,7 @@ store
 tmp
 
 build
+
+.nx/cache
+.nx/workspace-data
+vite.config.*.timestamp*
