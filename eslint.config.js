@@ -8,11 +8,11 @@ export default tseslint.config(
 	...tseslint.configs.strictTypeChecked,
 	...tseslint.configs.stylisticTypeChecked,
 	{
-		files: ["src/backend/**/*.ts"],
+		files: ["src/api/**/*.ts"],
 		languageOptions: {
 			globals: globals.node,
 			parserOptions: {
-				project: "src/backend/tsconfig.json"
+				project: "src/api/tsconfig.json"
 			}
 		}
 	},

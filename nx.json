@@ -7,9 +7,9 @@
       ],
       "cache": true
     },
-    "build-backend": {
+    "build-api": {
       "outputs": [
-        "{projectRoot}/build/backend"
+        "{projectRoot}/build/api"
       ],
       "cache": true
     },

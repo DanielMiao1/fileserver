@@ -1,0 +1,4 @@
+name: "API CodeQL Analysis"
+
+paths:
+  - src/api
