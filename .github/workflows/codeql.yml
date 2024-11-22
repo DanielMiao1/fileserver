@@ -2,15 +2,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "main" ]
-    paths:
-      - "src/backend/**"
-      - "src/frontend/js/**"
+    branches: "**"
   pull_request:
-    branches: [ "main" ]
-    paths:
-      - "src/backend/**"
-      - "src/frontend/js/**"
+    branches: "**"
   schedule:
     - cron: "18 11 * * 4"
   workflow_dispatch:
