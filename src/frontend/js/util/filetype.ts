@@ -1,3 +1,25 @@
+// TODO: Revise filetye descriptions (in JSON file)
+
+let extensions: Record<string, string> | undefined;
+
+async function getExtensionsMap(): Promise<Record<string, string>> {
+	if (extensions) {
+		return extensions;
+	}
+
+	const extensions_file = await fetch("/static/file_extensions.json");
+	const json_data = extensions_file.json();
+
+	return new Promise(resolve => {
+		json_data.then(data => {
+			extensions = data as Record<string, string>;
+			resolve(extensions);
+		}).catch(() => {
+			throw new Error("Failed to retrieve extensions data");
+		});
+	});
+}
+
 export function hasExtension(filename: string) {
 	return filename.includes(".");
 }
@@ -21,10 +43,7 @@ export default async function filetype(filename: string) {
 		return "Split Zip Archive";
 	}
 
-	// TODO: Revise filetye descriptions (in JSON file)
+	const extensions_map = await getExtensionsMap();
 
-	const extensions_file = await fetch("/static/file_extensions.json");
-	const extensions = await extensions_file.json() as Record<string, string>;
-
-	return extensions[extension(filename)] ?? "Document";
+	return extensions_map[extension(filename)] ?? "Document";
 }
