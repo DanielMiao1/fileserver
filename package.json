@@ -39,6 +39,6 @@
 		"stylelint-config-standard-scss": "^13.1.0",
 		"stylelint-order": "^6.0.4",
 		"tsc-watch": "^6.2.1",
-		"typescript-eslint": "^8.15.0"
+		"typescript-eslint": "^8.16.0"
 	}
 }
