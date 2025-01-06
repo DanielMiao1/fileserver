@@ -21,7 +21,7 @@
 		"@types/node": "^22.10.2",
 		"fastify": "^5.2.0",
 		"highlight.js": "^11.11.1",
-		"sass": "^1.83.0",
+		"sass": "^1.83.1",
 		"typescript": "^5.7.2",
 		"vite": "^6.0.6"
 	},
