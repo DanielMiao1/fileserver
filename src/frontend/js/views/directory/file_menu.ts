@@ -42,53 +42,67 @@ function deleteFile(filename: string) {
 export default function fileContextMenu(event: MouseEvent): MenuEntries {
 	const menu = document.getElementById("menu");
 
-	if (!menu) {
-		return {};
+	if (!menu || !event.target) {
+		return [];
 	}
 
-	// TODO: Define actually comprehensible data structure for menu items
-	return {
-		[getButtonFromEventTarget(event.target).children[1].innerText]: [
-			false,
-			"text separator-bottom"
-		],
-		Delete: [() => {
-			const menu_title = menu.children[0] as HTMLElement;
-			const filename = menu_title.innerText;
+	const file_button = getButtonFromEventTarget(event.target as HTMLElement);
 
-			createPopup(
-				"",
-				`Are you sure you want to delete ${truncate(filename)}?`,
-				[
-					{
-						callback: closePopup,
-						text: "Cancel"
-					},
-					{
-						callback: () => {
-							deleteFile(filename);
+	return [
+		{
+			classes: ["text", "separator-bottom"],
+			display_name: (file_button.children[1] as HTMLElement).innerText
+		},
+		{
+			display_name: "Delete",
+			pressed_callback: () => {
+				const menu_title = menu.children[0] as HTMLElement;
+				const filename = menu_title.innerText;
+
+				// TODO: Rework createPopup options
+				createPopup(
+					"",
+					`Are you sure you want to delete ${truncate(filename)}?`,
+					[
+						{
+							callback: closePopup,
+							text: "Cancel"
 						},
-						classList: ["continue"],
-						text: "Confirm"
-					}
-				]
-			);
-		}],
-		Download: [() => {
-			const menu_title = menu.children[0] as HTMLElement;
-			const filename = encodeURIComponent(menu_title.innerText);
+						{
+							callback: () => {
+								deleteFile(filename);
+							},
+							classList: ["continue"],
+							text: "Confirm"
+						}
+					]
+				);
+			}
+		},
+		{
+			display_name: "Download",
+			pressed_callback: () => {
+				const menu_title = menu.children[0] as HTMLElement;
+				const filename = encodeURIComponent(menu_title.innerText);
 
-			const downloader = document.getElementById("downloader");
-			downloader.src = `/download${current_path}/${filename}`;
-		}],
-		// TODO: Properly open the file
-		Open: [() => {
-			const button = getButtonFromEventTarget(event.target);
+				const downloader = document.getElementById("downloader");
+				downloader.src = `/download${current_path}/${filename}`;
+			}
+		},
+		{
+			display_name: "Open",
+			pressed_callback: () => {
+				// TODO: Create API to open the file
+				const button = getButtonFromEventTarget(event.target);
 
-			button.dispatchEvent(new MouseEvent("dblclick"));
-		}],
-		Rename: [() => {
-			createRenameInput(getButtonFromEventTarget(event.target));
-		}]
-	};
+				button.dispatchEvent(new MouseEvent("dblclick"));
+			}
+		},
+		{
+			display_name: "Rename",
+			pressed_callback: () => {
+				createRenameInput(getButtonFromEventTarget(event.target));
+			}
+		}
+	];
 }
