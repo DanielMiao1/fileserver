@@ -4,8 +4,13 @@ import globalContextMenu from "../views/directory/global_menu";
 
 import { main } from "../util/dom/sectioning";
 
-type EntryData = [(() => void) | false, string?];
-export type MenuEntries = Record<string, EntryData>;
+interface EntryData {
+	display_name: string;
+	classes?: string[];
+	pressed_callback?: (() => void);
+}
+
+export type MenuEntries = EntryData[];
 
 function initializeContextMenu() {
 	const menu = document.createElement("div");
@@ -58,27 +63,26 @@ function closeContextMenu() {
 }
 
 function appendMenuEntries(entries: MenuEntries) {
-	for (const [name, options] of Object.entries(entries)) {
-		const menu_entry = document.createElement("button");
-		menu_entry.innerText = name;
+	for (const entry of entries) {
+		const entry_element = document.createElement("button");
+		entry_element.innerText = entry.display_name;
 
-		if (options[1]) {
-			for (const className of options[1].split(" ")) {
-				menu_entry.classList.add(className);
+		if (entry.classes) {
+			entry_element.classList.add(...entry.classes);
+		}
+
+		entry_element.addEventListener("mousedown", () => {
+			if (entry.pressed_callback) {
+				entry.pressed_callback();
 			}
-		}
 
-		if (options[0] instanceof Function) {
-			menu_entry.addEventListener("click", () => {
-				options[0]();
-				closeContextMenu().catch((error: unknown) => {
-					console.error(error);
-					throw new Error("Failed to play closing animation for context menu");
-				});
+			closeContextMenu().catch((error: unknown) => {
+				console.error(error);
+				throw new Error("Failed to play closing animation for context menu");
 			});
-		}
+		});
 
-		menu.appendChild(menu_entry);
+		menu.appendChild(entry_element);
 	}
 }
 
