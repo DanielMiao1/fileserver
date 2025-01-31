@@ -19,7 +19,7 @@ function navigateToRelative(name: string) {
 }
 
 function selectItem(button: number, element: HTMLElement) {
-	if (button === 0) {
+	if (button !== 1 && !element.classList.contains("selected")) {
 		select([element], isMultiSelecting());
 	}
 }
