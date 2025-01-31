@@ -1,4 +1,3 @@
-import isDragSelecting from "./drag";
 import isEditing from "../edit";
 
 import { main } from "../../../util/dom/sectioning";
