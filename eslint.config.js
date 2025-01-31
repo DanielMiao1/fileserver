@@ -1,7 +1,7 @@
 import eslint from "@eslint/js";
 import globals from "globals";
-import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
 	eslint.configs.all,
@@ -98,8 +98,8 @@ export default tseslint.config(
 			"@stylistic/space-before-blocks": ["error"],
 			"@stylistic/space-before-function-paren": ["error", {
 				anonymous: "always",
-				named: "never",
-				asyncArrow: "always"
+				asyncArrow: "always",
+				named: "never"
 			}],
 			"@stylistic/space-in-parens": ["error"],
 			"@stylistic/space-infix-ops": ["error"],
@@ -114,12 +114,12 @@ export default tseslint.config(
 			"@stylistic/wrap-iife": ["error"],
 			"@stylistic/wrap-regex": ["error"],
 			"@stylistic/yield-star-spacing": ["error"],
-			"@typescript-eslint/restrict-template-expressions": ["error", {
-				allowNumber: true,
-				allowBoolean: true
-			}],
 			"@typescript-eslint/no-unnecessary-condition": ["error", {
 				allowConstantLoopConditions: true
+			}],
+			"@typescript-eslint/restrict-template-expressions": ["error", {
+				allowBoolean: true,
+				allowNumber: true
 			}],
 			camelcase: "off",
 			complexity: ["error", {

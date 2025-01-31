@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
+	base: "/static/",
 	build: {
 		emptyOutDir: true,
 		outDir: "../../build/frontend",
@@ -20,6 +21,5 @@ export default defineConfig({
 			}
 		}
 	},
-	base: "/static/",
 	root: "./src/frontend"
 });
