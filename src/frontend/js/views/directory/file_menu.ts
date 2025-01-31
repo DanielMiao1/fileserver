@@ -1,5 +1,6 @@
 import { closePopup, createPopup } from "./popup";
 import { createRenameInput } from "./edit";
+import { getSelectedElements } from "./selection/modify";
 
 import { type MenuEntries } from "../../components/menu";
 
@@ -48,16 +49,33 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 
 	const file_button = getButtonFromEventTarget(event.target as HTMLElement);
 
-	return [
+	const menu_items: MenuEntries = [];
+
+	const selected_count = getSelectedElements().length;
+
+	if (selected_count > 1) {
+		menu_items.push(
+			{
+				classes: ["text"],
+				display_name: `${selected_count} items`
+			},
+			{
+				classes: ["separator-bottom"],
+				display_name: "Delete"
+			}
+		);
+	}
+
+	menu_items.push(
 		{
 			classes: ["text", "separator-bottom"],
-			display_name: (file_button.children[1] as HTMLElement).innerText
+			display_name: (file_button.children[1] as HTMLElement).innerText,
+			id: "filename"
 		},
 		{
 			display_name: "Delete",
 			pressed_callback: () => {
-				const menu_title = menu.children[0] as HTMLElement;
-				const filename = menu_title.innerText;
+				const filename = document.getElementById("filename").innerText;
 
 				// TODO: Rework createPopup options
 				createPopup(
@@ -82,7 +100,7 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 		{
 			display_name: "Download",
 			pressed_callback: () => {
-				const menu_title = menu.children[0] as HTMLElement;
+				const menu_title = document.getElementById("filename");
 				const filename = encodeURIComponent(menu_title.innerText);
 
 				const downloader = document.getElementById("downloader");
@@ -104,5 +122,7 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 				createRenameInput(getButtonFromEventTarget(event.target));
 			}
 		}
-	];
+	);
+
+	return menu_items;
 }
