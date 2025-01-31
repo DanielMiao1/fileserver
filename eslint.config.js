@@ -148,6 +148,7 @@ export default tseslint.config(
 				allowForLoopAfterthoughts: true
 			}],
 			"no-ternary": "off",
+			"no-unnecessary-condition": "off",
 			"no-warning-comments": "off",
 			"one-var": "off",
 			"prefer-destructuring": "off",
