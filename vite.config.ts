@@ -22,4 +22,4 @@ export default defineConfig({
 	},
 	base: "/static/",
 	root: "./src/frontend"
-});	
+});

@@ -57,21 +57,21 @@ export default tseslint.config(
 			"@stylistic/lines-between-class-members": ["error"],
 			"@stylistic/max-len": ["error", {
 				code: 80,
-				tabWidth: 1,
+				tabWidth: 1
 			}],
 			"@stylistic/max-statements-per-line": ["error"],
 			"@stylistic/member-delimiter-style": ["error"],
 			"@stylistic/multiline-ternary": ["error", "always-multiline"],
 			"@stylistic/new-parens": ["error"],
 			"@stylistic/newline-per-chained-call": ["error", {
-				ignoreChainWithDepth: 3,
+				ignoreChainWithDepth: 3
 			}],
 			"@stylistic/no-confusing-arrow": ["error", {
-				allowParens: true,
+				allowParens: true
 			}],
 			"@stylistic/no-extra-parens": ["error", "all", {
 				enforceForArrowConditionals: false,
-				nestedBinaryExpressions: false,
+				nestedBinaryExpressions: false
 			}],
 			"@stylistic/no-extra-semi": ["error"],
 			"@stylistic/no-floating-decimal": ["error"],
@@ -80,7 +80,7 @@ export default tseslint.config(
 			"@stylistic/no-multi-spaces": ["error"],
 			"@stylistic/no-multiple-empty-lines": ["error"],
 			"@stylistic/no-tabs": ["error", {
-				allowIndentationTabs: true,
+				allowIndentationTabs: true
 			}],
 			"@stylistic/no-trailing-spaces": ["error"],
 			"@stylistic/no-whitespace-before-property": ["error"],
@@ -99,7 +99,7 @@ export default tseslint.config(
 			"@stylistic/space-before-function-paren": ["error", {
 				anonymous: "always",
 				named: "never",
-				asyncArrow: "always",
+				asyncArrow: "always"
 			}],
 			"@stylistic/space-in-parens": ["error"],
 			"@stylistic/space-infix-ops": ["error"],
@@ -116,13 +116,13 @@ export default tseslint.config(
 			"@stylistic/yield-star-spacing": ["error"],
 			"@typescript-eslint/restrict-template-expressions": ["error", {
 				allowNumber: true,
-				allowBoolean: true,
+				allowBoolean: true
 			}],
 			"@typescript-eslint/no-unnecessary-condition": ["error", {
 				allowConstantLoopConditions: true
 			}],
-			"camelcase": "off",
-			"complexity": ["error", {
+			camelcase: "off",
+			complexity: ["error", {
 				max: 100
 			}],
 			"default-case": "off",
