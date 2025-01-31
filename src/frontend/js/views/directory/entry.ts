@@ -19,11 +19,9 @@ function navigateToRelative(name: string) {
 }
 
 function selectItem(button: number, element: HTMLElement) {
-	if (button === 1) {
-		return;
+	if (button !== 1 && !element.classList.contains("selected")) {
+		select([element], isMultiSelecting());
 	}
-
-	select([element], isMultiSelecting());
 }
 
 function assignFileIcon(filename: string) {

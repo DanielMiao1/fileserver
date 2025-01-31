@@ -1,5 +1,6 @@
 import { closePopup, createPopup } from "./popup";
 import { createRenameInput } from "./edit";
+import { getSelectedElements } from "./selection/modify";
 
 import { type MenuEntries } from "../../components/menu";
 
@@ -27,15 +28,22 @@ function getButtonFromEventTarget(target: HTMLElement) {
 	return target;
 }
 
-function deleteFile(filename: string) {
-	fetch(ensureSlashSuffix(current_path) + encodeURIComponent(filename), {
-		method: "DELETE"
-	}).then(response => {
-		if (response.ok) {
-			document.location.reload();
-		}
-	}).catch(() => {
+function deleteFiles(filenames: string[]) {
+	const requests: Promise<Response>[] = [];
+
+	for (const filename of filenames) {
+		const path = ensureSlashSuffix(current_path) + encodeURIComponent(filename);
+
+		requests.push(fetch(path, {
+			method: "DELETE"
+		}));
+	}
+
+	Promise.all(requests).then(() => {
 		document.location.reload();
+	}).catch((error: unknown) => {
+		console.error("Error in deleting files");
+		throw error;
 	});
 }
 
@@ -48,16 +56,68 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 
 	const file_button = getButtonFromEventTarget(event.target as HTMLElement);
 
-	return [
+	const menu_items: MenuEntries = [];
+
+	const selected_items = getSelectedElements();
+	const selected_count = selected_items.length;
+
+	if (selected_count > 1) {
+		menu_items.push(
+			{
+				classes: ["text"],
+				display_name: `${selected_count} items`
+			},
+			{
+				classes: ["space"]
+			},
+			{
+				display_name: "Delete",
+				pressed_callback: () => {
+					const files: string[] = [];
+
+					for (const item of selected_items) {
+						const label = item.children[1] as HTMLElement;
+						files.push(label.innerText);
+					}
+
+					createPopup(
+						"",
+						`Are you sure you want to delete ${selected_count} items?`,
+						[
+							{
+								callback: closePopup,
+								text: "Cancel"
+							},
+							{
+								callback: () => {
+									deleteFiles(files);
+								},
+								classList: ["continue"],
+								text: "Confirm"
+							}
+						]
+					);
+				}
+			},
+			{
+				classes: ["hr"]
+			}
+		);
+	}
+
+	menu_items.push(
 		{
-			classes: ["text", "separator-bottom"],
-			display_name: (file_button.children[1] as HTMLElement).innerText
+			classes: ["text", "space-bottom"],
+			display_name: (file_button.children[1] as HTMLElement).innerText,
+			id: "filename"
+		},
+		{
+			classes: ["space"]
 		},
 		{
 			display_name: "Delete",
 			pressed_callback: () => {
-				const menu_title = menu.children[0] as HTMLElement;
-				const filename = menu_title.innerText;
+				const filename = document.getElementById("filename").innerText;
 
 				// TODO: Rework createPopup options
 				createPopup(
@@ -70,7 +130,7 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 						},
 						{
 							callback: () => {
-								deleteFile(filename);
+								deleteFiles([filename]);
 							},
 							classList: ["continue"],
 							text: "Confirm"
@@ -82,7 +142,7 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 		{
 			display_name: "Download",
 			pressed_callback: () => {
-				const menu_title = menu.children[0] as HTMLElement;
+				const menu_title = document.getElementById("filename");
 				const filename = encodeURIComponent(menu_title.innerText);
 
 				const downloader = document.getElementById("downloader");
@@ -104,5 +164,7 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 				createRenameInput(getButtonFromEventTarget(event.target));
 			}
 		}
-	];
+	);
+
+	return menu_items;
 }

@@ -3,10 +3,16 @@ import { createNewDirectoryInput } from "./edit";
 import { type MenuEntries } from "../../components/menu";
 
 export default function globalContextMenu(): MenuEntries {
-	return {
-		"New Directory": [createNewDirectoryInput],
-		Reload: [() => {
-			document.location.reload();
-		}]
-	};
+	return [
+		{
+			display_name: "New Directory",
+			pressed_callback: createNewDirectoryInput
+		},
+		{
+			display_name: "Reload",
+			pressed_callback: () => {
+				document.location.reload();
+			}
+		}
+	];
 }

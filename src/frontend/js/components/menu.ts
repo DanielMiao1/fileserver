@@ -5,8 +5,9 @@ import globalContextMenu from "../views/directory/global_menu";
 import { main } from "../util/dom/sectioning";
 
 interface EntryData {
-	display_name: string;
 	classes?: string[];
+	display_name?: string;
+	id?: string;
 	pressed_callback?: (() => void);
 }
 
@@ -65,10 +66,17 @@ function closeContextMenu() {
 function appendMenuEntries(entries: MenuEntries) {
 	for (const entry of entries) {
 		const entry_element = document.createElement("button");
-		entry_element.innerText = entry.display_name;
+
+		if (entry.display_name) {
+			entry_element.innerText = entry.display_name;
+		}
 
 		if (entry.classes) {
 			entry_element.classList.add(...entry.classes);
+		}
+
+		if (entry.id) {
+			entry_element.id = entry.id;
 		}
 
 		entry_element.addEventListener("mousedown", () => {

@@ -8,7 +8,7 @@
 	display: flex;
 	flex-direction: column;
 	min-width: 100px;
-	padding: 7px;
+	padding: 8px;
 	position: absolute;
 	width: fit-content;
 	z-index: 1;
@@ -21,7 +21,7 @@
 		text-align: left;
 	}
 
-	button:not(.text):hover {
+	button:not(.text, .hr, .space):hover {
 		background-color: var(--select-color);
 		color: white;
 	}
@@ -30,25 +30,15 @@
 		color: #888;
 	}
 
-	.separator-top {
-		margin-top: 10px;
+	.space {
+		padding: 2px 0;
 	}
 
-	.separator-top::before {
-		margin-top: -10px;
+	.hr {
+		padding: 10px 0;
 	}
 
-	.separator-bottom {
-		margin-bottom: 10px;
-	}
-
-	.separator-bottom::after {
-		background-clip: content-box;
-		padding-top: 10px;
-	}
-
-	.separator-top::before,
-	.separator-bottom::after {
+	.hr::before {
 		background-color: #B8B8B8;
 		content: "";
 		display: block;

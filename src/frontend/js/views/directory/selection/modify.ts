@@ -35,7 +35,10 @@ export function select(
 	cumulate?: boolean
 ) {
 	if (!elements || elements.length === 0) {
-		deselectAll();
+		if (!cumulate) {
+			deselectAll();
+		}
+
 		return selected;
 	}
 

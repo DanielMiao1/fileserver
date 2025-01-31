@@ -1,7 +1,7 @@
 import eslint from "@eslint/js";
 import globals from "globals";
-import tseslint from "typescript-eslint";
 import stylistic from "@stylistic/eslint-plugin";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
 	eslint.configs.all,
@@ -12,22 +12,22 @@ export default tseslint.config(
 		languageOptions: {
 			globals: globals.node,
 			parserOptions: {
-				project: "src/backend/tsconfig.json"
-			}
-		}
+				project: "src/backend/tsconfig.json",
+			},
+		},
 	},
 	{
 		files: ["src/frontend/**/*.ts"],
 		languageOptions: {
 			globals: globals.browser,
 			parserOptions: {
-				project: "src/frontend/tsconfig.json"
-			}
-		}
+				project: "src/frontend/tsconfig.json",
+			},
+		},
 	},
 	{
 		plugins: {
-			"@stylistic": stylistic
+			"@stylistic": stylistic,
 		},
 		rules: {
 			"@stylistic/array-bracket-newline": ["error", "consistent"],
@@ -55,33 +55,49 @@ export default tseslint.config(
 			"@stylistic/linebreak-style": ["error"],
 			"@stylistic/lines-around-comment": ["error"],
 			"@stylistic/lines-between-class-members": ["error"],
-			"@stylistic/max-len": ["error", {
-				code: 80,
-				tabWidth: 1,
-			}],
+			"@stylistic/max-len": [
+				"error",
+				{
+					code: 80,
+					tabWidth: 1,
+				},
+			],
 			"@stylistic/max-statements-per-line": ["error"],
 			"@stylistic/member-delimiter-style": ["error"],
 			"@stylistic/multiline-ternary": ["error", "always-multiline"],
 			"@stylistic/new-parens": ["error"],
-			"@stylistic/newline-per-chained-call": ["error", {
-				ignoreChainWithDepth: 3,
-			}],
-			"@stylistic/no-confusing-arrow": ["error", {
-				allowParens: true,
-			}],
-			"@stylistic/no-extra-parens": ["error", "all", {
-				enforceForArrowConditionals: false,
-				nestedBinaryExpressions: false,
-			}],
+			"@stylistic/newline-per-chained-call": [
+				"error",
+				{
+					ignoreChainWithDepth: 3,
+				},
+			],
+			"@stylistic/no-confusing-arrow": [
+				"error",
+				{
+					allowParens: true,
+				},
+			],
+			"@stylistic/no-extra-parens": [
+				"error",
+				"all",
+				{
+					enforceForArrowConditionals: false,
+					nestedBinaryExpressions: false,
+				},
+			],
 			"@stylistic/no-extra-semi": ["error"],
 			"@stylistic/no-floating-decimal": ["error"],
 			"@stylistic/no-mixed-operators": ["error"],
 			"@stylistic/no-mixed-spaces-and-tabs": ["error"],
 			"@stylistic/no-multi-spaces": ["error"],
 			"@stylistic/no-multiple-empty-lines": ["error"],
-			"@stylistic/no-tabs": ["error", {
-				allowIndentationTabs: true,
-			}],
+			"@stylistic/no-tabs": [
+				"error",
+				{
+					allowIndentationTabs: true,
+				},
+			],
 			"@stylistic/no-trailing-spaces": ["error"],
 			"@stylistic/no-whitespace-before-property": ["error"],
 			"@stylistic/nonblock-statement-body-position": ["error"],
@@ -96,11 +112,14 @@ export default tseslint.config(
 			"@stylistic/semi-spacing": ["error"],
 			"@stylistic/semi-style": ["error"],
 			"@stylistic/space-before-blocks": ["error"],
-			"@stylistic/space-before-function-paren": ["error", {
-				anonymous: "always",
-				named: "never",
-				asyncArrow: "always",
-			}],
+			"@stylistic/space-before-function-paren": [
+				"error",
+				{
+					anonymous: "always",
+					asyncArrow: "always",
+					named: "never",
+				},
+			],
 			"@stylistic/space-in-parens": ["error"],
 			"@stylistic/space-infix-ops": ["error"],
 			"@stylistic/space-unary-ops": ["error"],
@@ -114,43 +133,74 @@ export default tseslint.config(
 			"@stylistic/wrap-iife": ["error"],
 			"@stylistic/wrap-regex": ["error"],
 			"@stylistic/yield-star-spacing": ["error"],
-			"@typescript-eslint/restrict-template-expressions": ["error", {
-				allowNumber: true,
-				allowBoolean: true,
-			}],
-			"camelcase": "off",
-			"complexity": ["error", {
-				max: 100
-			}],
+			"@typescript-eslint/no-unnecessary-condition": [
+				"error",
+				{
+					allowConstantLoopConditions: true,
+				},
+			],
+			"@typescript-eslint/restrict-template-expressions": [
+				"error",
+				{
+					allowBoolean: true,
+					allowNumber: true,
+				},
+			],
+			camelcase: "off",
+			complexity: [
+				"error",
+				{
+					max: 100,
+				},
+			],
 			"default-case": "off",
 			"func-style": "off",
-			"id-length": ["error", {
-				exceptions: ["x", "y", "z", "_"]
-			}],
+			"id-length": [
+				"error",
+				{
+					exceptions: ["x", "y", "z", "_"],
+				},
+			],
 			"init-declarations": "off",
-			"max-lines": ["error", {
-				max: 400
-			}],
-			"max-lines-per-function": ["error", {
-				max: 350
-			}],
+			"max-lines": [
+				"error",
+				{
+					max: 400,
+				},
+			],
+			"max-lines-per-function": [
+				"error",
+				{
+					max: 350,
+				},
+			],
 			"max-params": "off",
-			"max-statements": ["error", {
-				max: 150
-			}],
+			"max-statements": [
+				"error",
+				{
+					max: 150,
+				},
+			],
 			"no-await-in-loop": "off",
 			"no-console": "off",
 			"no-magic-numbers": "off",
-			"no-plusplus": ["error", {
-				allowForLoopAfterthoughts: true
-			}],
+			"no-plusplus": [
+				"error",
+				{
+					allowForLoopAfterthoughts: true,
+				},
+			],
 			"no-ternary": "off",
+			"no-unnecessary-condition": "off",
 			"no-warning-comments": "off",
 			"one-var": "off",
 			"prefer-destructuring": "off",
-			"sort-imports": ["error", {
-				allowSeparatedGroups: true
-			}]
-		}
-	}
+			"sort-imports": [
+				"error",
+				{
+					allowSeparatedGroups: true,
+				},
+			],
+		},
+	},
 );
