@@ -60,17 +60,25 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 				display_name: `${selected_count} items`
 			},
 			{
-				classes: ["separator-bottom"],
+				classes: ["space"]
+			},
+			{
 				display_name: "Delete"
+			},
+			{
+				classes: ["hr"]
 			}
 		);
 	}
 
 	menu_items.push(
 		{
-			classes: ["text", "separator-bottom"],
+			classes: ["text", "space-bottom"],
 			display_name: (file_button.children[1] as HTMLElement).innerText,
 			id: "filename"
+		},
+		{
+			classes: ["space"]
 		},
 		{
 			display_name: "Delete",
