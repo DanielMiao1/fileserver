@@ -77,17 +77,15 @@ export function initiateDragSelection() {
 
 			ancestor = ancestor.parentNode;
 		}
-
-		if (!isMultiSelecting()) {
-			select([]);
-		}
 	});
 
-	window.addEventListener("mouseup", () => {
+	window.addEventListener("mouseup", (event: MouseEvent) => {
 		drag_selection_start_position = false;
 
 		if (isDragSelecting()) {
 			document.getElementById("drag-selection")?.remove();
+		} else if (event.target.tagName === "MAIN" && !isMultiSelecting()) {
+			select();
 		}
 	});
 

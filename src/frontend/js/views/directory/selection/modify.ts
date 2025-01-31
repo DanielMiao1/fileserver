@@ -1,3 +1,4 @@
+import isDragSelecting from "./drag";
 import isEditing from "../edit";
 
 import { main } from "../../../util/dom/sectioning";
@@ -35,7 +36,10 @@ export function select(
 	cumulate?: boolean
 ) {
 	if (!elements || elements.length === 0) {
-		deselectAll();
+		if (!cumulate) {
+			deselectAll();
+		}
+
 		return selected;
 	}
 
