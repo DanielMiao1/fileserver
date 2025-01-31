@@ -1,17 +1,33 @@
 import isEditing from "../edit";
 
-import {
-	isMultiSelecting,
-	select
-} from "./modify";
-
+import { isMultiSelecting, select } from "./modify";
 import { main } from "../../../util/dom/sectioning";
 import { removePxSuffix } from "../../../util/format";
 
-let drag_selection_start_position: [number, number] | false = false;
+let start_position: [number, number] | false = false;
+
+let start_item: HTMLElement;
+let escaped_start_item = false;
 
 export default function isDragSelecting() {
 	return Boolean(document.getElementById("drag-selection"));
+}
+
+function itemAtPosition(x: number, y: number) {
+	for (const item of main.children) {
+		const positions = item.getBoundingClientRect();
+		const min_x = positions.x;
+		const min_y = positions.y + window.scrollY;
+
+		const max_x = positions.right;
+		const max_y = positions.bottom + window.scrollY;
+
+		if (min_x <= x && x <= max_x && min_y <= y && y <= max_y) {
+			return item;
+		}
+	}
+
+	return false;
 }
 
 function dragSelectedItems(selection: HTMLElement) {
@@ -55,7 +71,7 @@ function dragSelectedItems(selection: HTMLElement) {
 }
 
 export function initiateDragSelection() {
-	main.addEventListener("mousedown", event => {
+	main.addEventListener("mousedown", (event: MouseEvent) => {
 		if (isEditing() || !event.target) {
 			return;
 		}
@@ -63,24 +79,29 @@ export function initiateDragSelection() {
 		if (event.button === 0) {
 			const x_pos = window.scrollX + event.clientX;
 			const y_pos = window.scrollY + event.clientY;
-			drag_selection_start_position = [x_pos, y_pos];
+			start_position = [x_pos, y_pos];
 		}
 
-		const target_element = event.target as HTMLElement;
+		let target_element = event.target as HTMLElement;
 
-		let ancestor = target_element.parentNode;
+		escaped_start_item = true;
 
-		while (ancestor) {
-			if (ancestor.nodeName === "MAIN") {
+		while (true) {
+			if (["MAIN", "BODY"].includes(target_element.nodeName)) {
 				return;
 			}
 
-			ancestor = ancestor.parentNode;
+			if (target_element.nodeName === "BUTTON") {
+				start_item = target_element;
+				escaped_start_item = false;
+			}
+
+			target_element = target_element.parentNode as HTMLElement;
 		}
 	});
 
 	window.addEventListener("mouseup", (event: MouseEvent) => {
-		drag_selection_start_position = false;
+		start_position = false;
 
 		if (isDragSelecting()) {
 			document.getElementById("drag-selection")?.remove();
@@ -89,15 +110,15 @@ export function initiateDragSelection() {
 		}
 	});
 
-	window.addEventListener("mousemove", event => {
-		if (!drag_selection_start_position) {
+	window.addEventListener("mousemove", (event: MouseEvent) => {
+		if (!start_position) {
 			return;
 		}
 
 		let selection = document.getElementById("drag-selection");
 
-		const drag_x_pos = drag_selection_start_position[0];
-		const drag_y_pos = drag_selection_start_position[1];
+		const drag_x_pos = start_position[0];
+		const drag_y_pos = start_position[1];
 
 		if (!selection) {
 			selection = document.createElement("div");
@@ -158,6 +179,17 @@ export function initiateDragSelection() {
 			selection.removeAttribute("data-negative_height");
 		}
 
-		select(dragSelectedItems(selection), isMultiSelecting());
+		if (!escaped_start_item) {
+			const item_at_mouse = itemAtPosition(event.x, event.y);
+
+			if (item_at_mouse === start_item) {
+				return;
+			}
+
+			escaped_start_item = true;
+		}
+
+		const included_items = dragSelectedItems(selection);
+		select(included_items, isMultiSelecting());
 	});
 }

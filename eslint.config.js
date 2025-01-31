@@ -118,6 +118,9 @@ export default tseslint.config(
 				allowNumber: true,
 				allowBoolean: true,
 			}],
+			"@typescript-eslint/no-unnecessary-condition": ["error", {
+				allowConstantLoopConditions: true
+			}],
 			"camelcase": "off",
 			"complexity": ["error", {
 				max: 100
