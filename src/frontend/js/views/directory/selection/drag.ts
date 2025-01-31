@@ -82,11 +82,11 @@ export function initiateDragSelection() {
 			start_position = [x_pos, y_pos];
 		}
 
-		let target_element = event.target as HTMLElement;
+		let target_element: HTMLElement | null = event.target as HTMLElement;
 
 		escaped_start_item = true;
 
-		while (true) {
+		while (target_element) {
 			if (["MAIN", "BODY"].includes(target_element.nodeName)) {
 				return;
 			}
@@ -96,7 +96,7 @@ export function initiateDragSelection() {
 				escaped_start_item = false;
 			}
 
-			target_element = target_element.parentNode as HTMLElement;
+			target_element = target_element.parentElement;
 		}
 	});
 
