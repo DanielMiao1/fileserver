@@ -28,15 +28,22 @@ function getButtonFromEventTarget(target: HTMLElement) {
 	return target;
 }
 
-function deleteFile(filename: string) {
-	fetch(ensureSlashSuffix(current_path) + encodeURIComponent(filename), {
-		method: "DELETE"
-	}).then(response => {
-		if (response.ok) {
-			document.location.reload();
-		}
-	}).catch(() => {
+function deleteFiles(filenames: string[]) {
+	const requests: Promise<Response>[] = [];
+
+	for (const filename of filenames) {
+		const path = ensureSlashSuffix(current_path) + encodeURIComponent(filename);
+
+		requests.push(fetch(path, {
+			method: "DELETE"
+		}));
+	}
+
+	Promise.all(requests).then(() => {
 		document.location.reload();
+	}).catch((error: unknown) => {
+		console.error("Error in deleting files");
+		throw error;
 	});
 }
 
@@ -51,7 +58,8 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 
 	const menu_items: MenuEntries = [];
 
-	const selected_count = getSelectedElements().length;
+	const selected_items = getSelectedElements();
+	const selected_count = selected_items.length;
 
 	if (selected_count > 1) {
 		menu_items.push(
@@ -63,7 +71,33 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 				classes: ["space"]
 			},
 			{
-				display_name: "Delete"
+				display_name: "Delete",
+				pressed_callback: () => {
+					const files: string[] = [];
+
+					for (const item of selected_items) {
+						const label = item.children[1] as HTMLElement;
+						files.push(label.innerText);
+					}
+
+					createPopup(
+						"",
+						`Are you sure you want to delete ${selected_count} items?`,
+						[
+							{
+								callback: closePopup,
+								text: "Cancel"
+							},
+							{
+								callback: () => {
+									deleteFiles(files);
+								},
+								classList: ["continue"],
+								text: "Confirm"
+							}
+						]
+					);
+				}
 			},
 			{
 				classes: ["hr"]
@@ -96,7 +130,7 @@ export default function fileContextMenu(event: MouseEvent): MenuEntries {
 						},
 						{
 							callback: () => {
-								deleteFile(filename);
+								deleteFiles([filename]);
 							},
 							classList: ["continue"],
 							text: "Confirm"
