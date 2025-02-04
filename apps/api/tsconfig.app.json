@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "isolatedModules": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "outDir": "../../dist/api-tsc",
+    "types": ["node"]
+  },
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*.ts"]
+}

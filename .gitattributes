@@ -1,2 +1,0 @@
-# Prevent /src/frontend/js/directory/index.js from being marked as generated
-src/** -gitlab-generated
