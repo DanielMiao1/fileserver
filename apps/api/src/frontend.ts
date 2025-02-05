@@ -14,7 +14,7 @@ export default function registerFrontendHooks(server: FastifyInstance) {
 
 	server.get("/path/*", (_, reply) => {
 		reply.type("text/html");
-		return readFileSync(join(process.cwd(), "build/frontend/index.html"));
+		return readFileSync(join(process.cwd(), "dist/web/index.html"));
 	});
 
 	server.get("/favicon.ico", (_, reply) => {

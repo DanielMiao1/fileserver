@@ -27,7 +27,7 @@ initializeTmp();
 
 const server = fastify({
 	ignoreDuplicateSlashes: true,
-	logger: process.env.NODE_ENV !== "production"
+	logger: true
 });
 
 if (!uchardet_available) {
@@ -47,7 +47,7 @@ server.register(fastifyCompress, {
 
 server.register(fastifyStatic, {
 	prefix: "/static",
-	root: join(process.cwd(), "build/frontend")
+	root: join(process.cwd(), "dist/web")
 });
 
 server.register(fastifyStatic, {
@@ -163,6 +163,7 @@ const start = async () => {
 			host: "0.0.0.0",
 			port: 8192
 		});
+		server.log.debug("Listening on 0.0.0.0:8192");
 	} catch (error) {
 		server.log.error(error);
 		throw new Error("Failed to start server");

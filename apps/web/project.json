@@ -1,7 +1,7 @@
 {
-  "name": "api",
+  "name": "web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/api/src",
+  "sourceRoot": "apps/web/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -10,11 +10,10 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "prod",
       "options": {
-        "target": "node",
-        "outputPath": "dist/api",
-        "main": "apps/api/src/main.ts",
-        "tsConfig": "apps/api/tsconfig.json",
-        "rspackConfig": "apps/api/rspack.config.js"
+        "outputPath": "dist/web",
+        "main": "apps/web/src/js/views/index.ts",
+        "tsConfig": "apps/web/tsconfig.json",
+        "rspackConfig": "apps/web/rspack.config.js"
       },
       "configurations": {
         "dev": {
@@ -32,13 +31,13 @@
       "defaultConfiguration": "dev",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "api:build:dev",
+        "buildTarget": "web:build:dev",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "dev": { },
         "prod": {
-          "buildTarget": "api:build:prod"
+          "buildTarget": "web:build:prod"
         }
       }
     },

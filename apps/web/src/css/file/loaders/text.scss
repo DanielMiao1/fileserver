@@ -1,0 +1,102 @@
+main pre {
+	display: grid;
+	gap: 2px 15px;
+	grid-template-columns: min-content auto;
+	padding: 2em;
+
+	code {
+		overflow-x: auto;
+	}
+
+	div p {
+		color: #AAA;
+		text-align: right;
+	}
+}
+
+.hljs-comment,
+.hljs-attr,
+.hljs-selector-pseudo,
+.hljs-quote {
+	font-style: italic;
+}
+
+.hljs-string {
+	color: #072;
+}
+
+.hljs-regexp {
+	color: #094;
+}
+
+.hljs-subst {
+	color: initial;
+}
+
+.hljs-doctag {
+	color: #AA5;
+}
+
+.hljs-comment {
+	color: #888;
+}
+
+.hljs-built_in, // stylelint-disable-line selector-class-pattern
+.hljs-selector-tag,
+.hljs-name,
+.hljs-literal,
+.hljs-type {
+	color: #008;
+}
+
+.hljs-keyword,
+.hljs-attribute,
+.hljs-attr,
+.hljs-selector-pseudo,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-selector-id {
+	color: #03B;
+}
+
+.hljs-title {
+	color: #067;
+}
+
+.hljs-number {
+	color: #25E;
+}
+
+.hljs-meta {
+	color: #A80;
+}
+
+.hljs-property {
+	color: #958;
+}
+
+.hljs-section {
+	color: #13A;
+	font-weight: bold;
+}
+
+.hljs-bullet {
+	color: #55D;
+}
+
+.hljs-code,
+.hljs-quote {
+	color: #777;
+}
+
+.hljs-link {
+	text-decoration: underline;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}

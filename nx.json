@@ -7,7 +7,6 @@
     ],
     "production": [
       "default",
-      "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/eslint.config.mjs"
     ],
     "sharedGlobals": []
