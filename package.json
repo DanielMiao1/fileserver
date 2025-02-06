@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nx run api:build:prod",
-    "dev": "nx run api:serve"
+    "dev": "nx run api:serve --watch"
   },
   "dependencies": {
     "@fastify/compress": "^8.0.1",

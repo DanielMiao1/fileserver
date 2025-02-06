@@ -18,6 +18,58 @@ const ready = new Promise<void>(resolve => {
 
 socket.binaryType = "arraybuffer";
 
+function padZeroEnd(data: string, length: number): string {
+	return data.padEnd(length, "0");
+}
+
+function padZeroStart(data: string, length: number): string {
+	return data.padStart(length, "0");
+}
+
+function justifyToByte(data: string): string {
+	const length = data.length;
+	const fill_amount = 8 - (length % 8);
+	const segments = Math.floor(length / 8);
+	const fill_to = (segments + 1) * 8;
+
+	return padZeroEnd(data, fill_to) + padZeroStart(fill_amount.toString(2), 8);
+}
+
+function asciiEncode(binary: string): string {
+	/*
+	 * Every 4 bits is converted to an alphabet character
+	 * Expects half-byte-justified input
+	 */
+
+	let result = "";
+
+	const length = binary.length;
+	const segments = Math.floor(length / 4);
+
+	for (let index = 0; index < segments; index++) {
+		const start = index * 4;
+		const end = (index + 1) * 4;
+
+		const value = parseInt(binary.slice(start, end), 2);
+		result += String.fromCodePoint(value + 97); // 0b0000 equals character a
+	}
+	
+	return result;
+}
+
+function asciiDecode(ascii: string): string {
+	let result = "";
+
+	for (let index = 0; index < ascii.length; index++) {
+		const code = ascii.codePointAt(index) ?? 97;
+		const value = code - 97;
+
+		result += padZeroStart(value.toString(2), 4);
+	}
+
+	return result;
+}
+
 function encodePath(path: string): string {
 	/*
 	 * [5 bits for code length] [code]
@@ -36,6 +88,10 @@ function encodePath(path: string): string {
 	return sequence;
 }
 
+function asciiPath(path: string): string {
+	return asciiEncode(encodePath(path));
+}
+
 function dataToTypedArray(data: string): Uint8Array {
 	/*
 	 * Each 8-bit segment is converted into uint8 number
@@ -44,24 +100,18 @@ function dataToTypedArray(data: string): Uint8Array {
 	 */
 	const array: number[] = [];
 
-	const length = data.length;
+	const justified_data = justifyToByte(data);
+
+	const length = justified_data.length;
 	const segments = Math.floor(length / 8);
-	const remainder = length % 8;
 
 	for (let segment = 0; segment < segments; segment++) {
 		const start = segment * 8;
 		const end = (segment + 1) * 8;
 
-		const substring = data.slice(start, end);
+		const substring = justified_data.slice(start, end);
 		array.push(parseInt(substring, 2));
 	}
-
-	const final_segment_start = segments * 8;
-	const final_segment = data.slice(final_segment_start, length);
-	array.push(parseInt(final_segment.padEnd(8, "0"), 2));
-
-	const fill = 8 - remainder;
-	array.push(fill);
 
 	return new Uint8Array(array);
 }
@@ -75,7 +125,15 @@ async function send(data: string) {
 }
 
 async function listDirectory(path: string) {
-	send(`0002${encodePath(path)}`);
+	const METHOD = "10000010";
+	const options = encodePath(path);
+
+	send(METHOD + options);
 }
 
-export { listDirectory };
+export {
+	asciiEncode,
+	asciiDecode,
+	asciiPath,
+	listDirectory
+};

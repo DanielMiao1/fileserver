@@ -47,8 +47,8 @@ function decodeOptions(options: string): string {
 function parseMessage(message: Uint8Array): Message {
   const data = decodeData(message);
 
-  const method = data.slice(0, 4);
-  const options = data.slice(4);
+  const method = data.slice(0, 8);
+  const options = data.slice(8);
 
   return {
     method: parseInt(method, 2),
