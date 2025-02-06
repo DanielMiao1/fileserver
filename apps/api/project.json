@@ -6,16 +6,6 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/rspack:rspack",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "prod",
-      "options": {
-        "target": "node",
-        "outputPath": "dist/api",
-        "main": "apps/api/src/main.ts",
-        "tsConfig": "apps/api/tsconfig.json",
-        "rspackConfig": "apps/api/rspack.config.js"
-      },
       "configurations": {
         "dev": {
           "mode": "development"
@@ -25,21 +15,30 @@
           "optimization": true,
           "sourceMap": false
         }
+      },
+      "executor": "@nx/rspack:rspack",
+      "defaultConfiguration": "prod",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "outputPath": "dist/api",
+        "main": "apps/api/src/main.ts",
+        "tsConfig": "apps/api/tsconfig.json",
+        "rspackConfig": "apps/api/rspack.config.js"
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "dev",
-      "dependsOn": ["build"],
-      "options": {
-        "buildTarget": "api:build:dev",
-        "runBuildTargetDependencies": false
-      },
       "configurations": {
         "dev": { },
         "prod": {
           "buildTarget": "api:build:prod"
         }
+      },
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "dev",
+      "options": {
+        "buildTarget": "api:build:dev",
+        "runBuildTargetDependencies": false
       }
     },
     "lint": {

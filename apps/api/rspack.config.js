@@ -20,7 +20,8 @@ module.exports = {
                 decorators: true,
                 syntax: "typescript"
               }
-            }
+            },
+            sourcemap: true
           }
         }
       }

@@ -3,7 +3,7 @@ const { rspack } = require("@rspack/core");
 
 module.exports = {
   entry: {
-    main: "./apps/web/src/js/views/main.ts",
+    main: "./apps/web/src/main.ts",
   },
   experiments: {
     css: true
@@ -16,13 +16,13 @@ module.exports = {
         use: {
           loader: "builtin:swc-loader",
           options: {
-            sourcemap: true,
             jsc: {
               parser: {
                 decorators: true,
                 syntax: "typescript"
               }
-            }
+            },
+            sourcemap: true
           }
         }
       },

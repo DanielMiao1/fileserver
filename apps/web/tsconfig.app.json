@@ -4,7 +4,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "outDir": "../../dist/web-tsc",
-    "types": ["highlight.js/types/index.d.ts"]
+    "types": ["@types/ws/index.d.ts"]
   },
   "extends": "./tsconfig.json",
   "include": ["src/js/**/*.ts"]
