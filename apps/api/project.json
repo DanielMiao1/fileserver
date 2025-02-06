@@ -7,24 +7,25 @@
   "targets": {
     "build": {
       "configurations": {
-        "dev": {
-          "mode": "development"
-        },
+        "dev": { },
         "prod": {
+          "dependsOn": ["web:build"],
           "mode": "production",
           "optimization": true,
           "sourceMap": false
         }
       },
       "executor": "@nx/rspack:rspack",
-      "defaultConfiguration": "prod",
+      "defaultConfiguration": "dev",
+      "dependsOn": ["web:build"],
       "outputs": ["{options.outputPath}"],
       "options": {
-        "target": "node",
         "outputPath": "dist/api",
         "main": "apps/api/src/main.ts",
-        "tsConfig": "apps/api/tsconfig.json",
-        "rspackConfig": "apps/api/rspack.config.js"
+        "mode": "development",
+        "rspackConfig": "apps/api/rspack.config.js",
+        "target": "node",
+        "tsConfig": "apps/api/tsconfig.json"
       }
     },
     "serve": {
@@ -38,7 +39,7 @@
       "defaultConfiguration": "dev",
       "options": {
         "buildTarget": "api:build:dev",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": true
       }
     },
     "lint": {

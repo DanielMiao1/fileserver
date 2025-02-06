@@ -8,36 +8,21 @@
     "build": {
       "executor": "@nx/rspack:rspack",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "prod",
+      "defaultConfiguration": "dev",
       "options": {
         "outputPath": "dist/web",
-        "main": "apps/web/src/js/index.ts",
+        "main": "apps/web/src/js/main.ts",
         "tsConfig": "apps/web/tsconfig.json",
-        "rspackConfig": "apps/web/rspack.config.js"
-      },
-      "configurations": {
-        "dev": {
-          "mode": "development"
-        },
-        "prod": {
-          "mode": "production",
-          "optimization": true,
-          "sourceMap": false
-        }
-      }
-    },
-    "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "dev",
-      "dependsOn": ["build"],
-      "options": {
-        "buildTarget": "web:build:dev",
-        "runBuildTargetDependencies": false
+        "rspackConfig": "apps/web/rspack.config.js",
+        "sourceMap": true,
+        "mode": "development"
       },
       "configurations": {
         "dev": { },
         "prod": {
-          "buildTarget": "web:build:prod"
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false
         }
       }
     },
