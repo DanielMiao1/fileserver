@@ -70,7 +70,7 @@ function alphanumDecode(data: string): string {
 	let stop_reading = 0;
 
 	for (let index = 0; index < data.length; index++) {
-		const character = data[index];
+		const character = data.charAt(index);
 
 		if (index === stop_reading) {
 			if (reading) {

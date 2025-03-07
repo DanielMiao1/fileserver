@@ -47,14 +47,17 @@ server.register(async () => {
 		},
 		wsHandler: socket => {
 			socket.on("message", message => {
-				console.log(message.toString());
 				const data = message.toString();
 
 				if (data[0] !== VERSION) {
-					return socket.send("\u0001" + VERSION);
+					return socket.send("\u{10000}" + VERSION);
 				}
 
-				console.log(handleWSMessage(data.slice(1)));
+				const request_index = data.codePointAt(1) ?? 0;
+
+				const response = handleWSMessage(data.slice(2));
+
+				socket.send(String.fromCodePoint(request_index) + response);
 			})
 		}
 	});
