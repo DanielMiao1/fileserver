@@ -6,7 +6,9 @@ import fastifyWebsocket from "@fastify/websocket";
 import { resolve } from "path";
 import { readFileSync } from "fs";
 
-import parseMessage from "./socket";
+import { trailingSlash, listDirectory } from "./fs";
+
+const VERSION = "\u0001";
 
 const server = fastify({
 	ignoreDuplicateSlashes: true,
@@ -28,6 +30,13 @@ server.register(fastifyStatic, {
 
 server.register(fastifyWebsocket);
 
+function handleWSMessage(message: string) {
+	switch (message[0]) {
+		case ("\u0000"):
+			return listDirectory(trailingSlash(message.slice(1)));
+	}
+}
+
 server.register(async () => {
 	server.route({
 		method: "GET",
@@ -38,10 +47,14 @@ server.register(async () => {
 		},
 		wsHandler: socket => {
 			socket.on("message", message => {
-				const array = new Uint8Array(message as Buffer);
-				const data = parseMessage(array);
+				console.log(message.toString());
+				const data = message.toString();
 
-				console.log(data);
+				if (data[0] !== VERSION) {
+					return socket.send("\u0001" + VERSION);
+				}
+
+				console.log(handleWSMessage(data.slice(1)));
 			})
 		}
 	});
