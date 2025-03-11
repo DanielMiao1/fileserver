@@ -17,8 +17,6 @@ const srv_dir = (() => {
   return env;
 })();
 
-console.log(srv_dir)
-
 function trailingSlash(path: string): string {
   return path.endsWith("/") ? path : `${path}/`;
 }

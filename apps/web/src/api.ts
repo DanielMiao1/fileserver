@@ -4,13 +4,12 @@ const socket = new WebSocket(`ws://${location.host}`);
 
 let request_index = 0;
 
-type response_callback = (data: string) => void;
-
-const response_callbacks: Record<number, response_callback> = {};
-
 socket.addEventListener("error", error => {
 	console.error(error);
 });
+
+type response_callback = (data: string) => void;
+const response_callbacks: Record<number, response_callback> = {};
 
 socket.addEventListener("message", data => {
 	const response = data.data as string;
@@ -51,7 +50,9 @@ async function isFile(path: string) {
   return !!data.codePointAt(0);
 }
 
-async function listDirectory(path: string) {
+type directory_items = Record<string, boolean>;
+
+async function listDirectory(path: string): Promise<directory_items> {
 	const data = await send("\u0002", path);
 	const items = {};
 
@@ -73,4 +74,8 @@ async function listDirectory(path: string) {
 export {
   isFile,
 	listDirectory
+};
+
+export type {
+  directory_items
 };

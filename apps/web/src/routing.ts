@@ -52,13 +52,13 @@ function alphanumSeqFromInt(num: number): string {
 
 function alphanumEncode(data: string): string {
 	let encoded_data = "";
-
-	for (const character of data) {
+  
+  [...data].forEach(character => {
 		const code_point = character.codePointAt(0) ?? 0;
 		const alphanum_seq = alphanumSeqFromInt(code_point);
 
 		encoded_data += alphanum_seq.length + alphanum_seq;
-	}
+	});
 
 	return encoded_data;
 }
