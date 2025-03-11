@@ -49,29 +49,16 @@ async function listDirectory(path: string) {
 	const data = await send("\u0000", path);
 	const items = {};
 
-	let reading = "";
-	let stop_reading = 0;
+	let index = 0;
 
-	let is_file = false;
+	while (index < data.length) {
+    const character = data.charAt(index);
 
-	for (let index = 0; index < data.length; index++) {
-		const character = data.charAt(index);
-		
-		if (index === stop_reading) {
-			stop_reading = index + character.charCodeAt(0) + 1;
-			index++;
+    const end = index + character.charCodeAt(0) + 1;
+    const is_file = !!data.charCodeAt(index + 1);
 
-			is_file = !!data.charCodeAt(index);
-
-			if (reading) {
-				items[reading] = is_file;
-			}
-
-			reading = "";
-			continue;
-		}
-
-		reading += character;
+    items[data.slice(index + 2, end)] = is_file;
+    index = end;
 	}
 
 	return items;
