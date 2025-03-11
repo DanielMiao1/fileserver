@@ -6,9 +6,9 @@ import fastifyWebsocket from "@fastify/websocket";
 import { resolve } from "path";
 import { readFileSync } from "fs";
 
-import { trailingSlash, listDirectory } from "./fs";
+import { isFile, listDirectory } from "./fs";
 
-const VERSION = "\u0001";
+const VERSION = "\u0002";
 
 const server = fastify({
 	ignoreDuplicateSlashes: true,
@@ -32,8 +32,10 @@ server.register(fastifyWebsocket);
 
 function handleWSMessage(message: string) {
 	switch (message[0]) {
-		case ("\u0000"):
-			return listDirectory(trailingSlash(message.slice(1)));
+    case ("\u0001"):
+      return isFile(message.slice(1));
+		case ("\u0002"):
+			return listDirectory(message.slice(1));
 	}
 }
 

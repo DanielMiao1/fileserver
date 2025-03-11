@@ -33,6 +33,18 @@ function sanitizePath(path: string): string | false {
   return absolute;
 }
 
+function isFile(path: string): string {
+  const absolute = sanitizePath(path);
+
+  if (!absolute) {
+    return "\u0000";
+  }
+
+  const stat = lstatSync(absolute);
+
+  return String.fromCodePoint(+stat.isFile());
+}
+
 function listDirectory(path: string): string {
   const absolute = sanitizePath(path);
 
@@ -59,6 +71,7 @@ function listDirectory(path: string): string {
 }
 
 export {
+  isFile,
   trailingSlash,
   listDirectory
 };

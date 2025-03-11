@@ -6,7 +6,7 @@
 		"build:api": "nx run api:build:prod",
 		"build:web": "nx run web:build:prod",
 		"build": "npm run build:web && npm run build:api",
-		"dev": "concurrently -n 'API,WEB' -c 'inverse.bold,bgBlack.bold' --kill-others 'nx serve api' 'nx build web --watch'"
+		"dev": "concurrently -n 'API,WEB' -c 'inverse.bold,bgBlack.bold' 'nx serve api' 'nx build web --watch'"
 	},
 	"dependencies": {
 		"@fastify/compress": "^8.0.1",

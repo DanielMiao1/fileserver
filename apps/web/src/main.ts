@@ -1,6 +1,12 @@
 import route from "./routing";
-import { listDirectory } from "./socket";
+import { isFile, listDirectory } from "./socket";
 
-void listDirectory(route).then(data => {
-  console.log(data);
+void isFile(route).then(is_file => {
+  if (is_file) {
+    //
+  } else {
+    void listDirectory(route).then(dir_items => {
+      console.log(dir_items);
+    });
+  }
 });

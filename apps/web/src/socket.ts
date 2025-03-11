@@ -1,4 +1,4 @@
-const VERSION = "\u0001";
+const VERSION = "\u0002";
 
 const socket = new WebSocket(`ws://${location.host}`);
 
@@ -45,8 +45,14 @@ async function send(method: string, data: string): Promise<string> {
 	});
 }
 
+async function isFile(path: string) {
+  const data = await send("\u0001", path);
+
+  return !!data.codePointAt(0);
+}
+
 async function listDirectory(path: string) {
-	const data = await send("\u0000", path);
+	const data = await send("\u0002", path);
 	const items = {};
 
 	let index = 0;
@@ -65,5 +71,6 @@ async function listDirectory(path: string) {
 }
 
 export {
+  isFile,
 	listDirectory
 };
