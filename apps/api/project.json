@@ -9,7 +9,6 @@
       "configurations": {
         "dev": { },
         "prod": {
-          "dependsOn": ["web:build"],
           "mode": "production",
           "optimization": true,
           "sourceMap": false
@@ -17,7 +16,6 @@
       },
       "executor": "@nx/rspack:rspack",
       "defaultConfiguration": "dev",
-      "dependsOn": ["web:build"],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/api",
