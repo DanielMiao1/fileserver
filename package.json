@@ -44,13 +44,5 @@
 		"typescript": "^5.8.2",
 		"typescript-eslint": "^8.26.0",
 		"utf-8-validate": "^6.0.5"
-	},
-	"overrides": {
-		"@nx/esbuild": {
-			"esbuild": "~0.25.1"
-		},
-		"@rspack/plugin-minify": {
-			"esbuild": "~0.25.1"
-		}
 	}
 }
