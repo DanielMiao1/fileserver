@@ -45,9 +45,9 @@ async function send(method: string, data: string): Promise<string> {
 }
 
 async function isFile(path: string) {
-  const data = await send("\u0001", path);
+	const data = await send("\u0001", path);
 
-  return !!data.codePointAt(0);
+	return !!data.codePointAt(0);
 }
 
 type directory_items = Record<string, boolean>;
@@ -59,23 +59,23 @@ async function listDirectory(path: string): Promise<directory_items> {
 	let index = 0;
 
 	while (index < data.length) {
-    const character = data.charAt(index);
+		const character = data.charAt(index);
 
-    const end = index + character.charCodeAt(0) + 1;
-    const is_file = !!data.charCodeAt(index + 1);
+		const end = index + character.charCodeAt(0) + 1;
+		const is_file = !!data.charCodeAt(index + 1);
 
-    items[data.slice(index + 2, end)] = is_file;
-    index = end;
+		items[data.slice(index + 2, end)] = is_file;
+		index = end;
 	}
 
 	return items;
 }
 
 export {
-  isFile,
+	isFile,
 	listDirectory
 };
 
 export type {
-  directory_items
+	directory_items
 };

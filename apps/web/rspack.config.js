@@ -46,7 +46,12 @@ module.exports = {
   },
   plugins: [
     new rspack.HtmlRspackPlugin({
-      template: "./apps/web/src/index.html"
+      template: "apps/web/src/index.html"
+    }),
+    new rspack.CopyRspackPlugin({
+      patterns: [{
+        from: "apps/web/public"
+      }]
     })
   ],
   resolve: {

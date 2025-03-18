@@ -1,5 +1,5 @@
 function loadFile(stat: any) {
-  console.log(stat);
+	console.log(stat);
 }
 
 export default loadFile;
