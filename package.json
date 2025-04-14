@@ -22,7 +22,7 @@
 		"fastify": "^5.2.2",
 		"highlight.js": "^11.11.1",
 		"sass": "^1.86.3",
-		"typescript": "^5.8.2",
+		"typescript": "^5.8.3",
 		"vite": "^6.2.5"
 	},
 	"engines": {
