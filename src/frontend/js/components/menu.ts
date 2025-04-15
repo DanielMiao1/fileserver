@@ -22,12 +22,8 @@ function initializeContextMenu() {
 	return menu;
 }
 
-let menu = document.getElementById("menu");
-
+let menu = document.getElementById("menu") ?? initializeContextMenu();
 // TODO: Export initialization function instead of execution on import
-if (!menu) {
-	menu = initializeContextMenu();
-}
 
 function repositionContextMenu(event: MouseEvent) {
 	if (!menu) {
