@@ -109,9 +109,7 @@ export default async function loadFile() {
 		content = loadText(source, syntaxes.filenames[filename]);
 	}
 
-	if (!content) {
-		content = loadText(source);
-	}
+	content ??= loadText(source);
 
 	try {
 		loadElement(await content as HTMLElement);

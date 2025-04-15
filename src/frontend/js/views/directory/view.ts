@@ -12,9 +12,7 @@ import {
 import isDragSelecting, { initiateDragSelection } from "./selection/drag";
 import isEditing from "./edit";
 
-if (!localStorage.directory_view) {
-	localStorage.directory_view = "grid";
-}
+localStorage.directory_view ??= "grid";
 
 function createGridView(items: Record<string, boolean>) {
 	import("../../../css/directory/grid.scss").catch((error: unknown) => {

@@ -22,18 +22,10 @@ function initializeContextMenu() {
 	return menu;
 }
 
-let menu = document.getElementById("menu");
-
+const menu = document.getElementById("menu") ?? initializeContextMenu();
 // TODO: Export initialization function instead of execution on import
-if (!menu) {
-	menu = initializeContextMenu();
-}
 
 function repositionContextMenu(event: MouseEvent) {
-	if (!menu) {
-		return false;
-	}
-
 	menu.style.left = `${event.clientX.toString()}px`;
 	menu.style.top = `${(window.scrollY + event.clientY).toString()}px`;
 
