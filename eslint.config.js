@@ -12,22 +12,22 @@ export default tseslint.config(
 		languageOptions: {
 			globals: globals.node,
 			parserOptions: {
-				project: "src/backend/tsconfig.json",
-			},
-		},
+				project: "src/backend/tsconfig.json"
+			}
+		}
 	},
 	{
 		files: ["src/frontend/**/*.ts"],
 		languageOptions: {
 			globals: globals.browser,
 			parserOptions: {
-				project: "src/frontend/tsconfig.json",
-			},
-		},
+				project: "src/frontend/tsconfig.json"
+			}
+		}
 	},
 	{
 		plugins: {
-			"@stylistic": stylistic,
+			"@stylistic": stylistic
 		},
 		rules: {
 			"@stylistic/array-bracket-newline": ["error", "consistent"],
@@ -59,8 +59,8 @@ export default tseslint.config(
 				"error",
 				{
 					code: 80,
-					tabWidth: 1,
-				},
+					tabWidth: 1
+				}
 			],
 			"@stylistic/max-statements-per-line": ["error"],
 			"@stylistic/member-delimiter-style": ["error"],
@@ -69,22 +69,22 @@ export default tseslint.config(
 			"@stylistic/newline-per-chained-call": [
 				"error",
 				{
-					ignoreChainWithDepth: 3,
-				},
+					ignoreChainWithDepth: 3
+				}
 			],
 			"@stylistic/no-confusing-arrow": [
 				"error",
 				{
-					allowParens: true,
-				},
+					allowParens: true
+				}
 			],
 			"@stylistic/no-extra-parens": [
 				"error",
 				"all",
 				{
 					enforceForArrowConditionals: false,
-					nestedBinaryExpressions: false,
-				},
+					nestedBinaryExpressions: false
+				}
 			],
 			"@stylistic/no-extra-semi": ["error"],
 			"@stylistic/no-floating-decimal": ["error"],
@@ -95,8 +95,8 @@ export default tseslint.config(
 			"@stylistic/no-tabs": [
 				"error",
 				{
-					allowIndentationTabs: true,
-				},
+					allowIndentationTabs: true
+				}
 			],
 			"@stylistic/no-trailing-spaces": ["error"],
 			"@stylistic/no-whitespace-before-property": ["error"],
@@ -117,8 +117,8 @@ export default tseslint.config(
 				{
 					anonymous: "always",
 					asyncArrow: "always",
-					named: "never",
-				},
+					named: "never"
+				}
 			],
 			"@stylistic/space-in-parens": ["error"],
 			"@stylistic/space-infix-ops": ["error"],
@@ -136,50 +136,50 @@ export default tseslint.config(
 			"@typescript-eslint/no-unnecessary-condition": [
 				"error",
 				{
-					allowConstantLoopConditions: true,
-				},
+					allowConstantLoopConditions: true
+				}
 			],
 			"@typescript-eslint/restrict-template-expressions": [
 				"error",
 				{
 					allowBoolean: true,
-					allowNumber: true,
-				},
+					allowNumber: true
+				}
 			],
 			camelcase: "off",
 			complexity: [
 				"error",
 				{
-					max: 100,
-				},
+					max: 100
+				}
 			],
 			"default-case": "off",
 			"func-style": "off",
 			"id-length": [
 				"error",
 				{
-					exceptions: ["x", "y", "z", "_"],
-				},
+					exceptions: ["x", "y", "z", "_"]
+				}
 			],
 			"init-declarations": "off",
 			"max-lines": [
 				"error",
 				{
-					max: 400,
-				},
+					max: 400
+				}
 			],
 			"max-lines-per-function": [
 				"error",
 				{
-					max: 350,
-				},
+					max: 350
+				}
 			],
 			"max-params": "off",
 			"max-statements": [
 				"error",
 				{
-					max: 150,
-				},
+					max: 150
+				}
 			],
 			"no-await-in-loop": "off",
 			"no-console": "off",
@@ -187,8 +187,8 @@ export default tseslint.config(
 			"no-plusplus": [
 				"error",
 				{
-					allowForLoopAfterthoughts: true,
-				},
+					allowForLoopAfterthoughts: true
+				}
 			],
 			"no-ternary": "off",
 			"no-unnecessary-condition": "off",
@@ -198,9 +198,9 @@ export default tseslint.config(
 			"sort-imports": [
 				"error",
 				{
-					allowSeparatedGroups: true,
-				},
-			],
-		},
-	},
+					allowSeparatedGroups: true
+				}
+			]
+		}
+	}
 );
