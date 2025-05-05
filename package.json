@@ -23,7 +23,7 @@
 		"highlight.js": "^11.11.1",
 		"sass": "^1.86.3",
 		"typescript": "^5.8.3",
-		"vite": "^6.3.2"
+		"vite": "^6.3.4"
 	},
 	"engines": {
 		"node": ">=20"
