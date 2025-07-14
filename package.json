@@ -34,7 +34,7 @@
 		"eslint": "^9.29.0",
 		"globals": "^16.3.0",
 		"nodemon": "^3.1.10",
-		"stylelint": "^16.19.1",
+		"stylelint": "^16.21.1",
 		"stylelint-config-standard-scss": "^15.0.1",
 		"stylelint-order": "^7.0.0",
 		"tsc-watch": "^7.1.1",
